@@ -1,0 +1,31 @@
+#
+# Two domains, two nodes per domain.  Hierarchical.
+#
+---
+  rs0:
+    hostname: rs0
+    context_server: http://localhost:4567
+    role: router
+    peers:
+      - rs1
+    children:
+      - rs2
+
+  rs1:
+    hostname: rs1
+    context_server: http://localhost:4571
+    role: router
+    peers:
+      - rs0
+    children:
+      - rs3
+
+  rs2:
+    hostname: rs2
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs3:
+    hostname: rs3
+    context_server: http://localhost:4570
+    parent: rs1

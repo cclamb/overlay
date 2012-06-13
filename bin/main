@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+require 'socket'
+require 'aws-sdk'
+require 'net/https'
+require 'uri'
+require 'yaml'
+require 'logging'
+
+require_relative '../lib/s_3'
+
+
+hostname = Socket.gethostname
+
+if ARGF.argv.size > 0
+  puts "Starting spinner on #{hostname}, ARGF: #{ARGF.argv}.\n"
+else
+  puts "Starting spinner on #{hostname}."
+end
+
+$access_key = ARGF.argv[1]
+$secret_key = ARGF.argv[2]
+$bucket_name = 'chrislambistan_log'
+
+msg =<<EOF
+Submitted credentials are:
+  amazon access key: #{$access_key}
+  amazon secret key: #{$secret_key}
+EOF
+puts msg
+
+AWS.config \
+  :access_key_id => $access_key, \
+  :secret_access_key => $secret_key
+
+appender = Logging.appenders.s3 \
+  :level => :debug, \
+  :layout => Logging.layouts.yaml(:format_as => :yaml), \
+  :source => Socket::gethostname
+
+log = Logging.logger[self]
+log.add_appenders 's3'
+
+url = ARGF.argv[0]
+uri = URI.parse url
+http = Net::HTTP.new uri.host, uri.port
+http.use_ssl = true
+http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+request = Net::HTTP::Get.new uri.request_uri
+response = http.request request
+
+ctx = YAML::load response.body
+puts ctx[hostname].inspect
+
+log.info ctx
+
+Process::daemon true, false
+
+log.info 'setting to daemon status...'
+
+continue = true
+cnt = 0
+
+while continue
+	sleep 5
+  log.info "looping, loop number #{cnt}"
+	cnt += 1
+	break if cnt > 5
+end
