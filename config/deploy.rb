@@ -76,7 +76,11 @@ cnt = 0
 
 puts "URL : #{url}"
 
-bucket_name = "chrislambistan_log-#{Time.now.to_s}"
+bucket_suffix = "#{Time.now \
+  .to_s.gsub!(':', '-') \
+  .gsub(' ', '.')}"
+bucket_name = "chrislambistan_log-#{bucket_suffix}"
+puts bucket_name
 s3.buckets.create bucket_name
 
 namespace :nodes do
