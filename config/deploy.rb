@@ -65,7 +65,8 @@ AWS.config \
   :secret_access_key => secret_key
 
 # Push to S3
-config_bucket = AWS::S3.new.buckets[:chrislambistan_configuration]
+s3 = AWS::S3.new
+config_bucket = s3.buckets[:chrislambistan_configuration]
 config_bucket.clear!
 obj = config_bucket.objects[:current]
 obj.write :file => config_file_name
@@ -75,10 +76,13 @@ cnt = 0
 
 puts "URL : #{url}"
 
+bucket_name = "chrislambistan_log-#{Time.now.to_s}"
+s3.buckets.create bucket_name
+
 namespace :nodes do
 
 	task :start, :roles => :nodes do
-		run "cd current ; bundle exec bin/main \"#{url}\" #{access_key} #{secret_key}"
+		run "cd current ; bundle exec bin/main \"#{url}\" #{access_key} #{secret_key} #{bucket_name}"
 	end
 
 end
