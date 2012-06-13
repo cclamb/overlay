@@ -20,7 +20,11 @@ end
 
 $access_key = ARGF.argv[1]
 $secret_key = ARGF.argv[2]
-$bucket_name = 'chrislambistan_log'
+
+$bucket_name = "chrislambistan_log-#{Time.now.to_s}"
+
+s3 = AWS::S3.new
+s3.buckets.create $bucket_name
 
 msg =<<EOF
 Submitted credentials are:

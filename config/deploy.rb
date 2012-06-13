@@ -78,7 +78,7 @@ puts "URL : #{url}"
 namespace :nodes do
 
 	task :start, :roles => :nodes do
-		run "cd current ; bundle exec bin/spinner \"#{url}\" #{access_key} #{secret_key}"
+		run "cd current ; bundle exec bin/main \"#{url}\" #{access_key} #{secret_key}"
 	end
 
 end

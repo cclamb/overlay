@@ -42,8 +42,8 @@ module Logging::Appenders
     def syswrite msg
       time = Time.now
       obj = @bucket.objects["#{@base_tag} #{time.inspect} - #{time.usec}".to_sym]
-      obj.write "#{msg}source: #{@src_name} #{$access_key} #{$secret_key}"
-      # puts "#{msg}source: #{@src_name} #{$access_key} #{$secret_key}"
+      obj.write "#{msg}source: #{@src_name}"
+      # puts "#{msg}source: #{@src_name}"
     end
 
   end
