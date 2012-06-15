@@ -17,8 +17,9 @@ module Logging::Appenders
       name = args.empty? ? 's3' : args.shift
 
       source = opts[:source] || 'unidendified source'
+      bucket_name = opts[:bucket_name] || raise('no bucket specified')
 
-      io = S3IO.new source
+      io = S3IO.new bucket_name, source
 
       # super name, STDERR, opts
       super name, io, opts
@@ -28,14 +29,14 @@ module Logging::Appenders
 
   class S3IO
 
-    def initialize src_name = 'unidentified source'
+    def initialize bucket_name, src_name = 'unidentified source'
       # puts "AKEY: #{$access_key}"
       # AWS.config \
       #   :access_key_id => $access_key, \
       #   :secret_access_key => $secret_key
 
       @src_name = src_name
-      @bucket = AWS::S3.new.buckets[$bucket_name]
+      @bucket = AWS::S3.new.buckets[bucket_name]
       @base_tag = "(#{Socket.gethostname})"
     end
 
@@ -43,7 +44,6 @@ module Logging::Appenders
       time = Time.now
       obj = @bucket.objects["#{@base_tag} #{time.inspect} - #{time.usec}".to_sym]
       obj.write "#{msg}source: #{@src_name}"
-      # puts "#{msg}source: #{@src_name}"
     end
 
   end
