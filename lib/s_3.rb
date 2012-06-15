@@ -21,7 +21,6 @@ module Logging::Appenders
 
       io = S3IO.new bucket_name, source
 
-      # super name, STDERR, opts
       super name, io, opts
     end
 
@@ -30,11 +29,6 @@ module Logging::Appenders
   class S3IO
 
     def initialize bucket_name, src_name = 'unidentified source'
-      # puts "AKEY: #{$access_key}"
-      # AWS.config \
-      #   :access_key_id => $access_key, \
-      #   :secret_access_key => $secret_key
-
       @src_name = src_name
       @bucket = AWS::S3.new.buckets[bucket_name]
       @base_tag = "(#{Socket.gethostname})"
