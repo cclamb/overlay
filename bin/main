@@ -1,33 +1,58 @@
 #!/usr/bin/env ruby
 
+# This is the main program entry point for the overlay system.
+# This executable is designed to be called from capistrano,
+# after which it will:
+# * Grab the network configuration document from S3
+# * Bootstrap the network with contained information
+#   - This will contain info describing the repository to use
+#   - Contains all information to configure the network 
+# * Begin waiting for requests
+#
+# The configuration file is indexed by hostname and contains
+# all needed context information as well as information with
+# respect to the information repository to download and use.
+#
+# This expects four arguments.  They are, in order:
+# * The URL of the configuration document generated from S3
+# * The S3 access key
+# * The S3 secret key
+# * The S3 location to log overlay specific operational state
+
 require_relative '../lib/main'
 require_relative '../lib/util'
 
+# Process the submitted arguments.
 arguments = Main::process_args
+
+# Configure the amazon ruby SDK
 Main::configure_aws arguments
+
+# Configure our logs.
 Main::configure_logging arguments
+
+# Load the current network context.
 ctx = Main::load_ctx arguments
 
-#log = Util::overlay_logger self
-overlog = Util::system_logger self
+# Obtain the system logger.  This is used for recording program
+# state, not overlay actions.  For that we use the overlay
+# logger.
+syslog = Util::system_logger self
 
-overlog.info 'lets go!'
+syslog.info ctx
 
-#log.info ctx
-
-overlog.info ctx
-
+# Set to daemon mode so it will run after the capistrao task
+# completes.
 Process::daemon true, false
 
-#log.info 'setting to daemon status...'
+syslog.info 'setting to daemon status...'
 
 continue = true
 cnt = 0
 
 while continue
 	sleep 5
-  #log.info "looping, loop number #{cnt}"
-  overlog.info "looping, loop number #{cnt}"
+  syslog.info "looping, loop number #{cnt}"
 	cnt += 1
 	break if cnt > 5
 end
