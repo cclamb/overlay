@@ -1,5 +1,6 @@
 
 require 'logging'
+require 'socket'
 
 module Util
 
@@ -10,7 +11,8 @@ module Util
   end
 
   def Util::system_logger requestor
-    log = Logging.logger[requestor]
+    hostname = Socket.gethostname
+    log = Logging.logger["[#{hostname}] requestor"]
     log.add_appenders 'system.log'
     log
   end
