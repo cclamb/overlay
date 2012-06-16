@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
-
+# =The network overlay system
+# This is the network overlay system.
+# 
+# == The primary program entry point (bin/main)
 # This is the main program entry point for the overlay system.
 # This executable is designed to be called from capistrano,
 # after which it will:
