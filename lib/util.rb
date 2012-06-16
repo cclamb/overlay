@@ -12,7 +12,7 @@ module Util
 
   def Util::system_logger requestor
     hostname = Socket.gethostname
-    log = Logging.logger["[#{hostname}] requestor"]
+    log = Logging.logger["[#{hostname}] #{requestor}"]
     log.add_appenders 'system.log'
     log
   end

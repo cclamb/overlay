@@ -18,3 +18,35 @@
  INFO  Object : looping, loop number 3
  INFO  Object : looping, loop number 4
  INFO  Object : looping, loop number 5
+ INFO  [fawkes] requestor : lets go!
+ INFO  [fawkes] requestor : <?xml version="1.0" encoding="UTF-8"?> <Error><Code>AccessDenied</Code><Message>Request has expired</Message><RequestId>9089EC20DB063A56</RequestId><Expires>2012-06-15T13:27:11Z</Expires><HostId>0/5bh27i4aqEell7Ec20fk8/Lte/U8gI4qlI3KVk/Z5qVkauoC7Yh9tW8IwTO+pv</HostId><ServerTime>2012-06-16T14:21:50Z</ServerTime></Error>
+ INFO  [fawkes] requestor : looping, loop number 0
+ INFO  [fawkes] requestor : looping, loop number 1
+ INFO  [fawkes] requestor : looping, loop number 2
+ INFO  [fawkes] requestor : looping, loop number 3
+ INFO  [fawkes] requestor : looping, loop number 4
+ INFO  [fawkes] requestor : looping, loop number 5
+ INFO  [fawkes] main : lets go!
+ INFO  [fawkes] main : <?xml version="1.0" encoding="UTF-8"?> <Error><Code>AccessDenied</Code><Message>Request has expired</Message><RequestId>2F37D5AFB403AA82</RequestId><Expires>2012-06-15T13:27:11Z</Expires><HostId>Z28uqJ1HG5sKB8RfVGXWmbd/+MzUkmjplOXRTofmeFpLBYmdKhlwp42aKxLLR1zQ</HostId><ServerTime>2012-06-16T14:22:29Z</ServerTime></Error>
+ INFO  [fawkes] main : looping, loop number 0
+ INFO  [fawkes] main : looping, loop number 1
+ INFO  [fawkes] main : looping, loop number 2
+ INFO  [fawkes] main : looping, loop number 3
+ INFO  [fawkes] main : looping, loop number 4
+ INFO  [fawkes] main : looping, loop number 5
+ INFO  [fawkes] main : lets go!
+ INFO  [fawkes] main : <?xml version="1.0" encoding="UTF-8"?> <Error><Code>AccessDenied</Code><Message>Request has expired</Message><RequestId>14FCB87D6171466E</RequestId><Expires>2012-06-15T13:27:11Z</Expires><HostId>p1ITcJuK1rphrOlajwHLSAJpgGCkhl6ds0NShJlIeDyOcsuCG+sD7qdLxn32KVo7</HostId><ServerTime>2012-06-16T14:23:02Z</ServerTime></Error>
+ INFO  [fawkes] main : looping, loop number 0
+ INFO  [fawkes] main : looping, loop number 1
+ INFO  [fawkes] main : looping, loop number 2
+ INFO  [fawkes] main : lets go!
+ INFO  [fawkes] main : <?xml version="1.0" encoding="UTF-8"?> <Error><Code>AccessDenied</Code><Message>Request has expired</Message><RequestId>B7AA641574F72BCC</RequestId><Expires>2012-06-15T13:27:11Z</Expires><HostId>2xdSkmY1LVzR7oJnVttmrwjzTnrVHo4VkrNt+OVGKNrhcIuYohwwjA7DbCAKiPbw</HostId><ServerTime>2012-06-16T14:23:21Z</ServerTime></Error>
+ INFO  [fawkes] main : looping, loop number 3
+ INFO  [fawkes] main : looping, loop number 0
+ INFO  [fawkes] main : looping, loop number 4
+ INFO  [fawkes] main : looping, loop number 1
+ INFO  [fawkes] main : looping, loop number 5
+ INFO  [fawkes] main : looping, loop number 2
+ INFO  [fawkes] main : looping, loop number 3
+ INFO  [fawkes] main : looping, loop number 4
+ INFO  [fawkes] main : looping, loop number 5
