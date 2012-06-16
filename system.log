@@ -1,0 +1,20 @@
+ INFO  Object : lets go!
+ INFO  Object : <Hash> {"rs0"=>{"hostname"=>"rs0", "context_server"=>"http://localhost:4567", "role"=>"router", "peers"=>["rs1"], "children"=>["rs2"]}, "rs1"=>{"hostname"=>"rs1", "context_server"=>"http://localhost:4571", "role"=>"router", "peers"=>["rs0"], "children"=>["rs3"]}, "rs2"=>{"hostname"=>"rs2", "context_server"=>"http://localhost:4569", "parent"=>"rs0"}, "rs3"=>{"hostname"=>"rs3", "context_server"=>"http://localhost:4570", "parent"=>"rs1"}}
+ INFO  Object : lets go!
+ INFO  Object : <Hash> {"rs0"=>{"hostname"=>"rs0", "context_server"=>"http://localhost:4567", "role"=>"router", "peers"=>["rs1"], "children"=>["rs2"]}, "rs1"=>{"hostname"=>"rs1", "context_server"=>"http://localhost:4571", "role"=>"router", "peers"=>["rs0"], "children"=>["rs3"]}, "rs2"=>{"hostname"=>"rs2", "context_server"=>"http://localhost:4569", "parent"=>"rs0"}, "rs3"=>{"hostname"=>"rs3", "context_server"=>"http://localhost:4570", "parent"=>"rs1"}}
+ INFO  Object : lets go!
+ INFO  Object : <Hash> {"rs0"=>{"hostname"=>"rs0", "context_server"=>"http://localhost:4567", "role"=>"router", "peers"=>["rs1"], "children"=>["rs2"]}, "rs1"=>{"hostname"=>"rs1", "context_server"=>"http://localhost:4571", "role"=>"router", "peers"=>["rs0"], "children"=>["rs3"]}, "rs2"=>{"hostname"=>"rs2", "context_server"=>"http://localhost:4569", "parent"=>"rs0"}, "rs3"=>{"hostname"=>"rs3", "context_server"=>"http://localhost:4570", "parent"=>"rs1"}}
+ INFO  Object : looping, loop number 0
+ INFO  Object : looping, loop number 1
+ INFO  Object : looping, loop number 2
+ INFO  Object : looping, loop number 3
+ INFO  Object : looping, loop number 4
+ INFO  Object : looping, loop number 5
+ INFO  Object : lets go!
+ INFO  Object : <Hash> {"rs0"=>{"hostname"=>"rs0", "context_server"=>"http://localhost:4567", "role"=>"router", "peers"=>["rs1"], "children"=>["rs2"]}, "rs1"=>{"hostname"=>"rs1", "context_server"=>"http://localhost:4571", "role"=>"router", "peers"=>["rs0"], "children"=>["rs3"]}, "rs2"=>{"hostname"=>"rs2", "context_server"=>"http://localhost:4569", "parent"=>"rs0"}, "rs3"=>{"hostname"=>"rs3", "context_server"=>"http://localhost:4570", "parent"=>"rs1"}}
+ INFO  Object : looping, loop number 0
+ INFO  Object : looping, loop number 1
+ INFO  Object : looping, loop number 2
+ INFO  Object : looping, loop number 3
+ INFO  Object : looping, loop number 4
+ INFO  Object : looping, loop number 5

@@ -1,27 +1,33 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/main'
+require_relative '../lib/util'
 
 arguments = Main::process_args
 Main::configure_aws arguments
 Main::configure_logging arguments
 ctx = Main::load_ctx arguments
 
-log = Logging.logger[self]
-log.add_appenders 's3'
+#log = Util::overlay_logger self
+overlog = Util::system_logger self
 
-log.info ctx
+overlog.info 'lets go!'
+
+#log.info ctx
+
+overlog.info ctx
 
 Process::daemon true, false
 
-log.info 'setting to daemon status...'
+#log.info 'setting to daemon status...'
 
 continue = true
 cnt = 0
 
 while continue
 	sleep 5
-  log.info "looping, loop number #{cnt}"
+  #log.info "looping, loop number #{cnt}"
+  overlog.info "looping, loop number #{cnt}"
 	cnt += 1
 	break if cnt > 5
 end

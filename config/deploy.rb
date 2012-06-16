@@ -89,4 +89,8 @@ namespace :nodes do
 		run "cd current ; bundle exec bin/main \"#{url}\" #{access_key} #{secret_key} #{bucket_name}"
 	end
 
+  task :monitor, :roles => :nodes do
+    stream 'tail -f ./current/system.log'
+  end
+
 end

@@ -30,6 +30,9 @@ module Main
       :layout => Logging.layouts.yaml(:format_as => :yaml), \
       :source => Socket::gethostname, \
       :bucket_name => arguments[:bucket_name]
+    file_appender = Logging.appenders.file \
+      'system.log', \
+      :level => :debug
   end
 
   def  Main::load_ctx arguments
