@@ -42,7 +42,12 @@ ctx = Main::load_ctx arguments
 # logger.
 syslog = Util::system_logger self
 
+# Log the current context.
 syslog.info ctx
+
+# Create the overlay log for overlay status information and
+# experimental data collection.
+olog = Util::overlay_logger self
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
@@ -55,7 +60,8 @@ cnt = 0
 
 while continue
 	sleep 5
-  syslog.info "looping, loop number #{cnt}"
+  	syslog.info "looping, loop number #{cnt}"
+  	olog.info "looping, loop number #{cnt}"
 	cnt += 1
 	break if cnt > 5
 end

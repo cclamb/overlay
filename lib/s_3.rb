@@ -57,6 +57,7 @@ module Logging::Appenders
       time = Time.now
       obj = @bucket.objects["#{@base_tag} #{time.inspect} - #{time.usec}".to_sym]
       obj.write "#{msg}source: #{@src_name}"
+      puts obj.to_s
     end
 
   end
