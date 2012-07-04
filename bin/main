@@ -44,7 +44,7 @@ syslog = Util::system_logger self
 
 syslog.info ctx
 
-# Set to daemon mode so it will run after the capistrao task
+# Set to daemon mode so it will run after the capistrano task
 # completes.
 Process::daemon true, false
 
