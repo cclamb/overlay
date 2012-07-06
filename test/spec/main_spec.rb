@@ -5,6 +5,7 @@ require 'logging'
 require_relative '../../lib/main'
 
 CREDS_FILE_NAME = '../etc/creds.yaml'
+LOG_FILE_NAME = 'system.log'
 
 def get_creds
   creds = YAML::load File::open(CREDS_FILE_NAME)
@@ -60,11 +61,15 @@ describe Main do
 
   context 'with logging' do
 
+    after(:all) do
+      File.delete LOG_FILE_NAME if File.exists? LOG_FILE_NAME
+    end
+
     it 'should configure logging' do
       Main::configure_logging :bucket_name => :bname
       log = Logging.logger[self]
       log.add_appenders 's3'
-      log.add_appenders 'system.log'
+      log.add_appenders LOG_FILE_NAME
     end
 
   end
