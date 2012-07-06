@@ -26,7 +26,7 @@ require_relative '../lib/main'
 require_relative '../lib/util'
 
 # Process the submitted arguments.
-arguments = Main::process_args
+arguments = Main::process_args ARGF.argv
 
 # Configure the amazon ruby SDK
 Main::configure_aws arguments

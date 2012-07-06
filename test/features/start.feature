@@ -18,6 +18,13 @@ Feature: Starting an overlay network
   	When I start a network
   	And the centralized log is not specified
   	Then the network will start without a centralized collector
-  	
+
   Scenario: Hierarchical network
+  	When I start a network
+  	And the network is hierarchical
+  	Then a hierarchical network should start
+
   Scenario: Non-hierarchical network
+  	When I start a network
+  	And the network is non-hierarchical
+  	Then a hierarchical network should start

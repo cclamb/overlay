@@ -34,3 +34,15 @@ end
 Then /^the network will start without a centralized collector$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+When /^the network is hierarchical$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^a hierarchical network should start$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^the network is non\-hierarchical$/ do
+  pending # express the regexp above with the code you wish you had
+end
