@@ -4,7 +4,7 @@ require 'logging'
 
 require_relative '../../lib/main'
 
-CREDS_FILE_NAME = '../etc/creds.yaml'
+CREDS_FILE_NAME = 'etc/creds.yaml'
 LOG_FILE_NAME = 'system.log'
 
 def get_creds
