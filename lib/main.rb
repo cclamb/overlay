@@ -1,4 +1,3 @@
-
 require 'socket'
 require 'aws-sdk'
 require 'logging'
