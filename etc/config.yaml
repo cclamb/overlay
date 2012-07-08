@@ -29,3 +29,8 @@
     hostname: rs3
     context_server: http://localhost:4570
     parent: rs1
+
+  rs4:
+    hostname: rs4
+    context_server: http://localhost:4570
+    parent: rs0
