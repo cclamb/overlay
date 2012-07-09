@@ -36,9 +36,7 @@ Util::configure_aws arguments
 Util::configure_logging arguments
 
 # Load the current network context.
-uri = URI::parse arguments[:context_url]
-cfg_repo = ConfigurationRepository.new uri
-ctx = cfg_repo.get_configuration
+uri = Util::get_configuration arguments
 
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay

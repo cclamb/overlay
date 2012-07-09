@@ -1,6 +1,9 @@
 
 require 'logging'
 require 'socket'
+require 'uri'
+
+require_relative 'configuration_repository'
 
 # Various utility methods used in the system.  This is
 # essentially a factor module for various components that
@@ -57,6 +60,12 @@ module Util
     log = Logging.logger["[#{hostname}] #{requestor}"]
     log.add_appenders 'system.log'
     log
+  end
+
+  def Util::get_configuration args
+    uri = URI::parse arguments[:context_url]
+    cfg_repo = ConfigurationRepository.new uri
+    cfg_repo.get_configuration
   end
 
 end

@@ -105,4 +105,8 @@ describe Util do
     
   end
 
+  context 'with a configuration URL' do
+    it 'should load a context'
+  end
+
 end
