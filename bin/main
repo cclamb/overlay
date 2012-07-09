@@ -36,7 +36,8 @@ Main::configure_aws arguments
 Main::configure_logging arguments
 
 # Load the current network context.
-cfg_repo = ConfigurationRepository.new arguments[:context_url]
+uri = URI::parse arguments[:context_url]
+cfg_repo = ConfigurationRepository.new uri
 ctx = cfg_repo.get_configuration
 
 # Obtain the system logger.  This is used for recording program
