@@ -19,6 +19,12 @@ describe ConfigurationRepository do
     end
   end
   context 'with a valid URI' do
-    it 'should grab an S3 item'
+    it 'should grab an S3 item' do
+      url = 'https://s3.amazonaws.com/chrislambistan_configuration/current?AWSAccessKeyId=AKIAISEWSKLPOO37DVVQ&Expires=1339852918&Signature=CRKBIsQ4Gie7TacV9FVtx6xeQts%3D'
+      uri = URI.parse url
+      repo = ConfigurationRepository.new uri
+      cfg = repo.get_configuration
+      cfg.should_not eq nil
+    end
   end
 end

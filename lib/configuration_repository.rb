@@ -1,3 +1,7 @@
+require 'net/https'
+require 'uri'
+require 'yaml'
+
 # This is the respository element that grabs and returns
 # a simulation configuration.  The configuration is a
 # YAML document in an S3 bucket, and the get_configuration(.)

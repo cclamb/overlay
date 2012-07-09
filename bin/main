@@ -24,9 +24,10 @@
 
 require_relative '../lib/main'
 require_relative '../lib/util'
+require_relative '../lib/configuration_repository'
 
 # Process the submitted arguments.
-arguments = Main::process_args ARGF.argv
+arguments = Util::process_args ARGF.argv
 
 # Configure the amazon ruby SDK
 Main::configure_aws arguments
@@ -35,7 +36,8 @@ Main::configure_aws arguments
 Main::configure_logging arguments
 
 # Load the current network context.
-ctx = Main::load_ctx arguments
+cfg_repo = ConfigurationRepository.new arguments[:context_url]
+ctx = cfg_repo.get_configuration
 
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay

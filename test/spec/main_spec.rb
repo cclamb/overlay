@@ -14,26 +14,6 @@ end
 
 describe Main do
 
-  context 'with command line arguments' do
-
-    it 'should process valid command line arguments' do
-      args = Main::process_args [:url, :akey, :skey, :bname]
-      args[:context_url].should eq :url
-      args[:access_key].should eq :akey
-      args[:secret_key].should eq :skey
-      args[:bucket_name].should eq :bname
-    end
-
-    it 'should handle invalid command line arguments' do
-      args = Main::process_args [:url, :akey, :skey]
-      args[:context_url].should eq :url
-      args[:access_key].should eq :akey
-      args[:secret_key].should eq :skey
-      args[:bucket_name].should eq nil
-    end
-
-  end
-
   context 'with amazon credentials' do
 
     it 'should configure with valid credentials' do
