@@ -63,7 +63,7 @@ module Util
   end
 
   def Util::get_configuration args
-    uri = URI::parse arguments[:context_url]
+    uri = URI::parse args[:context_url]
     cfg_repo = ConfigurationRepository.new uri
     cfg_repo.get_configuration
   end
