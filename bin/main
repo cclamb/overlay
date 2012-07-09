@@ -30,10 +30,10 @@ require_relative '../lib/configuration_repository'
 arguments = Util::process_args ARGF.argv
 
 # Configure the amazon ruby SDK
-Main::configure_aws arguments
+Util::configure_aws arguments
 
 # Configure our logs.
-Main::configure_logging arguments
+Util::configure_logging arguments
 
 # Load the current network context.
 uri = URI::parse arguments[:context_url]
