@@ -10,20 +10,20 @@ require_relative 'configuration_repository'
 # require similar configuration and are used globaly.
 module Util
 
-  # Configuring loggers.  Here, we configure both the global
-  # overlay logger and the local system logger.  We access
-  # these loggers via methods in the Util module.
-  def Util::configure_logging args
-    hostname = Socket.gethostname
-    appender = Logging.appenders.s3 \
-      :level => :debug, \
-      :layout => Logging.layouts.yaml(:format_as => :yaml), \
-      :source => Socket::gethostname, \
-      :bucket_name => args[:bucket_name]
-    file_appender = Logging.appenders.file \
-      'system.log', \
-      :level => :debug
-  end
+  # # Configuring loggers.  Here, we configure both the global
+  # # overlay logger and the local system logger.  We access
+  # # these loggers via methods in the Util module.
+  # def Util::configure_logging args
+  #   hostname = Socket.gethostname
+  #   appender = Logging.appenders.s3 \
+  #     :level => :debug, \
+  #     :layout => Logging.layouts.yaml(:format_as => :yaml), \
+  #     :source => Socket::gethostname, \
+  #     :bucket_name => args[:bucket_name]
+  #   file_appender = Logging.appenders.file \
+  #     'system.log', \
+  #     :level => :debug
+  # end
 
   # Configuring the AWS-SDK with access and secret keys.
   def Util::configure_aws args
@@ -45,27 +45,6 @@ module Util
       :access_key => args[1], \
       :secret_key => args[2], \
       :bucket_name => args[3] }
-  end
-
-  # Create, configure, and return a logger for *overlay state*.
-  def Util::overlay_logger requestor
-    log = Logging.logger[requestor]
-    log.add_appenders 's3'
-    log
-  end
-
-  # Create, configura, and return a logger for *system state*.
-  def Util::system_logger requestor
-    hostname = Socket.gethostname
-    log = Logging.logger["[#{hostname}] #{requestor}"]
-    log.add_appenders 'system.log'
-    log
-  end
-
-  def Util::get_configuration args
-    uri = URI::parse args[:context_url]
-    cfg_repo = ConfigurationRepository.new uri
-    cfg_repo.get_configuration
   end
 
 end
