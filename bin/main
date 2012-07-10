@@ -24,7 +24,9 @@
 
 require_relative '../lib/main'
 require_relative '../lib/util'
-require_relative '../lib/configuration_repository'
+#require_relative '../lib/configuration_repository'
+require_relative '../lib/data_repository'
+require_relative '../lib/component_factory'
 
 # Process the submitted arguments.
 arguments = Util::process_args ARGF.argv
@@ -32,23 +34,30 @@ arguments = Util::process_args ARGF.argv
 # Configure the amazon ruby SDK
 Util::configure_aws arguments
 
-# Configure our logs.
-Util::configure_logging arguments
+Factory = ComponentFactory.new \
+	:bucket_name => arguments[:bucket_name]
+Repository = DataRepository.new \
+	:context_url => arguments[:context_url]
 
-# Load the current network context.
-ctx = Util::get_configuration arguments
+# # Configure our logs.
+# Util::configure_logging arguments
+
+# # Load the current network context.
+# ctx = Util::get_configuration arguments
+ctx = Repository.get_configuration
 
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay
 # logger.
-syslog = Util::system_logger self
+#syslog = Util::system_logger self
+syslog = Factory.create_system_log self
 
 # Log the current context.
 syslog.info ctx
 
 # Create the overlay log for overlay status information and
 # experimental data collection.
-olog = Util::overlay_logger self
+olog = Factory.create_overlay_log self
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
