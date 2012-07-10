@@ -18,14 +18,14 @@ class LogFactory
       :level => :debug
   end
 
-  def get_system_log requestor
+  def create_system_log requestor
     hostname = Socket.gethostname
     log = Logging.logger["[#{hostname}] #{requestor}"]
     log.add_appenders 'system.log'
     log
   end
 
-  def get_overlay_log requestor
+  def create_overlay_log requestor
     log = Logging.logger[requestor]
     log.add_appenders 's3'
     log
