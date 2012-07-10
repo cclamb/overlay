@@ -22,7 +22,7 @@
 # * The S3 secret key
 # * The S3 location to log overlay specific operational state
 
-require_relative '../lib/main'
+#require_relative '../lib/main'
 require_relative '../lib/util'
 #require_relative '../lib/configuration_repository'
 require_relative '../lib/data_repository'
