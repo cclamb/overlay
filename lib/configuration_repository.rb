@@ -23,8 +23,6 @@ class ConfigurationRepository
   # This is generally done in the capistrano Capfile and then
   # passed into this system via a command line argument.
   def get_configuration
-    # url = args[:context_url]
-    # uri = URI.parse url
     http = Net::HTTP.new @repo_uri.host, @repo_uri.port
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE

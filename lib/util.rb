@@ -10,21 +10,6 @@ require_relative 'configuration_repository'
 # require similar configuration and are used globaly.
 module Util
 
-  # # Configuring loggers.  Here, we configure both the global
-  # # overlay logger and the local system logger.  We access
-  # # these loggers via methods in the Util module.
-  # def Util::configure_logging args
-  #   hostname = Socket.gethostname
-  #   appender = Logging.appenders.s3 \
-  #     :level => :debug, \
-  #     :layout => Logging.layouts.yaml(:format_as => :yaml), \
-  #     :source => Socket::gethostname, \
-  #     :bucket_name => args[:bucket_name]
-  #   file_appender = Logging.appenders.file \
-  #     'system.log', \
-  #     :level => :debug
-  # end
-
   # Configuring the AWS-SDK with access and secret keys.
   def Util::configure_aws args
     raise 'secret key is nil' if args[:secret_key] == nil
