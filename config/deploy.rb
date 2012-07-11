@@ -90,4 +90,8 @@ namespace :nodes do
     stream 'tail -f ./current/system.log'
   end
 
+  task :hostnames, :roles => :nodes do
+    run 'hostname'
+  end
+
 end

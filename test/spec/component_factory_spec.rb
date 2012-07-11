@@ -2,7 +2,13 @@ require 'rspec'
 
 require_relative '../../lib/component_factory'
 
+LOG_FILE_NAME = 'system.log'
+
 describe ComponentFactory do
+
+  after(:all) do
+    File.delete LOG_FILE_NAME if File.exists? LOG_FILE_NAME
+  end
 
   it 'should be creatable' do
     factory = ComponentFactory.new :bucket_name => 'test'

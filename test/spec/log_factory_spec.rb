@@ -2,7 +2,13 @@ require 'rspec'
 
 require_relative '../../lib/log_factory'
 
+LOG_FILE_NAME = 'system.log'
+
 describe LogFactory  do
+
+    after(:all) do
+      File.delete LOG_FILE_NAME if File.exists? LOG_FILE_NAME
+    end
     
     it 'should be creatable' do
       repo = LogFactory.new 'some bucket name'

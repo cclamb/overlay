@@ -6,7 +6,6 @@ require_relative '../../lib/util'
 require_relative '../../lib/s_3'
 
 CREDS_FILE_NAME = 'etc/creds.yaml'
-LOG_FILE_NAME = 'system.log'
 
 def get_creds
   creds = YAML::load File::open(CREDS_FILE_NAME)
@@ -14,18 +13,6 @@ def get_creds
 end
 
 describe Util do
-
-  before(:all) do
-    hostname = Socket.gethostname
-    appender = Logging.appenders.s3 \
-      :level => :debug, \
-      :layout => Logging.layouts.yaml(:format_as => :yaml), \
-      :source => Socket::gethostname, \
-      :bucket_name => 'bucket'
-    file_appender = Logging.appenders.file \
-      'system.log', \
-      :level => :debug
-  end
 
  context 'with amazon credentials' do
 
@@ -52,21 +39,6 @@ describe Util do
 
   end
 
-  context 'with logging' do
-
-    after(:all) do
-      File.delete LOG_FILE_NAME if File.exists? LOG_FILE_NAME
-    end
-
-    it 'should configure logging' do
-      Util::configure_logging :bucket_name => :bname
-      log = Logging.logger[self]
-      log.add_appenders 's3'
-      log.add_appenders LOG_FILE_NAME
-    end
-
-  end
-
   context 'with command line arguments' do
 
     it 'should process valid command line arguments' do
@@ -85,28 +57,6 @@ describe Util do
       args[:bucket_name].should eq nil
     end
 
-  end
-  
-  context 'with an overlay logger' do
-
-    it 'should return a logger handle' do
-      hndl = Util::overlay_logger self
-      hndl.should_not eq nil
-    end
-
-  end
-
-  context 'with a system logger' do
-
-    it 'should return a system logger instance' do
-      hndl = Util::system_logger self
-      hndl.should_not eq nil
-    end
-    
-  end
-
-  context 'with a configuration URL' do
-    it 'should load a context'
   end
 
 end
