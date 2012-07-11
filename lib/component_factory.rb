@@ -17,7 +17,6 @@ class ComponentFactory
   # We initialize the component factory with a hash of
   # values, emulating a named argument list.  Specific
   # required values currently include:
-  #
   # * :bucket_name Creates an S3 bucket reference.
   def initialize values
     @log_factory = LogFactory.new values[:bucket_name]
