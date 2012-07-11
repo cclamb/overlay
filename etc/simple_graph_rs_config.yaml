@@ -1,0 +1,127 @@
+# This is a p2p model of a simple graph consisting of all
+# available nodes.
+#
+#
+---
+  all:
+    max_hops: 1
+
+  rs0:
+    peers:
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs1:
+    peers:
+      - rs0
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs2:
+    peers:
+      - rs0
+      - rs1
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs3:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs4:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs5:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs6:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs7
+      - rs8
+      - rs9
+
+  rs7:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs8
+      - rs9
+
+  rs8:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs9
+
+  rs9:
+    peers:
+      - rs0
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
