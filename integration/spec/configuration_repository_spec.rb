@@ -1,7 +1,7 @@
 require 'rspec'
 require 'aws-sdk'
 
-require_relative '../../lib/configuration_repository'
+require_relative '../../lib/repositories/configuration_repository'
 
 describe ConfigurationRepository do
 

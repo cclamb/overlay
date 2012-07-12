@@ -1,4 +1,4 @@
-require_relative 'configuration_repository'
+require_relative 'repositories/configuration_repository'
 
 # This is a facade for all repositories to limit coupling
 # to specific repository classes.  We use a hierarchy

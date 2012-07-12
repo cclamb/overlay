@@ -3,8 +3,6 @@ require 'logging'
 require 'socket'
 require 'uri'
 
-require_relative 'configuration_repository'
-
 # Various utility methods used in the system.  This is
 # essentially a factor module for various components that
 # require similar configuration and are used globaly.

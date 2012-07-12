@@ -1,4 +1,4 @@
-require_relative 'log_factory'
+require_relative 'factories/log_factory'
 
 # This is the primary factory facade for components.  We
 # use a hierarchy of factories to create objects intended

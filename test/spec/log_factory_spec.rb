@@ -1,13 +1,13 @@
 require 'rspec'
 
-require_relative '../../lib/log_factory'
+require_relative '../../lib/factories/log_factory'
 
-LOG_FILE_NAME = 'system.log'
+log_file_name = 'system.log'
 
 describe LogFactory  do
 
     after(:all) do
-      File.delete LOG_FILE_NAME if File.exists? LOG_FILE_NAME
+      File.delete log_file_name if File.exists? log_file_name
     end
     
     it 'should be creatable' do
