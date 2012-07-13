@@ -33,4 +33,22 @@ describe ComponentFactory do
     end
 
   end
+
+  context 'with a node factory' do
+
+    it 'should create a node' do
+      f = ComponentFactory.new :bucket_name => 'test'
+      yaml_values = { 'hostname' => 1, \
+        'test_0' => 0, \
+        'test_1' => 1, \
+        'test_2' => 2 }
+      node = f.create_node yaml_values
+      node[:id].should eq 1
+      node[:test_0].should eq 0
+      node[:test_1].should eq 1
+      node[:test_2].should eq 2
+    end
+
+  end
+
 end

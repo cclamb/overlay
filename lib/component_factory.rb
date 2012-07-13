@@ -1,4 +1,5 @@
 require_relative 'factories/log_factory'
+require_relative 'factories/node_factory'
 
 # This is the primary factory facade for components.  We
 # use a hierarchy of factories to create objects intended
@@ -20,6 +21,7 @@ class ComponentFactory
   # * :bucket_name Creates an S3 bucket reference.
   def initialize values
     @log_factory = LogFactory.new values[:bucket_name]
+    @node_factory = NodeFactory.new
   end
 
   # Creating a system log with a specific requestor
@@ -32,6 +34,18 @@ class ComponentFactory
   # so S3 entries have correct attribution.
   def create_overlay_log requestor
     @log_factory.create_overlay_log requestor
+  end
+
+  # Using a precreated node factory, create a node
+  # from a hash of values.
+  def create_node values
+    @node_factory.create_node values
+  end
+
+  # Using a precreated route factory, create a route from
+  # a yaml serialization.
+  def create_route
+
   end
 
 end

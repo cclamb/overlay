@@ -11,11 +11,28 @@ class DataRepository
   def initialize values
     uri = URI::parse values[:context_url]
     @configuration_repository = ConfigurationRepository.new uri
+    @node_repository = NodeRepository.new
   end
 
   # Retrieving the active configuration.
   def get_configuration
     @configuration_repository.get_configuration
+  end
+
+  def add_node node
+    @node_repository.add_node node
+  end
+
+  def update_node node
+    @node_repository.update_node node
+  end
+
+  def delete_node id
+    @node_repository.delete_node id
+  end
+
+  def get_node id
+    node_respository.get_node id
   end
 
 end
