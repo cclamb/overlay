@@ -19,18 +19,22 @@ class DataRepository
     @configuration_repository.get_configuration
   end
 
+  # Adding a node to the repository.
   def add_node node
     @node_repository.add_node node
   end
 
+  # Updating a node.
   def update_node node
     @node_repository.update_node node
   end
 
+  # Deleting a node associated with a given ID. 
   def delete_node id
     @node_repository.delete_node id
   end
 
+  # Retreiving a given node.
   def get_node id
     @node_repository.get_node id
   end
