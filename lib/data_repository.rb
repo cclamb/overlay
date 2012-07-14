@@ -32,7 +32,7 @@ class DataRepository
   end
 
   def get_node id
-    node_respository.get_node id
+    @node_repository.get_node id
   end
 
 end
