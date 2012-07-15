@@ -1,4 +1,4 @@
-require_relative '../../lib/factories/node_factory.rb'
+require_relative '../../lib/domain/factories/node_factory.rb'
 
 describe NodeFactory do
 

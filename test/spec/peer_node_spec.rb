@@ -1,6 +1,6 @@
 require 'rspec'
 
-require_relative '../../lib/peer_node'
+require_relative '../../lib/domain/peer_node'
 
 $searched_remote = false
 

@@ -1,4 +1,4 @@
-require_relative '../../lib/repositories/node_repository'
+require_relative '../../lib/domain/repositories/node_repository'
 
 describe NodeRepository do
 

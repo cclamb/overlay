@@ -1,6 +1,6 @@
 require 'rspec'
 
-require_relative '../../lib/data_repository'
+require_relative '../../lib/domain/data_repository'
 
 describe DataRepository do
 

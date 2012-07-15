@@ -1,6 +1,6 @@
 require 'rspec'
 
-require_relative '../../lib/factories/log_factory'
+require_relative '../../lib/domain/factories/log_factory'
 
 log_file_name = 'system.log'
 

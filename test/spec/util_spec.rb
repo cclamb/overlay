@@ -2,8 +2,8 @@ require 'rspec'
 require 'logging'
 require 'socket'
 
-require_relative '../../lib/util'
-require_relative '../../lib/s_3'
+require_relative '../../lib/domain/util'
+require_relative '../../lib/domain/s_3'
 
 CREDS_FILE_NAME = 'etc/creds.yaml'
 
