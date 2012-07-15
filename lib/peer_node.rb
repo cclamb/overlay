@@ -1,7 +1,7 @@
 
 class PeerNode
 
-  def initialize artifact_repo = [], search_adapter = nil
+  def initialize artifact_repo = [], &search_adapter = nil
     @artifact_repo = artifact_repo
     @search_adapter = search_adapter
   end
