@@ -1,7 +1,7 @@
 
 class PeerNode
 
-  def initialize artifact_repo = [], &search_adapter = nil
+  def initialize artifact_repo = [], &search_adapter
     @artifact_repo = artifact_repo
     @search_adapter = search_adapter
   end
@@ -11,8 +11,11 @@ class PeerNode
     hop_count = search_ctx[:hop_count]
     local_results = @artifact_repo.select { |record| record[:id] == id }
     remote_results = if search_remotely? hop_count
-      @search_adapter.find_artifact id, search_context, remote_ctx
+      @search_adapter.call id, search_ctx, remote_ctx
     end
+
+
+    local_results
   end
 
   def find_available_artifacts id, search_ctx, remote_ctx

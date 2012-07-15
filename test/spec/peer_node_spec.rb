@@ -2,11 +2,24 @@ require 'rspec'
 
 require_relative '../../lib/peer_node'
 
+$searched_remote = false
+
 def create_and_populate_node
   PeerNode.new [ \
     {:id => 'bar',    :artifact => 'foo'}, \
     {:id => 'blech',  :artifact => 'wreck'} \
   ]
+end
+
+def create_and_populate_node_remote
+  PeerNode.new [ \
+    {:id => 'bar',    :artifact => 'foo'}, \
+    {:id => 'blech',  :artifact => 'wreck'} \
+  ] \
+  do |id, ctx, r_ctx|
+    $searched_remote = true
+    []
+  end
 end
 
 describe PeerNode do
@@ -30,15 +43,37 @@ describe PeerNode do
     results.count.should eq 0
   end
 
-  it 'should search remotely if nothing is found locally' do
-    node = create_and_populate_node
-    fail
+
+  it 'should handle a nil ID by returning no results' do
+    node = create_and_populate_node_remote
+
   end
 
-  it 'should treat a non-existant hop count as a local search'
-  it 'should handle a nil ID by returning no results'
   it 'should not fail with badly formatted arguments'
   context 'when used as a primary search node' do
+
+    it 'should search remotely if nothing is found locally' do
+      node = create_and_populate_node_remote
+      results = node.find_artifact 'not me!', {:hop_count => 1}
+      $searched_remote.should eq true
+      $searched_remote = false
+    end
+
+    it 'should not search remotely if the hop_count does not exist' do
+      node = create_and_populate_node_remote
+      results = node.find_artifact 'not me!'
+      $searched_remote.should eq false
+    end
+
+    it 'should not search remotely if the hop_count is too low' do
+      node = create_and_populate_node_remote
+      results = node.find_artifact 'not me!', {:hop_count => 0}
+      $searched_remote.should eq false
+      results = node.find_artifact 'not me!', {:hop_count => -3}
+      $searched_remote.should eq false
+    end
+
+    it 'should treat a non-existant hop count as a local search'
     it 'should search locally only with a zero hop count'
   end
   context 'when used as a secondary search node' do
