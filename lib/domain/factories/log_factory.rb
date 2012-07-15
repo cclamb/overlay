@@ -2,7 +2,7 @@ require 'aws-sdk'
 require 'socket'
 require 'logging'
 
-require_relative '../s_3'
+require_relative '../../util/s_3'
 
 # A log factory is responsible for assembling loggers, both
 # local and distributed.
