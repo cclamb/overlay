@@ -13,11 +13,42 @@ def get_500 path
   last_response.status.should eq 500
 end
 
+$is_searched_for = false
+
+class TestFoundNode
+  def find_artifact *args
+    $is_searched_for = true
+    'this is a false artifact'
+  end
+end
+
+class TestNotFoundNode
+  def find_artifact *args
+    $is_searched_for = true
+    []
+  end
+end
+
+class TestFactory
+  def self::find? mode
+    @@mode = mode
+  end
+  def create_node args
+    if @@mode
+      TestFoundNode.new
+    else
+      TestNotFoundNode.new
+    end
+  end
+end
+
 describe PeerNodeServer do
   include Rack::Test::Methods
 
   def app
-    PeerNodeServer
+    PeerNodeServer::set_test_params \
+      :factory => TestFactory.new
+    PeerNodeServer.new
   end
 
   context 'with the test interface' do
@@ -36,6 +67,15 @@ describe PeerNodeServer do
       get_500 '/test/error/500'
     end
 
+  end
+
+  context 'with the content interface' do
+    it 'should return 404 when content does not exist' do
+      $is_searched_for = false
+      TestFactory.find? false
+      get_404 '/artifact/i-dont-exist'
+      $is_searched_for.should eq true
+    end
   end
 
 end
