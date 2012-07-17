@@ -3,7 +3,7 @@ require 'socket'
 require_relative '../domain/component_factory'
 require_relative '../util/test_interface'
 
-class PeerNodeServer < TestInterface
+class PeerNodeService < TestInterface
   enable :inline_templates
 
   @@factory =nil
@@ -18,7 +18,7 @@ class PeerNodeServer < TestInterface
 
   get '/artifact/:id' do
     id = params[:id]
-    factory = PeerNodeServer::create_factory
+    factory = PeerNodeService::create_factory
     node = factory.create_node :hostname => Socket.gethostname
     response = node.find_artifact id
     halt 404
