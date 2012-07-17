@@ -16,7 +16,7 @@ class ContextService < TestInterface
     @@factory || ComponentFactory.new(:bucket_name => 'test')
   end
 
-  get '/artifact/:id' do
+  get '/status/:id' do
     id = params[:id]
     factory = ContextService::create_factory
     node = factory.create_node :hostname => Socket.gethostname
