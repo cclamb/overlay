@@ -3,7 +3,7 @@ require 'socket'
 require_relative '../domain/component_factory'
 require_relative '../util/test_interface'
 
-class ContextService < TestInterface
+class ContextManagerService < TestInterface
   enable :inline_templates
 
   @@factory =nil
@@ -18,7 +18,7 @@ class ContextService < TestInterface
 
   get '/status/:id' do
     id = params[:id]
-    factory = ContextService::create_factory
+    factory = ContextManagerService::create_factory
     node = factory.create_node :hostname => Socket.gethostname
     response = node.find_artifact id
     halt 404
