@@ -23,6 +23,8 @@
 # * The S3 location to log overlay specific operational state
 require_relative '../lib/garden'
 
+include Garden
+
 # Process the submitted arguments.
 arguments = Util::process_args ARGF.argv
 
@@ -30,25 +32,25 @@ arguments = Util::process_args ARGF.argv
 Util::configure_aws arguments
 
 # Create the factory and repository facades.
-Factory = ComponentFactory.new \
+factory = Domain::ComponentFactory.new \
 	:bucket_name => arguments[:bucket_name]
-Repository = DataRepository.new \
+repository = Domain::DataRepository.new \
 	:context_url => arguments[:context_url]
 
 # # Load the current network context.
-ctx = Repository.get_configuration
+ctx = repository.get_configuration
 
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay
 # logger.
-syslog = Factory.create_system_log self
+syslog = factory.create_system_log self
 
 # Log the current context.
 syslog.info ctx
 
 # Create the overlay log for overlay status information and
 # experimental data collection.
-olog = Factory.create_overlay_log self
+olog = factory.create_overlay_log self
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
