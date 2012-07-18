@@ -1,4 +1,8 @@
-require_relative '../../../lib/domain/repositories/node_repository'
+require 'rspec'
+
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 describe NodeRepository do
 

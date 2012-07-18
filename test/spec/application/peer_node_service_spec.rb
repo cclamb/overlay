@@ -1,17 +1,19 @@
 require 'rspec'
 require 'rack/test'
 
-require_relative '../../../lib/application/peer_node_service'
+require_relative '../../../lib/garden/application'
 require_relative 'test'
 
-describe PeerNodeService do
+include Garden
+
+describe Application::PeerNodeService do
   include Rack::Test::Methods
   include Test
 
   def app
-    PeerNodeService::set_test_params \
+    Application::PeerNodeService::set_test_params \
       :factory => Test::TestFactory.new
-    PeerNodeService.new
+    Application::PeerNodeService.new
   end
 
   context 'with the test interface' do

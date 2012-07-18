@@ -6,7 +6,7 @@ require_relative '../../util/s_3'
 
 # A log factory is responsible for assembling loggers, both
 # local and distributed.
-class LogFactory
+class Garden::Domain::Factories::LogFactory
 
   # We initialize the factory with the name of the bucket
   # to use for distributed logging.  This could potentially

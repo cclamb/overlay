@@ -1,6 +1,8 @@
 require 'rspec'
 
-require_relative '../../../lib/domain/context_manager'
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 describe ContextManager do
   it 'should be creatable'

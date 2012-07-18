@@ -1,4 +1,4 @@
-class NodeFactory
+class Garden::Domain::Factories::NodeFactory
 
   def create_node values
     node = {}

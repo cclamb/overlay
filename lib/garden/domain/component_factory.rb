@@ -1,5 +1,6 @@
-require_relative 'factories/log_factory'
-require_relative 'factories/node_factory'
+require_relative 'factories'
+
+include Garden::Domain::Factories
 
 # This is the primary factory facade for components.  We
 # use a hierarchy of factories to create objects intended
@@ -13,7 +14,7 @@ require_relative 'factories/node_factory'
 # We maintain a hierarchy of factories all accessed through
 # this facade class to limit coupling to specific factories
 # as well.
-class ComponentFactory
+class Garden::Domain::ComponentFactory
 
   # We initialize the component factory with a hash of
   # values, emulating a named argument list.  Specific

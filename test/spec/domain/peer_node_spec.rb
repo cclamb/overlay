@@ -1,6 +1,8 @@
 require 'rspec'
 
-require_relative '../../../lib/domain/peer_node'
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 $searched_remote = false
 

@@ -1,5 +1,5 @@
 
-class PeerNode
+class Garden::Domain::PeerNode
 
   def initialize artifact_repo = [], &search_adapter
     @artifact_repo = artifact_repo

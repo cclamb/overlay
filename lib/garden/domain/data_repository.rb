@@ -1,10 +1,11 @@
-require_relative 'repositories/configuration_repository'
-require_relative 'repositories/node_repository'
+require_relative 'repositories'
+
+include Garden::Domain::Repositories
 
 # This is a facade for all repositories to limit coupling
 # to specific repository classes.  We use a hierarchy
 # of repositories behind this general repository object.
-class DataRepository
+class Garden::Domain::DataRepository
 
   # Creating the repository with a hash of arguments emulating
   # a named argument list.  We currently require:

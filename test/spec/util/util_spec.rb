@@ -2,8 +2,10 @@ require 'rspec'
 require 'logging'
 require 'socket'
 
-require_relative '../../../lib/util'
-require_relative '../../../lib/util/s_3'
+require_relative '../../../lib/garden/util'
+require_relative '../../../lib/garden/util/s_3'
+
+include Garden
 
 CREDS_FILE_NAME = 'etc/creds.yaml'
 

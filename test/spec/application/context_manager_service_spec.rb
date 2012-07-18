@@ -1,17 +1,19 @@
 require 'rspec'
 require 'rack/test'
 
-require_relative '../../../lib/application/context_manager_service'
+require_relative '../../../lib/garden/application'
 require_relative 'test'
 
-describe ContextManagerService do
+include Garden
+
+describe Application::ContextManagerService do
   include Rack::Test::Methods
   include Test
 
   def app
-    ContextManagerService::set_test_params \
+    Application::ContextManagerService::set_test_params \
       :factory => Test::TestFactory.new
-    ContextManagerService.new
+    Application::ContextManagerService.new
   end
 
   context 'with the test interface' do

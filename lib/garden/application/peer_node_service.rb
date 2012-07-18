@@ -3,7 +3,7 @@ require 'socket'
 require_relative '../domain/component_factory'
 require_relative '../util/test_interface'
 
-class ContextManagerService < TestInterface
+class Garden::Application::PeerNodeService < TestInterface
   enable :inline_templates
 
   @@factory =nil
@@ -16,9 +16,9 @@ class ContextManagerService < TestInterface
     @@factory || ComponentFactory.new(:bucket_name => 'test')
   end
 
-  get '/status/:id' do
+  get '/artifact/:id' do
     id = params[:id]
-    factory = ContextManagerService::create_factory
+    factory = Garden::Application::PeerNodeService::create_factory
     node = factory.create_node :hostname => Socket.gethostname
     response = node.find_artifact id
     halt 404

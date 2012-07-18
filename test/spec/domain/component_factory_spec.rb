@@ -1,8 +1,10 @@
 require 'rspec'
 
-require_relative '../../../lib/domain/component_factory'
+require_relative '../../../lib/garden/domain'
 
 log_file_name = 'system.log'
+
+include Garden::Domain
 
 describe ComponentFactory do
 

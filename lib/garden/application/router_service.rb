@@ -3,7 +3,7 @@ require 'socket'
 require_relative '../domain/component_factory'
 require_relative '../util/test_interface'
 
-class NodeService < TestInterface
+class Garden::Application::RouterService < TestInterface
   enable :inline_templates
 
   @@factory =nil
@@ -18,7 +18,7 @@ class NodeService < TestInterface
 
   get '/artifact/:id' do
     id = params[:id]
-    factory = NodeService::create_factory
+    factory = Garden::Application::RouterService::create_factory
     node = factory.create_node :hostname => Socket.gethostname
     response = node.find_artifact id
     halt 404

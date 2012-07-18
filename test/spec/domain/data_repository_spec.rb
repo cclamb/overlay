@@ -1,6 +1,8 @@
 require 'rspec'
 
-require_relative '../../../lib/domain/data_repository'
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 describe DataRepository do
 

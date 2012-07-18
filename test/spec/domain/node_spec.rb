@@ -1,6 +1,8 @@
 require 'rspec'
 
-require_relative '../../../lib/domain/node'
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 describe Node do
   it 'should be creatable'

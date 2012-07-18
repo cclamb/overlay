@@ -1,4 +1,8 @@
-require_relative '../../../lib/domain/factories/node_factory.rb'
+require 'rspec'
+
+require_relative '../../../lib/garden/domain'
+
+include Garden::Domain
 
 describe NodeFactory do
 
