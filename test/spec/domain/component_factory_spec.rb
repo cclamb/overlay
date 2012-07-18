@@ -22,6 +22,10 @@ describe ComponentFactory do
     expect { ComponentFactory.new :bucket_name => nil }.to raise_error
   end
 
+  it 'should create a usage manager' do
+    ComponentFactory.new(:bucket_name => 'foo').create_usage_manager.should_not eq nil
+  end
+
   context 'with a LogFactory' do
 
     it 'should create a system log' do

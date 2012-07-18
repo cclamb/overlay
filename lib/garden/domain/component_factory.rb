@@ -1,4 +1,5 @@
 require_relative 'factories'
+require_relative 'usage_manager'
 
 include Garden::Domain::Factories
 
@@ -47,6 +48,11 @@ class Garden::Domain::ComponentFactory
   # a yaml serialization.
   def create_route
 
+  end
+
+  # Create a usage manager.
+  def create_usage_manager
+    UsageManager.new
   end
 
 end
