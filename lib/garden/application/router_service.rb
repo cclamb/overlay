@@ -6,22 +6,26 @@ require_relative '../util/test_interface'
 class Garden::Application::RouterService < TestInterface
   enable :inline_templates
 
-  @@factory =nil
-
-  def self::set_test_params params
-    @@factory = params[:factory]
-  end
-
-  def self::create_factory
-    @@factory || ComponentFactory.new(:bucket_name => 'test')
+  def self::initialize params
+    @@router = params[:router]
   end
 
   get '/artifact/:id' do
     id = params[:id]
-    factory = Garden::Application::RouterService::create_factory
-    node = factory.create_node :hostname => Socket.gethostname
-    response = node.find_artifact id
-    halt 404
+    results = @@router.find_artifact id
+    handle_results results
+  end
+
+  get '/artifacts' do
+
+  end
+
+  def handle_results results
+    if results == nil || results.empty?
+      halt 404
+    else
+      return results
+    end
   end
 
 end

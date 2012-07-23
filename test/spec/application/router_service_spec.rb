@@ -10,9 +10,13 @@ describe Application::RouterService do
   include Rack::Test::Methods
   include Test
 
+  def initialize
+    factory = Test::TestFactory.new
+    @router = factory.create_router
+  end
+
   def app
-    Application::RouterService::set_test_params \
-      :factory => Test::TestFactory.new
+    Application::RouterService::initialize :router => @router
     Application::RouterService.new
   end
 
@@ -35,12 +39,16 @@ describe Application::RouterService do
   end
 
   context 'with the content interface' do
+
     it 'should return 404 when content does not exist' do
       $is_searched_for = false
-      Test::TestFactory.find? false
+      @router.find? false
       get_404 '/artifact/i-dont-exist'
       $is_searched_for.should eq true
     end
+
+    it 'should return all located content'
+    it 'should query for conent based on submitted params'
   end
 
 end

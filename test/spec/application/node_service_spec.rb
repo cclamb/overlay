@@ -10,9 +10,16 @@ describe Application::NodeService do
   include Rack::Test::Methods
   include Test
 
+  def initialize
+    factory = Test::TestFactory.new
+    @node = factory.create_node
+  end
+
   def app
-    Application::NodeService::set_test_params \
-      :factory => Test::TestFactory.new
+    # Application::NodeService::set_test_params \
+    #   :factory => Test::TestFactory.new
+    # Application::NodeService.new
+    Application::NodeService::initialize :node => @node
     Application::NodeService.new
   end
 
@@ -37,9 +44,12 @@ describe Application::NodeService do
   context 'with the content interface' do
     it 'should return 404 when content does not exist' do
       $is_searched_for = false
-      Test::TestFactory.find? false
+      @node.find? false
       get_404 '/artifact/i-dont-exist'
       $is_searched_for.should eq true
+      # Test::TestFactory.find? false
+      # get_404 '/artifact/i-dont-exist'
+      # $is_searched_for.should eq true
     end
   end
 
