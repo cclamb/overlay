@@ -22,6 +22,10 @@ module Test
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end
+    def find_artifacts *args
+      $is_searched_for = true
+      @mode ? 'artifact returned' : []
+    end
   end
 
   class TestRouter
@@ -30,6 +34,10 @@ module Test
       @mode = mode
     end
     def find_artifact *args
+      $is_searched_for = true
+      @mode ? 'artifact returned' : []
+    end
+    def find_artifacts
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end

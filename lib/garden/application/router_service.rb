@@ -17,7 +17,8 @@ class Garden::Application::RouterService < TestInterface
   end
 
   get '/artifacts' do
-
+    results = @@router.find_artifacts
+    handle_results results
   end
 
   def handle_results results

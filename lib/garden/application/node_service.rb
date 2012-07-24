@@ -12,8 +12,21 @@ class Garden::Application::NodeService < TestInterface
 
   get '/artifact/:id' do
     id = params[:id]
-    response = @@node.find_artifact id
-    halt 404
+    results = @@node.find_artifact id
+    handle_results results
+  end
+
+  get '/artifacts' do
+    results = @@node.find_artifacts
+    handle_results results
+  end
+
+  def handle_results results
+    if results == nil || results.empty?
+      halt 404
+    else
+      return results
+    end
   end
 
 end

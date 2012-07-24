@@ -47,8 +47,30 @@ describe Application::RouterService do
       $is_searched_for.should eq true
     end
 
-    it 'should return all located content'
-    it 'should query for conent based on submitted params'
+    it 'should return content that exists' do
+      $is_searched_for = false
+      @router.find? true
+      get '/artifact/i-dont-exist'
+      last_response.should be_ok
+      $is_searched_for.should eq true
+    end
+
+    it 'should return 404 on no content found' do
+      $is_searched_for = false
+      @router.find? false
+      get_404 '/artifacts'
+      $is_searched_for.should eq true
+    end
+
+    it 'should return keys to all located content' do
+      $is_searched_for = false
+      @router.find? true
+      get '/artifacts'
+      last_response.should be_ok
+      $is_searched_for.should eq true
+    end
+
+    it 'should query for content based on submitted params'
   end
 
 end
