@@ -61,6 +61,8 @@ syslog.info 'setting to daemon status...'
 # Save the current process PID
 Util::save_pid
 
+syslog.info 'PID written...'
+
 continue = true
 cnt = 0
 
