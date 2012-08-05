@@ -5,6 +5,7 @@ require 'uri'
 
 module Garden
 
+  # The file in which to store the saved PID for process control.
   PID_FILE_NAME = '.overlay_pid'
 
   # Various utility methods used in the system.  This is
@@ -34,11 +35,17 @@ module Garden
         :bucket_name => args[3] }
     end
 
+
+    # Save a PID of the current process for process control if
+    # needed.  If the PID file already exists, stop the previous
+    # pid and clear the file.
     def Util::save_pid
       stop_running_process
       File::write PID_FILE_NAME, Process::pid
     end
 
+    # If a PID file exists, read the PID, stop the running
+    # process, then delete the PID file.
     def Util::stop_running_process
       return if !File::exists? PID_FILE_NAME
       pid = File.read(PID_FILE_NAME).to_i
