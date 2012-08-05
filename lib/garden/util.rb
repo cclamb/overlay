@@ -5,6 +5,8 @@ require 'uri'
 
 module Garden
 
+  PID_FILE_NAME = '.overlay_pid'
+
   # Various utility methods used in the system.  This is
   # essentially a factor module for various components that
   # require similar configuration and are used globaly.
@@ -30,6 +32,21 @@ module Garden
         :access_key => args[1], \
         :secret_key => args[2], \
         :bucket_name => args[3] }
+    end
+
+    def Util::save_pid
+      stop_running_process
+      File::write PID_FILE_NAME, Process::pid
+    end
+
+    def Util::stop_running_process
+      return if !File::exists? PID_FILE_NAME
+      pid = File.read(PID_FILE_NAME).to_i
+      begin
+        Process::kill :INT, pid
+      rescue
+      end
+      File::delete PID_FILE_NAME
     end
 
   end

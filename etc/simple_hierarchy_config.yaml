@@ -1,0 +1,53 @@
+#
+# One hierarchical domain.
+#
+---
+  rs0:
+    context_server: http://localhost:4567
+    role: router
+    children:
+      - rs1
+      - rs2
+      - rs3
+      - rs4
+      - rs5
+      - rs6
+      - rs7
+      - rs8
+      - rs9
+
+  rs1:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs2:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs3:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs4:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs5:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs6:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs7:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs8:
+    context_server: http://localhost:4569
+    parent: rs0
+
+  rs9:
+    context_server: http://localhost:4569
+    parent: rs0

@@ -46,3 +46,27 @@ end
 When /^the network is non\-hierarchical$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+When /^I submit a query$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^the content does not exist in the network$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^every node will be queried$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^no content will be returned$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^the content does exist in the network$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^content will be returned$/ do
+  pending # express the regexp above with the code you wish you had
+end

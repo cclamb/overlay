@@ -7,6 +7,7 @@ require_relative '../../../lib/garden/util/s_3'
 
 include Garden
 
+PID_FILE_NAME = '.overlay_pid'
 CREDS_FILE_NAME = 'etc/creds.yaml'
 
 def get_creds
@@ -57,6 +58,36 @@ describe Util do
       args[:access_key].should eq :akey
       args[:secret_key].should eq :skey
       args[:bucket_name].should eq nil
+    end
+
+  end
+
+  context 'with a pid file' do
+
+    before(:each) do
+      File::write PID_FILE_NAME, '1234567786'
+    end
+
+    after(:each) do
+      File::delete PID_FILE_NAME if File::exists? PID_FILE_NAME
+    end
+
+    it 'should be able to stop a running process and clear the pid file' do
+      Util::stop_running_process
+      File.exists?(PID_FILE_NAME).should_not eq true
+    end
+
+    it 'should not fail if the pid file does not exist' do
+      File::delete PID_FILE_NAME
+      Util::stop_running_process
+      File.exists?(PID_FILE_NAME).should_not eq true
+    end
+
+    it 'should save the pid to the pid file' do
+      Util::save_pid
+      File::exists?(PID_FILE_NAME).should eq true
+      pid = File::read(PID_FILE_NAME).to_i
+      pid.should eq Process::pid
     end
 
   end
