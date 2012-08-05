@@ -66,7 +66,7 @@ syslog.info 'PID written...'
 continue = true
 cnt = 0
 
-is_pidfile = File::exists '.overlay_pid'
+is_pidfile = File::exists? '.overlay_pid'
 syslog.info "Does PID file exist? #{is_pidfile}"
 
 while continue
