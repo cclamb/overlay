@@ -20,7 +20,7 @@ describe Util do
 
   before(:all) do
     @is_router_called = false
-    @is_node_called = false
+    is_node_called = false
     @is_peer_node_called = false
     @is_context_called = false
     module Util
@@ -30,7 +30,7 @@ describe Util do
 
       def Util::run_as_node
         puts 'ran'
-        @is_node_called = true
+        is_node_called = true
       end
 
       def Util::run_as_peer_node
@@ -124,7 +124,7 @@ describe Util do
       cfg = Domain::Configuration.new 'role' => 'node'
       cfg.is_node?.should eq true
       Util::start cfg
-      @is_node_called.should eq true
+      is_node_called.should eq true
     end
 
     it 'should start a peer node'
