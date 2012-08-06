@@ -1,6 +1,7 @@
 require 'net/https'
 require 'uri'
 require 'yaml'
+require 'socket'
 
 # This is the respository element that grabs and returns
 # a simulation configuration.  The configuration is a
@@ -28,6 +29,7 @@ class ConfigurationRepository
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     request = Net::HTTP::Get.new @repo_uri.request_uri
     response = http.request request
-    YAML::load response.body
+    YAML::load(response.body)[Socket::gethostname]
   end
+
 end

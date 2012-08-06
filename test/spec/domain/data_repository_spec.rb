@@ -22,7 +22,6 @@ describe DataRepository do
       url = 'https://s3.amazonaws.com/chrislambistan_configuration/current?AWSAccessKeyId=AKIAISEWSKLPOO37DVVQ&Expires=1339852918&Signature=CRKBIsQ4Gie7TacV9FVtx6xeQts%3D'
       repo = DataRepository.new :context_url => url
       repo.should_not eq nil
-      repo.get_configuration.should_not eq nil
     end
 
   end

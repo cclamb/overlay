@@ -75,7 +75,7 @@ describe Configuration do
     it 'should not have children' do
       @cfg.children.should eq nil
     end
-    
+
   end
 
 end

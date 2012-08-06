@@ -33,20 +33,21 @@ Util::configure_aws arguments
 
 # Create the factory and repository facades.
 factory = Domain::ComponentFactory.new \
-	:bucket_name => arguments[:bucket_name]
+  :bucket_name => arguments[:bucket_name]
 repository = Domain::DataRepository.new \
-	:context_url => arguments[:context_url]
+  :context_url => arguments[:context_url]
 
-# # Load the current network context.
+# Load the current network context and create a configuration object.
 ctx = repository.get_configuration
+cfg = Configuration.new ctx
+
+# Log the current context.
+syslog.info ctx
 
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay
 # logger.
 syslog = factory.create_system_log self
-
-# Log the current context.
-syslog.info ctx
 
 # Create the overlay log for overlay status information and
 # experimental data collection.
@@ -61,18 +62,19 @@ syslog.info 'setting to daemon status...'
 # Save the current process PID
 Util::save_pid
 
-syslog.info 'PID written...'
+# Run the system with the selected configuration
+Util::start cfg
 
-continue = true
-cnt = 0
+# continue = true
+# cnt = 0
 
 is_pidfile = File::exists? '.overlay_pid'
 syslog.info "Does PID file exist? #{is_pidfile}"
 
-while continue
-	sleep 5
-  	syslog.info "looping, loop number #{cnt}"
-  	#olog.info "looping, loop number #{cnt}"
-	cnt += 1
-	break if cnt > 5
-end
+# while continue
+#   sleep 5
+#     syslog.info "looping, loop number #{cnt}"
+#     #olog.info "looping, loop number #{cnt}"
+#   cnt += 1
+#   break if cnt > 5
+# end

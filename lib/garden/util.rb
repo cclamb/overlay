@@ -56,6 +56,18 @@ module Garden
       File::delete PID_FILE_NAME
     end
 
+    def Util::start cfg
+      if cfg.is_router?
+        Util::run_as_router
+      elsif cfg.is_node?
+        Util::run_as_node
+      elsif cfg.is_peer_node?
+        Util::run_as_peer_node
+      else
+        syslog.error 'A run type was not submitted in the context'
+      end
+    end
+
   end
 
 end

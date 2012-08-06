@@ -1,4 +1,5 @@
-
+# this is a simple class to wrap and serve configuration information
+# for a given session when downloaded from the S3 configuration bucket.
 class Garden::Domain::Configuration
 
   def initialize ctx_map
