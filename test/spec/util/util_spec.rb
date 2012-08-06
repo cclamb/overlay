@@ -4,6 +4,7 @@ require 'socket'
 
 require_relative '../../../lib/garden/util'
 require_relative '../../../lib/garden/util/s_3'
+require_relative '../../../lib/garden/domain'
 
 include Garden
 
@@ -17,7 +18,32 @@ end
 
 describe Util do
 
- context 'with amazon credentials' do
+  before(:all) do
+    @is_router_called = false
+    @is_node_called = false
+    @is_peer_node_called = false
+    @is_context_called = false
+    module Util
+      def Util::run_as_router
+        @is_router_called = true
+      end
+
+      def Util::run_as_node
+        puts 'ran'
+        @is_node_called = true
+      end
+
+      def Util::run_as_peer_node
+        @is_peer_node_called = true
+      end
+
+      def Util::run_as_context_server
+        @is_context_called = true
+      end
+    end
+  end
+
+  context 'with amazon credentials' do
 
     it 'should configure with valid credentials' do
       access_key, secret_key = get_creds
@@ -90,6 +116,20 @@ describe Util do
       pid.should eq Process::pid
     end
 
+  end
+
+  context 'with a configuration' do
+
+    it 'should start a node' do
+      cfg = Domain::Configuration.new 'role' => 'node'
+      cfg.is_node?.should eq true
+      Util::start cfg
+      @is_node_called.should eq true
+    end
+
+    it 'should start a peer node'
+    it 'should start a context server'
+    it 'should start a router'
   end
 
 end

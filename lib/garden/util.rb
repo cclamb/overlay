@@ -56,6 +56,7 @@ module Garden
       File::delete PID_FILE_NAME
     end
 
+    # Starting the node on the server by type.
     def Util::start cfg
       if cfg.is_router?
         Util::run_as_router
@@ -63,9 +64,31 @@ module Garden
         Util::run_as_node
       elsif cfg.is_peer_node?
         Util::run_as_peer_node
+      elsif cfg.is_context_server?
+        Util::run_as_context_server
       else
         syslog.error 'A run type was not submitted in the context'
       end
+    end
+
+    # Starting a router.
+    def Util::run_as_router
+
+    end
+
+    # Starting a node.
+    def Util::run_as_node
+
+    end
+
+    # Starting a peer node.
+    def Util::run_as_peer_node
+
+    end
+
+    # Starting a context server.
+    def Util::run_as_context_server
+
     end
 
   end

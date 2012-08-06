@@ -18,6 +18,10 @@ class Garden::Domain::Configuration
     @ctx_map['role'] == 'peer_node'
   end
 
+  def is_context_server?
+    @ctx_map['role'] == 'context_server'
+  end
+
   def has_peers?
     @ctx_map['peers'] != nil
   end
