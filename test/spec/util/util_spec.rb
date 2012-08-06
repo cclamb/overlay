@@ -19,26 +19,25 @@ end
 describe Util do
 
   before(:all) do
-    @is_router_called = false
-    is_node_called = false
-    @is_peer_node_called = false
-    @is_context_called = false
+    $is_router_called = false
+    $is_node_called = false
+    $is_peer_node_called = false
+    $is_context_server_called = false
     module Util
       def Util::run_as_router
-        @is_router_called = true
+        $is_router_called = true
       end
 
       def Util::run_as_node
-        puts 'ran'
-        is_node_called = true
+        $is_node_called = true
       end
 
       def Util::run_as_peer_node
-        @is_peer_node_called = true
+        $is_peer_node_called = true
       end
 
       def Util::run_as_context_server
-        @is_context_called = true
+        $is_context_server_called = true
       end
     end
   end
@@ -124,12 +123,34 @@ describe Util do
       cfg = Domain::Configuration.new 'role' => 'node'
       cfg.is_node?.should eq true
       Util::start cfg
-      is_node_called.should eq true
+      $is_node_called.should eq true
+      $is_node_called = false
     end
 
-    it 'should start a peer node'
-    it 'should start a context server'
-    it 'should start a router'
+    it 'should start a peer node' do
+      cfg = Domain::Configuration.new 'role' => 'peer_node'
+      cfg.is_peer_node?.should eq true
+      Util::start cfg
+      $is_peer_node_called.should eq true
+      $is_peer_node_called = false
+    end
+
+    it 'should start a context server' do
+      cfg = Domain::Configuration.new 'role' => 'context_server'
+      cfg.is_context_server?.should eq true
+      Util::start cfg
+      $is_context_server_called.should eq true
+      $is_context_server_called = false
+    end
+
+    it 'should start a router' do
+      cfg = Domain::Configuration.new 'role' => 'router'
+      cfg.is_router?.should eq true
+      Util::start cfg
+      $is_router_called.should eq true
+      $is_router_called = false
+    end
+
   end
 
 end
