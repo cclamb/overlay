@@ -39,7 +39,7 @@ repository = Domain::DataRepository.new \
 
 # Load the current network context and create a configuration object.
 ctx = repository.get_configuration
-cfg = Configuration.new ctx
+cfg = Domain::Configuration.new ctx
 
 # Log the current context.
 syslog.info ctx
