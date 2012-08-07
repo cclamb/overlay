@@ -1,6 +1,17 @@
 #!/usr/bin/env ruby
+require 'socket'
+
 require_relative '../lib/garden'
 
 include Garden
 
+factory = Domain::ComponentFactory.new \
+  :bucket_name => arguments[:bucket_name]
+
+syslog = factory.create_system_log self
+
+syslog.info "stopping component on #{Socket::gethostname}..."
+
 Util::stop_running_process
+
+syslog.info 'stopped.'
