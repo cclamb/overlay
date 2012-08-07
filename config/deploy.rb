@@ -95,4 +95,8 @@ namespace :nodes do
     run 'hostname'
   end
 
+  task :stop, :roles => :nodes do
+    run "cd current ; bundle exec bin/stop_overlay_component"
+  end
+
 end
