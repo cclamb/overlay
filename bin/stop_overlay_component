@@ -6,7 +6,7 @@ require_relative '../lib/garden'
 include Garden
 
 factory = Domain::ComponentFactory.new \
-  :bucket_name => arguments[:bucket_name]
+  :bucket_name => 'chrislambistan_log'
 
 syslog = factory.create_system_log self
 
