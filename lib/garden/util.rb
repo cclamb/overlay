@@ -3,6 +3,9 @@ require 'logging'
 require 'socket'
 require 'uri'
 
+# TODO: remove this temporary component factory
+require_relative '../../test/spec/application/test'
+
 module Garden
 
   # The file in which to store the saved PID for process control.
@@ -73,12 +76,26 @@ module Garden
 
     # Starting a router.
     def Util::run_as_router
+      router = Test::TestFactory.new.create_router
+      Application::RouterService::initialize \
+        :router => router, \
+        :ctx => { :port => 6789 }
 
+      router.find? true
+
+      Application::RouterService::run!
     end
 
     # Starting a node.
     def Util::run_as_node
+      node = Test::TestFactory.new.create_node
+      Application::NodeService::initialize \
+        :node => node, \
+        :ctx => { :port => 6789 }
 
+      node.find? true
+
+      Application::NodeService::run!
     end
 
     # Starting a peer node.

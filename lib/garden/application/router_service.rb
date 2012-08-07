@@ -31,20 +31,4 @@ class Garden::Application::RouterService < TestInterface
     end
   end
 
-  # def self.start params
-  #   ctx = params[:ctx]
-  #   set ctx if ctx != nil
-  #   @@context = params[:ctx_mgr]
-  #   @@nodes = params[:nodes]
-  #   @@routers = params[:routers]
-
-  #   puts "************************************\n"
-  #   puts "Router running on port #{ctx[:port]}\n"
-  #   puts "\tchildren: #{@@nodes}\n"
-  #   puts "\trouters: #{@@routers}\n"
-  #   puts "************************************\n"
-
-  #   run!
-  # end
-
 end
