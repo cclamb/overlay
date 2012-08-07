@@ -41,9 +41,6 @@ repository = Domain::DataRepository.new \
 ctx = repository.get_configuration
 cfg = Domain::Configuration.new ctx
 
-# Log the current context.
-syslog.info ctx
-
 # Obtain the system logger.  This is used for recording program
 # state, not overlay actions.  For that we use the overlay
 # logger.
@@ -52,6 +49,9 @@ syslog = factory.create_system_log self
 # Create the overlay log for overlay status information and
 # experimental data collection.
 olog = factory.create_overlay_log self
+
+# Log the current context.
+syslog.info ctx
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
