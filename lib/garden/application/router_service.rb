@@ -8,6 +8,8 @@ class Garden::Application::RouterService < TestInterface
 
   def self::initialize params
     @@router = params[:router]
+    ctx = params[:ctx]
+    set ctx if ctx != nil
   end
 
   get '/artifact/:id' do
@@ -28,5 +30,21 @@ class Garden::Application::RouterService < TestInterface
       return results
     end
   end
+
+  # def self.start params
+  #   ctx = params[:ctx]
+  #   set ctx if ctx != nil
+  #   @@context = params[:ctx_mgr]
+  #   @@nodes = params[:nodes]
+  #   @@routers = params[:routers]
+
+  #   puts "************************************\n"
+  #   puts "Router running on port #{ctx[:port]}\n"
+  #   puts "\tchildren: #{@@nodes}\n"
+  #   puts "\trouters: #{@@routers}\n"
+  #   puts "************************************\n"
+
+  #   run!
+  # end
 
 end

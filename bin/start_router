@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require_relative '../lib/garden'
+require_relative '../test/spec/application/test'
+
+include Garden
+
+router = Test::TestFactory.new.create_router
+Application::RouterService::initialize \
+  :router => router, \
+  :ctx => { :port => 6789 }
+
+router.find? true
+
+Application::RouterService::run!

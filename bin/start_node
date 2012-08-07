@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require_relative '../lib/garden'
+require_relative '../test/spec/application/test'
+
+include Garden
+
+node = Test::TestFactory.new.create_node
+Application::NodeService::initialize \
+  :node => node, \
+  :ctx => { :port => 6789 }
+
+node.find? true
+
+Application::NodeService::run!

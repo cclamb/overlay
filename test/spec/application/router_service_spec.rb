@@ -70,7 +70,6 @@ describe Application::RouterService do
       $is_searched_for.should eq true
     end
 
-    it 'should query for content based on submitted params'
   end
 
 end

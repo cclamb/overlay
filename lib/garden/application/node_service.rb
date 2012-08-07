@@ -8,6 +8,8 @@ class Garden::Application::NodeService < TestInterface
 
   def self::initialize params
     @@node = params[:node]
+    ctx = params[:ctx]
+    set ctx if ctx != nil
   end
 
   get '/artifact/:id' do
