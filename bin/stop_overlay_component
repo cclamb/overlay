@@ -2,11 +2,12 @@
 require 'socket'
 
 require_relative '../lib/garden'
+require_relative '../etc/settings'
 
 include Garden
 
 factory = Domain::ComponentFactory.new \
-  :bucket_name => 'chrislambistan_log'
+  :bucket_name => Settings::DEFAULT_LOG_BUCKET
 
 syslog = factory.create_system_log self
 
