@@ -13,7 +13,7 @@ class Garden::Domain::DataRepository
   def initialize values
     uri = URI::parse values[:context_url]
     @configuration_repository = ConfigurationRepository.new uri
-    @node_repository = NodeRepository.new
+    @node_record_repository = NodeRecordRepository.new
   end
 
   # Retrieving the active configuration.
@@ -22,23 +22,23 @@ class Garden::Domain::DataRepository
   end
 
   # Adding a node to the repository.
-  def add_node node
-    @node_repository.add_node node
+  def add_node_record node_record
+    @node_record_repository.add_node_record node_record
   end
 
   # Updating a node.
-  def update_node node
-    @node_repository.update_node node
+  def update_node_record node_record
+    @node_record_repository.update_node_record node_record
   end
 
   # Deleting a node associated with a given ID. 
-  def delete_node id
-    @node_repository.delete_node id
+  def delete_node_record id
+    @node_record_repository.delete_node_record id
   end
 
   # Retreiving a given node.
-  def get_node id
-    @node_repository.get_node id
+  def get_node_record id
+    @node_record_repository.get_node_record id
   end
 
 end

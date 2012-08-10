@@ -23,7 +23,7 @@ class Garden::Domain::ComponentFactory
   # * :bucket_name Creates an S3 bucket reference.
   def initialize values
     @log_factory = LogFactory.new values[:bucket_name]
-    @node_factory = NodeFactory.new
+    @node_record_factory = NodeRecordFactory.new
   end
 
   # Creating a system log with a specific requestor
@@ -40,8 +40,8 @@ class Garden::Domain::ComponentFactory
 
   # Using a precreated node factory, create a node
   # from a hash of values.
-  def create_node values
-    @node_factory.create_node values
+  def create_node_record values
+    @node_record_factory.create_node_record values
   end
 
   # Using a precreated route factory, create a route from

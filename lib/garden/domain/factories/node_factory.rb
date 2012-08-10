@@ -1,10 +1,5 @@
-class Garden::Domain::Factories::NodeFactory
-
-  def create_node values
-    node = {}
-    values.each_key { |key| node[key.to_sym] = values[key] }
-    node[:id] = node[:hostname]
-    node
+class NodeFactory
+  def create_node
+    
   end
-
 end

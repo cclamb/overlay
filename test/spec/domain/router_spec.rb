@@ -41,19 +41,33 @@ class TestUmm
 
 end
 
+class TestRectifier
+
+  def partition artifact_descriptor
+
+  end
+
+  def assemble bundles
+
+  end
+
+end
+
 describe Router do
 
   it 'should be creatable with an optional context manager and required repo' do
     Router.new( \
       :repository => TestRepo.new, \
       :dispatcher => TestDispatcher.new, \
-      :umm => TestUmm.new \
+      :umm => TestUmm.new, \
+      :rectifier => TestRectifier.new, \
     ).should_not eq nil
     Router.new( \
       :repository => TestRepo.new, \
       :dispatcher => TestDispatcher.new, \
       :umm => TestUmm.new,
-      :context_factory => TestCtxFactory.new \
+      :context_factory => TestCtxFactory.new, \
+      :rectifier => TestRectifier.new \
     ).should_not eq nil
   end
 
@@ -65,6 +79,7 @@ describe Router do
     router = Router.new( \
       :repository => TestRepo.new, \
       :dispatcher => TestDispatcher.new, \
+      :rectifier => TestRectifier.new, \
       :umm => TestUmm.new \
     )
   end

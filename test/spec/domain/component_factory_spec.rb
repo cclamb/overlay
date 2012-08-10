@@ -48,7 +48,7 @@ describe ComponentFactory do
         'test_0' => 0, \
         'test_1' => 1, \
         'test_2' => 2 }
-      node = f.create_node yaml_values
+      node = f.create_node_record yaml_values
       node[:id].should eq 1
       node[:test_0].should eq 0
       node[:test_1].should eq 1
