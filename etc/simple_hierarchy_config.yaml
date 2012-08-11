@@ -17,37 +17,46 @@
       - rs9
 
   rs1:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs2:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs3:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs4:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs5:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs6:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs7:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs8:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
 
   rs9:
+    role: node
     context_server: http://localhost:4569
     parent: rs0
