@@ -1,5 +1,6 @@
 require_relative 'factories'
 require_relative 'usage_manager'
+require_relative '../../../etc/settings'
 
 include Garden::Domain::Factories
 
@@ -53,6 +54,17 @@ class Garden::Domain::ComponentFactory
   # from a hash of values.
   def create_node_record values
     @node_record_factory.create_node_record values
+  end
+
+  def create_router children
+    Domain::Router.new \
+      :umm => create_usage_manager, \
+      :dispatcher => create_dispatcher(children), \
+      :rectifier => nil
+  end
+
+  def create_dispatcher children
+    Domain::Dispatcher.new children, Settings::PORT_NUMBER
   end
 
   # Using a precreated route factory, create a route from

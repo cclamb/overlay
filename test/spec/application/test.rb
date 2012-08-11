@@ -37,7 +37,7 @@ module Test
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end
-    def find_artifacts
+    def find_artifacts *args
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end

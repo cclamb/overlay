@@ -65,7 +65,7 @@ module Garden
       syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
       if cfg.is_router?
         syslog.info 'starting router'
-        Util::run_as_router
+        Util::run_as_router cfg.children
       elsif cfg.is_node?
         syslog.info 'starting node'
         Util::run_as_node
@@ -81,8 +81,8 @@ module Garden
     end
 
     # Starting a router.
-    def Util::run_as_router
-      router = Test::TestFactory.new.create_router
+    def Util::run_as_router children
+      router = Domain::ComponentFactory::instance.create_router children
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => 6789 }
