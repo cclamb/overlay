@@ -70,7 +70,7 @@ module Garden
       elsif cfg.is_context_server?
         Util::run_as_context_server
       else
-        syslog.error 'A run type was not submitted in the context'
+        syslog.info 'A run type was not submitted in the context; exiting.'
       end
     end
 
