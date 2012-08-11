@@ -3,7 +3,7 @@
 class Garden::Domain::Configuration
 
   def initialize ctx_map
-    @ctx_map = ctx_map
+    @ctx_map = ctx_map || {}
   end
 
   def is_router?

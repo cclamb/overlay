@@ -67,7 +67,7 @@ syslog.info "Does PID file exist? #{is_pidfile}"
 syslog.info cfg.inspect
 
 # Run the system with the selected configuration
-# Util::start cfg
+Util::start cfg
 
 # continue = true
 # cnt = 0
