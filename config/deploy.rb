@@ -99,4 +99,8 @@ namespace :nodes do
     run "cd current ; bundle exec bin/stop_overlay_component"
   end
 
+  task :ps, :roles => :nodes do
+    run "ps -ef | grep overlay"
+  end
+
 end
