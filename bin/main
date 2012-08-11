@@ -32,9 +32,9 @@ arguments = Util::process_args ARGF.argv
 Util::configure_aws arguments
 
 # Create the factory and repository facades.
-factory = Domain::ComponentFactory.new \
+factory = Domain::ComponentFactory::instance \
   :bucket_name => arguments[:bucket_name]
-repository = Domain::DataRepository.new \
+repository = Domain::DataRepository::instance \
   :context_url => arguments[:context_url]
 
 # Load the current network context and create a configuration object.

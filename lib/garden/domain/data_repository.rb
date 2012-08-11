@@ -7,6 +7,9 @@ include Garden::Domain::Repositories
 # of repositories behind this general repository object.
 class Garden::Domain::DataRepository
 
+  # Initializing the class variable holding the instance.
+  @@myself = nil
+
   # Creating the repository with a hash of arguments emulating
   # a named argument list.  We currently require:
   # * :context_url The URL to the S3 managed context
@@ -14,6 +17,14 @@ class Garden::Domain::DataRepository
     uri = URI::parse values[:context_url]
     @configuration_repository = ConfigurationRepository.new uri
     @node_record_repository = NodeRecordRepository.new
+  end
+
+  # Creating and returning an instance of the class.
+  # We only need to initialize the various factories once.
+  # * values  Any needed initialization information.
+  def self::instance values = nil
+    @@myself = new(values) if @@myself == nil
+    @@myself
   end
 
   # Retrieving the active configuration.

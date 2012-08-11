@@ -5,6 +5,7 @@ require 'uri'
 
 # TODO: remove this temporary component factory
 require_relative '../../test/spec/application/test'
+require_relative 'domain/component_factory'
 
 module Garden
 
@@ -61,13 +62,18 @@ module Garden
 
     # Starting the node on the server by type.
     def Util::start cfg
+      syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
       if cfg.is_router?
+        syslog.info 'starting router'
         Util::run_as_router
       elsif cfg.is_node?
+        syslog.info 'starting node'
         Util::run_as_node
       elsif cfg.is_peer_node?
+        syslog.info 'starting peer node'
         Util::run_as_peer_node
       elsif cfg.is_context_server?
+        syslog.info 'starting context server'
         Util::run_as_context_server
       else
         syslog.info 'A run type was not submitted in the context; exiting.'

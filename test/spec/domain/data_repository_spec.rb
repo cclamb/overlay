@@ -7,20 +7,16 @@ include Garden::Domain
 describe DataRepository do
 
   it 'should be creatable' do
-    repo = DataRepository.new :context_url => 'http://bit.ly/x'
+    repo = DataRepository::instance :context_url => 'http://bit.ly/x'
     repo.should_not eq nil
-  end
-
-  it 'should fail-fast with bad parameters' do
-    expect { DataRepository.new }.to raise_error
-    expect { DataRepository.new :context_url => nil }.to raise_error
+    DataRepository::instance.should_not eq nil
   end
 
   context 'with a configuration factory' do
 
     it 'should return a valid configuration when needed' do
       url = 'https://s3.amazonaws.com/chrislambistan_configuration/current?AWSAccessKeyId=AKIAISEWSKLPOO37DVVQ&Expires=1339852918&Signature=CRKBIsQ4Gie7TacV9FVtx6xeQts%3D'
-      repo = DataRepository.new :context_url => url
+      repo = DataRepository::instance :context_url => url
       repo.should_not eq nil
     end
 
@@ -33,14 +29,14 @@ describe DataRepository do
     end
 
     def create_and_add_node id
-      nr = DataRepository.new :context_url => 'http://bit.ly/x'
+      nr = DataRepository::instance :context_url => 'http://bit.ly/x'
       node = create_test_node id
       nr.add_node_record node
       return nr
     end
 
     it 'should save a node' do
-      nr = DataRepository.new :context_url => 'http://bit.ly/x'
+      nr = DataRepository::instance :context_url => 'http://bit.ly/x'
       nr.add_node_record create_test_node('foo')
     end
 

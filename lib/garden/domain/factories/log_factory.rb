@@ -33,14 +33,12 @@ class Garden::Domain::Factories::LogFactory
     hostname = Socket.gethostname
     log = Logging.logger["[#{hostname}] #{requestor}"]
     log.add_appenders 'system.log'
-    #log
   end
 
   # Creating a distributed log handle.
   def create_overlay_log requestor
     log = Logging.logger[requestor]
     log.add_appenders 's3'
-    #log
   end
 
 end

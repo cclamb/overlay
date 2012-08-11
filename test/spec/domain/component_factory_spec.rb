@@ -13,28 +13,24 @@ describe ComponentFactory do
   end
 
   it 'should be creatable' do
-    factory = ComponentFactory.new :bucket_name => 'test'
+    factory = ComponentFactory::instance :bucket_name => 'test'
     factory.should_not eq nil
-  end
-
-  it 'should fail fast with incorrect parameters' do
-    expect { ComponentFactory.new }.to raise_error
-    expect { ComponentFactory.new :bucket_name => nil }.to raise_error
+    factory = ComponentFactory::instance.should_not eq nil
   end
 
   it 'should create a usage manager' do
-    ComponentFactory.new(:bucket_name => 'foo').create_usage_manager.should_not eq nil
+    ComponentFactory::instance(:bucket_name => 'foo').create_usage_manager.should_not eq nil
   end
 
   context 'with a LogFactory' do
 
     it 'should create a system log' do
-      factory = ComponentFactory.new :bucket_name => 'test'
+      factory = ComponentFactory::instance :bucket_name => 'test'
       factory.create_system_log(self).should_not eq nil
     end
 
     it 'should create an overlay log' do
-      factory = ComponentFactory.new :bucket_name => 'test'
+      factory = ComponentFactory::instance :bucket_name => 'test'
       factory.create_overlay_log(self).should_not eq nil
     end
 
@@ -43,7 +39,7 @@ describe ComponentFactory do
   context 'with a node factory' do
 
     it 'should create a node' do
-      f = ComponentFactory.new :bucket_name => 'test'
+      f = ComponentFactory::instance :bucket_name => 'test'
       yaml_values = { 'hostname' => 1, \
         'test_0' => 0, \
         'test_1' => 1, \

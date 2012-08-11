@@ -23,6 +23,9 @@ describe Util do
     $is_node_called = false
     $is_peer_node_called = false
     $is_context_server_called = false
+
+    Domain::ComponentFactory::instance :bucket_name => 'foo'
+    
     module Util
       def Util::run_as_router
         $is_router_called = true

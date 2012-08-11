@@ -17,6 +17,9 @@ include Garden::Domain::Factories
 # as well.
 class Garden::Domain::ComponentFactory
 
+  # Initializing the class variable holding the instance.
+  @@myself = nil
+
   # We initialize the component factory with a hash of
   # values, emulating a named argument list.  Specific
   # required values currently include:
@@ -24,6 +27,14 @@ class Garden::Domain::ComponentFactory
   def initialize values
     @log_factory = LogFactory.new values[:bucket_name]
     @node_record_factory = NodeRecordFactory.new
+  end
+
+  # Creating and returning an instance of the class.
+  # We only need to initialize the various factories once.
+  # * values  Any needed initialization information.
+  def self::instance values = nil
+    @@myself = new(values) if @@myself == nil
+    @@myself
   end
 
   # Creating a system log with a specific requestor
