@@ -1,5 +1,5 @@
 
-using Garden
+include Garden
 
 class Garden::Domain::Dispatcher
 
