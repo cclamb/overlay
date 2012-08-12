@@ -11,8 +11,8 @@ pid = nil
 
 class TestService < TestInterface
 
-	
-	
+
+
 	get '/artifacts/*' do
 
 	end
@@ -31,7 +31,7 @@ describe Dispatcher do
   end
 
   after(:all) do
-  	File.delete('syslog.log') if File.exists?('syslog.log')
+  	File.delete('system.log') if File.exists?('system.log')
   	puts "Killing process with PID: #{pid}"
   	Process::kill :KILL, pid
   end
