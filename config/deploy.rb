@@ -65,7 +65,7 @@ AWS.config \
   :access_key_id => access_key, \
   :secret_access_key => secret_key
 
-# Push to S3
+# Push configuration information to S3
 s3 = AWS::S3.new
 config_bucket = s3.buckets[:chrislambistan_configuration]
 config_bucket.clear!

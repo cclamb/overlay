@@ -58,14 +58,14 @@ describe Application::RouterService do
     it 'should return 404 on no content found' do
       $is_searched_for = false
       @router.find? false
-      get_404 '/artifacts'
+      get_404 '/artifacts/'
       $is_searched_for.should eq true
     end
 
     it 'should return keys to all located content' do
       $is_searched_for = false
       @router.find? true
-      get '/artifacts'
+      get '/artifacts/'
       last_response.should be_ok
       $is_searched_for.should eq true
     end

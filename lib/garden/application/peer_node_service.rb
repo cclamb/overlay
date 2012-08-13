@@ -18,9 +18,6 @@ class Garden::Application::PeerNodeService < TestInterface
 
   get '/artifact/:id' do
     id = params[:id]
-    factory = Garden::Application::PeerNodeService::create_factory
-    node = factory.create_node :hostname => Socket.gethostname
-    response = node.find_artifact id
     halt 404
   end
 

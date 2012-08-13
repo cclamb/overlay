@@ -27,7 +27,7 @@ describe Util do
     Domain::ComponentFactory::instance :bucket_name => 'foo'
     
     module Util
-      def Util::run_as_router
+      def Util::run_as_router *args
         $is_router_called = true
       end
 

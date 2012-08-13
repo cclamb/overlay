@@ -56,6 +56,7 @@ class Garden::Domain::ComponentFactory
     @node_record_factory.create_node_record values
   end
 
+  # Creating a router from a list of child nodes.
   def create_router children
     Domain::Router.new \
       :umm => create_usage_manager, \
@@ -63,6 +64,7 @@ class Garden::Domain::ComponentFactory
       :rectifier => nil
   end
 
+  # Creating a dispatcher, generally for a router.
   def create_dispatcher children
     Domain::Dispatcher.new children, Settings::PORT_NUMBER
   end
@@ -76,6 +78,11 @@ class Garden::Domain::ComponentFactory
   # Create a usage manager.
   def create_usage_manager
     UsageManager.new
+  end
+
+  # Creating an artifact repository.
+  def create_artifact_repo uri
+    
   end
 
 end

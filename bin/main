@@ -46,10 +46,6 @@ cfg = Domain::Configuration.new ctx
 # logger.
 syslog = factory.create_system_log self
 
-# Create the overlay log for overlay status information and
-# experimental data collection.
-olog = factory.create_overlay_log self
-
 # Log the current context.
 syslog.info ctx
 

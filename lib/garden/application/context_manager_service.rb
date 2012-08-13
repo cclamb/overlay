@@ -18,9 +18,6 @@ class Garden::Application::ContextManagerService < TestInterface
 
   get '/status/:id' do
     id = params[:id]
-    factory = Garden::Application::ContextManagerService::create_factory
-    node = factory.create_node :hostname => Socket.gethostname
-    response = node.find_artifact id
     halt 404
   end
 

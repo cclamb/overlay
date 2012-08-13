@@ -51,7 +51,8 @@ describe PeerNode do
 
   end
 
-  it 'should not fail with badly formatted arguments'
+  #it 'should not fail with badly formatted arguments'
+  
   context 'when used as a primary search node' do
 
     it 'should search remotely if nothing is found locally' do
@@ -75,11 +76,11 @@ describe PeerNode do
       $searched_remote.should eq false
     end
 
-    it 'should treat a non-existant hop count as a local search'
-    it 'should search locally only with a zero hop count'
+    # it 'should treat a non-existant hop count as a local search'
+    # it 'should search locally only with a zero hop count'
   end
-  context 'when used as a secondary search node' do
-    it 'should terminate the search when it is the last node in a search chain'
-    it 'should increment the hop count on request receipt'
-  end
+  # context 'when used as a secondary search node' do
+  #   it 'should terminate the search when it is the last node in a search chain'
+  #   it 'should increment the hop count on request receipt'
+  # end
 end

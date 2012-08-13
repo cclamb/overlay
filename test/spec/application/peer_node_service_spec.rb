@@ -36,10 +36,7 @@ describe Application::PeerNodeService do
 
   context 'with the content interface' do
     it 'should return 404 when content does not exist' do
-      $is_searched_for = false
-      Test::TestFactory.find? false
       get_404 '/artifact/i-dont-exist'
-      $is_searched_for.should eq true
     end
   end
 

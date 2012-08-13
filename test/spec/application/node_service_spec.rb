@@ -61,14 +61,14 @@ describe Application::NodeService do
     it 'should return 404 when not content is found on node matching query params' do
       $is_searched_for = false
       @node.find? false
-      get_404 '/artifacts'
+      get_404 '/artifacts/'
       $is_searched_for.should eq true
     end
 
     it 'should return keys to all content that matches query params' do
       $is_searched_for = false
       @node.find? true
-      get '/artifacts'
+      get '/artifacts/'
       last_response.should be_ok
       $is_searched_for.should eq true
     end
