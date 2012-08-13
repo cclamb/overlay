@@ -2,61 +2,73 @@
 # One hierarchical domain.
 #
 ---
+  aliases:
+    - &rs0 http://198.101.205.153
+    - &rs1 http://198.101.205.155
+    - &rs2 http://198.101.205.156
+    - &rs3 http://198.101.203.202
+    - &rs4 http://198.101.209.178
+    - &rs5 http://198.101.209.247
+    - &rs6 http://198.101.202.188
+    - &rs7 http://198.101.207.34
+    - &rs8 http://198.101.207.48
+    - &rs9 http://198.101.207.236
+
   rs0:
     context_server: http://localhost:4567
     role: router
     children:
-      - rs1
-      - rs2
-      - rs3
-      - rs4
-      - rs5
-      - rs6
-      - rs7
-      - rs8
-      - rs9
+      - *rs1
+      - *rs2
+      - *rs3
+      - *rs4
+      - *rs5
+      - *rs6
+      - *rs7
+      - *rs8
+      - *rs9
 
   rs1:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs2:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs3:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs4:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs5:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs6:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs7:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs8:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
 
   rs9:
     role: node
     context_server: http://localhost:4569
-    parent: rs0
+    parent: *rs0
