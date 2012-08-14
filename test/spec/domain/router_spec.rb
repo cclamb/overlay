@@ -25,10 +25,10 @@ end
 
 class TestDispatcher
 
-  attr_reader :dispatched
+  attr_accessor :dispatched
 
-  def dispatch request
-
+  def dispatch *args
+    self.dispatched = true
   end
 
 end
@@ -75,14 +75,18 @@ describe Router do
     ->() { Router.new() }.should raise_error
   end
 
-  it 'should route queries to registered nodes' do
-    router = Router.new( \
+  it 'should route queries to registered nodes when called for artifacts' do
+    dispatcher = TestDispatcher.new
+    dispatcher.dispatched = false
+    router = Router.new \
       :repository => TestRepo.new, \
-      :dispatcher => TestDispatcher.new, \
+      :dispatcher => dispatcher, \
       :rectifier => TestRectifier.new, \
-      :umm => TestUmm.new \
-    )
+      :umm => TestUmm.new
+    router.artifacts 'foobar', :iphone
+    dispatcher.dispatched.should eq true
   end
 
+  it 'should route queries when called for a specific artifact'
   it 'should handle data redaction based on context'
 end
