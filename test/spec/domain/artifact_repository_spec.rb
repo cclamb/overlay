@@ -26,4 +26,5 @@ describe ArtifactRepository do
     end
 
   end
+  
 end

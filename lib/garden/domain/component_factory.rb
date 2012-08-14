@@ -1,6 +1,7 @@
 require_relative 'factories'
 require_relative 'usage_manager'
 require_relative '../../../etc/settings'
+require_relative '../util'
 
 include Garden::Domain::Factories
 
@@ -82,7 +83,9 @@ class Garden::Domain::ComponentFactory
 
   # Creating an artifact repository.
   def create_artifact_repo uri
-    
+    response = Util::read_object_from_s3 uri
+    raw_repo = Marshal::load response.body
+    ArtifactRepository::new raw_repo
   end
 
 end

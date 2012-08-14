@@ -24,11 +24,7 @@ class ConfigurationRepository
   # This is generally done in the capistrano Capfile and then
   # passed into this system via a command line argument.
   def get_configuration
-    http = Net::HTTP.new @repo_uri.host, @repo_uri.port
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new @repo_uri.request_uri
-    response = http.request request
+    response = Util::read_object_from_s3 @repo_uri
     YAML::load(response.body)[Socket::gethostname]
   end
 

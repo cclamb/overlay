@@ -1,6 +1,9 @@
 require 'rspec'
 require 'logging'
 require 'socket'
+require 'stringio'
+require 'uri'
+require 'aws-sdk'
 
 require_relative '../../../lib/garden/util'
 require_relative '../../../lib/garden/util/s_3'
@@ -152,6 +155,16 @@ describe Util do
       Util::start cfg
       $is_router_called.should eq true
       $is_router_called = false
+    end
+
+    it 'should read from a submitted URI' do
+      s3 = AWS::S3.new
+      url = s3.buckets[:chrislambistan_configuration] \
+        .objects[:current] \
+        .url_for :read
+      uri = URI::parse url.to_s
+      response = Util::read_object_from_s3 uri
+      response.code.should eq '200'
     end
 
   end
