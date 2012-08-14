@@ -70,6 +70,12 @@ class Garden::Domain::ComponentFactory
     Domain::Dispatcher.new children, Settings::PORT_NUMBER
   end
 
+  def create_node repo_uri
+    Domain::Node.new \
+      :umm => create_usage_manager, \
+      :repository => create_artifact_repo(uri)
+  end
+
   # Using a precreated route factory, create a route from
   # a yaml serialization.
   def create_route

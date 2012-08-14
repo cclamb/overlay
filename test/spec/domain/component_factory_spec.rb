@@ -36,9 +36,9 @@ describe ComponentFactory do
 
   end
 
-  context 'with a node factory' do
+  context 'with a node record factory' do
 
-    it 'should create a node' do
+    it 'should create a node record' do
       f = ComponentFactory::instance :bucket_name => 'test'
       yaml_values = { 'hostname' => 1, \
         'test_0' => 0, \
@@ -82,6 +82,14 @@ describe ComponentFactory do
       artifact.should eq 'this is data from the repo'
     end
 
+  end
+
+  context 'with a router creation request' do
+    it 'should create a router'
+  end
+
+  context 'with a node creation request' do
+    it 'should create a node'
   end
 
 end
