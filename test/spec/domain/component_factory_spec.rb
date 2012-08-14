@@ -55,18 +55,19 @@ describe ComponentFactory do
 
   context 'with an artifact repository' do
 
-    creds_file_name = 'etc/creds.yaml'
-
-    creds = YAML::load File::open(creds_file_name)
-
-    access_key = creds['amazon']['access_key']
-    secret_key = creds['amazon']['secret_key']
-
-    AWS.config \
-      :access_key_id => access_key, \
-      :secret_access_key => secret_key
-
     it 'should create a respository with a valid URL to an S3 repo' do
+
+      creds_file_name = 'etc/creds.yaml'
+
+      creds = YAML::load File::open(creds_file_name)
+
+      access_key = creds['amazon']['access_key']
+      secret_key = creds['amazon']['secret_key']
+
+      AWS.config \
+        :access_key_id => access_key, \
+        :secret_access_key => secret_key
+
       s3 = AWS::S3.new
       url = s3.buckets[:chrislambistan_repos] \
         .objects['repo_1.dat'] \
