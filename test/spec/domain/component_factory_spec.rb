@@ -6,7 +6,28 @@ log_file_name = 'system.log'
 
 include Garden::Domain
 
+def build_raw_repo_uri
+  s3 = AWS::S3.new
+  url = s3.buckets[:chrislambistan_repos] \
+    .objects['repo_1.dat'] \
+    .url_for :read
+  uri = URI::parse url.to_s
+end
+
 describe ComponentFactory do
+
+  before(:all) do
+    creds_file_name = 'etc/creds.yaml'
+
+    creds = YAML::load File::open(creds_file_name)
+
+    access_key = creds['amazon']['access_key']
+    secret_key = creds['amazon']['secret_key']
+
+    AWS.config \
+      :access_key_id => access_key, \
+      :secret_access_key => secret_key
+  end
 
   after(:all) do
     File.delete log_file_name if File.exists? log_file_name
@@ -56,24 +77,7 @@ describe ComponentFactory do
   context 'with an artifact repository' do
 
     it 'should create a respository with a valid URL to an S3 repo' do
-
-      creds_file_name = 'etc/creds.yaml'
-
-      creds = YAML::load File::open(creds_file_name)
-
-      access_key = creds['amazon']['access_key']
-      secret_key = creds['amazon']['secret_key']
-
-      AWS.config \
-        :access_key_id => access_key, \
-        :secret_access_key => secret_key
-
-      s3 = AWS::S3.new
-      url = s3.buckets[:chrislambistan_repos] \
-        .objects['repo_1.dat'] \
-        .url_for :read
-      uri = URI::parse url.to_s
-      repo = ComponentFactory::instance.create_artifact_repo uri
+      repo = ComponentFactory::instance.create_artifact_repo build_raw_repo_uri
       repo.should_not eq nil
       artifacts = repo.artifacts
       artifacts.should_not eq nil
@@ -85,11 +89,15 @@ describe ComponentFactory do
   end
 
   context 'with a router creation request' do
-    it 'should create a router'
+    it 'should create a router' do
+      ComponentFactory.instance.create_router([]).should_not eq nil
+    end
   end
 
   context 'with a node creation request' do
-    it 'should create a node'
+    it 'should create a node' do
+      ComponentFactory.instance.create_node(build_raw_repo_uri).should_not eq nil
+    end
   end
 
 end

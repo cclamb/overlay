@@ -73,7 +73,7 @@ class Garden::Domain::ComponentFactory
   def create_node repo_uri
     Domain::Node.new \
       :umm => create_usage_manager, \
-      :repository => create_artifact_repo(uri)
+      :repository => create_artifact_repo(repo_uri)
   end
 
   # Using a precreated route factory, create a route from
