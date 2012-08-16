@@ -84,7 +84,7 @@ class Garden::Domain::ComponentFactory
 
   # Create a usage manager.
   def create_usage_manager
-    UsageManager.new
+    Object.new
   end
 
   # Creating an artifact repository.

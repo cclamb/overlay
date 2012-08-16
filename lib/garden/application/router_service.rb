@@ -14,14 +14,14 @@ class Garden::Application::RouterService < TestInterface
 
   get '/artifact/*' do
     args = contextify params[:splat][0]
-    results = @@router.find_artifact args[:username], args[:device], args[:id]
+    results = @@router.artifact args[:username], args[:device], args[:id]
     handle_results results
   end
 
   get '/artifacts/*' do
     args = contextify params[:splat][0]
     halt 404 if args == nil || args.size < 2
-    results = @@router.find_artifacts args[:username], args[:device]
+    results = @@router.artifacts args[:username], args[:device]
     handle_results results
   end
 

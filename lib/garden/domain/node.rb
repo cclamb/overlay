@@ -10,7 +10,7 @@ class Garden::Domain::Node
 
   def artifact subject, device, key
     return nil if key == nil
-    @repository.artifact key
+    @repository.artifact(key.to_sym) || @repository.artifact(key)
 
     # TODO: Uncomment when integrating UMM
     #
@@ -24,7 +24,7 @@ class Garden::Domain::Node
   end
 
   def artifacts subject, device
-    respository.artifacts
+    @repository.artifacts.to_s
   end
 
 end

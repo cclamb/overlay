@@ -1,7 +1,19 @@
 require 'rspec'
 require 'aws-sdk'
 
-require_relative '../../lib/repositories/configuration_repository'
+require_relative '../../lib/garden'
+
+include Garden
+
+module ConfigurationRepositoryIntegrationTest
+  def ConfigurationRepositoryIntegrationTest::build_config_uri
+    s3 = AWS::S3.new
+    url = s3.buckets[:chrislambistan_configuration] \
+      .objects['current'] \
+      .url_for :read
+    uri = URI::parse url.to_s
+  end
+end
 
 describe ConfigurationRepository do
 
@@ -20,10 +32,8 @@ describe ConfigurationRepository do
   end
   context 'with a valid URI' do
     it 'should grab an S3 item' do
-      url = 'https://s3.amazonaws.com/chrislambistan_configuration/current?AWSAccessKeyId=AKIAISEWSKLPOO37DVVQ&Expires=1339852918&Signature=CRKBIsQ4Gie7TacV9FVtx6xeQts%3D'
-      uri = URI.parse url
-      repo = ConfigurationRepository.new uri
-      cfg = repo.get_configuration
+      repo = ConfigurationRepository.new ConfigurationRepositoryIntegrationTest::build_config_uri
+      cfg = repo.get_configuration 'rs0'
       cfg.should_not eq nil
     end
   end

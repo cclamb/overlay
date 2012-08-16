@@ -18,11 +18,11 @@ module Test
     def find? mode
       @mode = mode
     end
-    def find_artifact *args
+    def artifact *args
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end
-    def find_artifacts *args
+    def artifacts *args
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end
@@ -33,11 +33,11 @@ module Test
     def find? mode
       @mode = mode
     end
-    def find_artifact *args
+    def artifact *args
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end
-    def find_artifacts *args
+    def artifacts *args
       $is_searched_for = true
       @mode ? 'artifact returned' : []
     end

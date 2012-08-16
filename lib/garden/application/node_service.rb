@@ -14,13 +14,13 @@ class Garden::Application::NodeService < TestInterface
 
   get '/artifact/*' do
     args = contextify params[:splat][0]
-    results = @@node.find_artifact args[:username], args[:device], args[:id]
+    results = @@node.artifact args[:username], args[:device], args[:id]
     handle_results results
   end
 
   get '/artifacts/*' do
     args = contextify params[:splat][0]
-    results = @@node.find_artifacts args[:username], args[:device]
+    results = @@node.artifacts args[:username], args[:device]
     handle_results results
   end
 
