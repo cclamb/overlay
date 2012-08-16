@@ -17,11 +17,6 @@ class ConfigurationRepository
     @repo_uri = repo_uri
   end
 
-  # A convenience method for retrieving the configuration
-  # without submitting a hostname.
-  def get_configuration
-    self.get_configuration Socket::gethostname
-  end
   # Calling into S3 to retrieve the network context.  This
   # does not require that the keys be set, but does require
   # a valid URL generated from S3 with the appropriate
@@ -29,7 +24,8 @@ class ConfigurationRepository
   # This is generally done in the capistrano Capfile and then
   # passed into this system via a command line argument.
   # * hostname  The system hostname
-  def get_configuration hostname
+  def get_configuration hostname = nil
+    hostname = hostname || Socket::gethostname
     response = Util::read_object_from_s3 @repo_uri
     YAML::load(response.body)[hostname]
   end
