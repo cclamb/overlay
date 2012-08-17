@@ -87,8 +87,6 @@ module Garden
         :router => router, \
         :ctx => { :port => 6789 }
 
-      router.find? true
-
       Application::RouterService::run!
     end
 
@@ -98,8 +96,6 @@ module Garden
       Application::NodeService::initialize \
         :node => node, \
         :ctx => { :port => 6789 }
-
-      node.find? true
 
       Application::NodeService::run!
     end
