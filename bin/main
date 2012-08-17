@@ -68,6 +68,7 @@ begin
 rescue Exception => err
 	syslog.error 'Node has crashed!'
 	syslog.error err.to_s
+	syslog.error err.backtrace.to_s
 end
 
 # continue = true
