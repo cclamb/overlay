@@ -63,7 +63,12 @@ syslog.info "Does PID file exist? #{is_pidfile}"
 syslog.info cfg.inspect
 
 # Run the system with the selected configuration
-Util::start cfg
+begin
+	Util::start cfg
+rescue Exception => err
+	syslog.error 'Node has crashed!'
+	syslog.error err.to_s
+end
 
 # continue = true
 # cnt = 0
