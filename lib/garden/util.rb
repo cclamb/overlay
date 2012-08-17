@@ -119,6 +119,7 @@ module Garden
     end
 
     def Util::generate_repo_uri repo_name
+      return nil if repo_name == nil
       s3 = AWS::S3.new
       url = s3.buckets[:chrislambistan_repos] \
         .objects[repo_name] \
