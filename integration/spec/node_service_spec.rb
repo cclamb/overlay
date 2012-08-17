@@ -37,7 +37,7 @@ describe Application::NodeService do
       :access_key_id => access_key, \
       :secret_access_key => secret_key
 
-    factory = Domain::ComponentFactory.new :bucket_name => 'foo'  #Test::TestFactory.new
+    factory = Domain::ComponentFactory.new :bucket_name => 'foo'
     @node = factory.create_node NodeServiceIntegrationTest::build_raw_repo_uri
   end
 

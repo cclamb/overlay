@@ -11,7 +11,7 @@ def build_raw_repo_uri
   url = s3.buckets[:chrislambistan_repos] \
     .objects['repo_1.dat'] \
     .url_for :read
-  uri = URI::parse url.to_s
+  URI::parse url.to_s
 end
 
 describe ComponentFactory do
@@ -97,6 +97,10 @@ describe ComponentFactory do
   context 'with a node creation request' do
     it 'should create a node' do
       ComponentFactory.instance.create_node(build_raw_repo_uri).should_not eq nil
+    end
+
+    it 'should create a node with a nil repo' do
+      ComponentFactory.instance.create_node.should_not eq nil
     end
   end
 

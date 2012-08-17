@@ -65,10 +65,10 @@ module Garden
       syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
       if cfg.is_router?
         syslog.info 'starting router'
-        Util::run_as_router cfg.children
+        Util::run_as_router cfg
       elsif cfg.is_node?
         syslog.info 'starting node'
-        Util::run_as_node
+        Util::run_as_node cfg
       elsif cfg.is_peer_node?
         syslog.info 'starting peer node'
         Util::run_as_peer_node
@@ -81,8 +81,8 @@ module Garden
     end
 
     # Starting a router.
-    def Util::run_as_router children
-      router = Domain::ComponentFactory::instance.create_router children
+    def Util::run_as_router cfg
+      router = Domain::ComponentFactory::instance.create_router cfg.children
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => 6789 }
@@ -93,8 +93,8 @@ module Garden
     end
 
     # Starting a node.
-    def Util::run_as_node
-      node = Test::TestFactory.new.create_node
+    def Util::run_as_node cfg
+      node = Domain::ComponentFactory::instance.create_node Util::generate_repo_uri(cfg.repository_name)
       Application::NodeService::initialize \
         :node => node, \
         :ctx => { :port => 6789 }
@@ -120,6 +120,14 @@ module Garden
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new uri.request_uri
       response = http.request request
+    end
+
+    def Util::generate_repo_uri repo_name
+      s3 = AWS::S3.new
+      url = s3.buckets[:chrislambistan_repos] \
+        .objects[repo_name] \
+        .url_for :read
+      url == nil ? url : URI::parse(url.to_s)
     end
 
   end

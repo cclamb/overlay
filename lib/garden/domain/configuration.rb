@@ -54,4 +54,12 @@ class Garden::Domain::Configuration
     @ctx_map['context_manager']
   end
 
+  def has_repository?
+    @ctx_map['repository'] != nil
+  end
+
+  def repository_name
+    @ctx_map['repository']
+  end
+
 end

@@ -49,6 +49,11 @@ describe Node do
     n.artifact('user', :tablet, nil).should eq nil
   end
 
+  it 'should return nil with a nil repo' do
+    n = Node.new :repository => nil, :umm => NodeTest::UsageManager.new
+    n.artifact('user', :tablet, '123').should eq nil
+  end
+
   it 'should search the repo with valid arguments' do
     repo = NodeTest::Repository.new
     repo.searched = false

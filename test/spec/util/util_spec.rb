@@ -34,7 +34,7 @@ describe Util do
         $is_router_called = true
       end
 
-      def Util::run_as_node
+      def Util::run_as_node cfg
         $is_node_called = true
       end
 

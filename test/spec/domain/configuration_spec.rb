@@ -37,6 +37,11 @@ describe Configuration do
       @cfg = Configuration.new \
         'role' => 'node', \
         'parent' => 'parent URL', \
+        'context_server' => 'ctx server URL', \
+        'repository' => 'file.dat'
+      @cfg_no_repo = Configuration.new \
+        'role' => 'node', \
+        'parent' => 'parent URL', \
         'context_server' => 'ctx server URL'
     end
 
@@ -48,8 +53,18 @@ describe Configuration do
       @cfg.parent.should_not eq nil
     end
 
-    it 'shoud not have children' do
+    it 'should not have children' do
       @cfg.children.should eq nil
+    end
+
+    it 'should have a repository and should indicate so' do
+      @cfg.has_repository?.should eq true
+      @cfg.repository_name.should eq 'file.dat'
+    end
+
+    it 'should indicate it does not have a repo if no' do
+      @cfg_no_repo.has_repository?.should eq false
+      @cfg_no_repo.repository_name.should eq nil
     end
 
   end

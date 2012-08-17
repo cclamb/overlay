@@ -70,7 +70,7 @@ class Garden::Domain::ComponentFactory
     Domain::Dispatcher.new children, Settings::PORT_NUMBER
   end
 
-  def create_node repo_uri
+  def create_node repo_uri = nil
     Domain::Node.new \
       :umm => create_usage_manager, \
       :repository => create_artifact_repo(repo_uri)
@@ -89,9 +89,19 @@ class Garden::Domain::ComponentFactory
 
   # Creating an artifact repository.
   def create_artifact_repo uri
+    return nil if uri == nil
     response = Util::read_object_from_s3 uri
     raw_repo = Marshal::load response.body
     ArtifactRepository::new raw_repo
   end
+
+  # def get_uri_for_repo repo_uri
+  #   return nil if repo_name == nil
+  #   # s3 = AWS::S3.new
+  #   # url = s3.buckets[:chrislambistan_repos] \
+  #   #   .objects[repo_name] \
+  #   #   .url_for :read
+  #   url == nil ? url : URI::parse(url.to_s)
+  # end
 
 end
