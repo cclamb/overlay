@@ -66,11 +66,7 @@ syslog.info cfg.inspect
 begin
 	Util::start cfg
 rescue Exception => err
-	syslog.error 'Node has crashed!'
-	syslog.error err.to_s
-	err.backtrace.each do |s|
-		syslog.error "\t#{s}"
-	end
+	Util::process_error 'main', 'node has crashed!', err
 end
 
 # continue = true

@@ -127,6 +127,15 @@ module Garden
       url == nil ? url : URI::parse(url.to_s)
     end
 
+    def Util::process_error reporter, msg, err
+      syslog = Domain::ComponentFactory::instance.create_system_log reporter.to_s
+      syslog.error 'Node has crashed!'
+      syslog.error err.to_s
+      err.backtrace.each do |s|
+        syslog.error "\t#{s}"
+      end
+    end
+
   end
 
 end
