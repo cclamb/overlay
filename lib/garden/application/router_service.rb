@@ -13,16 +13,26 @@ class Garden::Application::RouterService < TestInterface
   end
 
   get '/artifact/*' do
-    args = contextify params[:splat][0]
-    results = @@router.artifact args[:username], args[:device], args[:id]
-    handle_results results
+    begin
+      args = contextify params[:splat][0]
+      results = @@router.artifact args[:username], args[:device], args[:id]
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
   end
 
   get '/artifacts/*' do
-    args = contextify params[:splat][0]
-    halt 404 if args == nil || args.size < 2
-    results = @@router.artifacts args[:username], args[:device]
-    handle_results results
+    begin
+      args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 2
+      results = @@router.artifacts args[:username], args[:device]
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
   end
 
   def contextify str

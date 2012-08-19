@@ -19,7 +19,7 @@ class Garden::Domain::Router
   end 
 
   def artifacts subject, device
-    @dispatcher.dispatch subject, device
+    @dispatcher.dispatch_artifacts subject, device
   end
 
 end

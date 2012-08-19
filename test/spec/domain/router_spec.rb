@@ -27,7 +27,11 @@ class TestDispatcher
 
   attr_accessor :dispatched
 
-  def dispatch *args
+  def dispatch_artifacts *args
+    self.dispatched = true
+  end
+
+  def dispatch_artifact *args
     self.dispatched = true
   end
 
