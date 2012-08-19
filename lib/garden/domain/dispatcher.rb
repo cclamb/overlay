@@ -17,8 +17,9 @@ class Garden::Domain::Dispatcher
         uri = URI.parse uri_string
         response = send_request uri 
         responses.push response if response.code == '200'
+        @syslog.info "single response is: #{response.body}"
       end
-      @syslog.info "response is: #{response.body}"
+      @syslog.info "responses are: #{responses}"
       return responses    
   end
 
