@@ -3,7 +3,7 @@ require 'uri'
 require 'yaml'
 require 'socket'
 
-require_relative '../../garden'
+require_relative '../component_factory'
 
 include Garden
 
