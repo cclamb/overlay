@@ -10,9 +10,7 @@ class Garden::Domain::Dispatcher
   end
 
   def dispatch_artifacts subject, device
-      # request = params[:request]
       responses = []
-
       @nodes.each do |node|
         uri_string = "#{node}:#{@port}/artifacts/#{subject}/#{device}"
         @syslog.info "submitting to node: #{uri_string}"
@@ -32,6 +30,7 @@ class Garden::Domain::Dispatcher
         response = send_request uri 
         responses.push response if response.code == '200'
       end
+      @syslog.info "response is: #{response.body}"
       return responses   
   end
 
