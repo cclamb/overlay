@@ -33,6 +33,7 @@ class ConfigurationRepository
   def get_configuration hostname = nil
     hostname = hostname || Socket::gethostname
     response = Util::read_object_from_s3 @repo_uri
+    @syslog.info "hostname: |#{hostname}|"
     @syslog.info "Configuration Returned: #{response.body}"
     YAML::load(response.body)[hostname]
   end
