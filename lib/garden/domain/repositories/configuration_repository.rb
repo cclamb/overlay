@@ -35,7 +35,9 @@ class ConfigurationRepository
     response = Util::read_object_from_s3 @repo_uri
     @syslog.info "hostname: |#{hostname}|"
     @syslog.info "Configuration Returned: #{response.body}"
-    YAML::load(response.body)[hostname]
+    config = YAML::load(response.body)[hostname]
+    @syslog.info "returned config is: #{config}"
+    config
   end
 
 end
