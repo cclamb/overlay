@@ -27,7 +27,9 @@ class Garden::Domain::Dispatcher
         uri_string = "#{node}:#{@port}/artifact/#{subject}/#{device}/#{id}"
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
+        @syslog.info '0'
         response = send_request uri 
+        @syslog.info '1'
         responses.push response if response.code == '200'
       end
       @syslog.info "response is: #{response.body}"
