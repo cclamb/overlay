@@ -1,7 +1,7 @@
 class ArtifactRepository
 
-  def initialize store
-    @store = store
+  def initialize store = nil
+    @store = store || {}
   end
 
   def artifact key

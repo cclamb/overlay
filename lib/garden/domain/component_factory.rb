@@ -89,7 +89,7 @@ class Garden::Domain::ComponentFactory
 
   # Creating an artifact repository.
   def create_artifact_repo uri
-    return nil if uri == nil
+    return ArtifactRepository::new if uri == nil
     response = Util::read_object_from_s3 uri
     raw_repo = Marshal::load response.body
     ArtifactRepository::new raw_repo
