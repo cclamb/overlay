@@ -3,6 +3,10 @@ require 'uri'
 require 'yaml'
 require 'socket'
 
+require_relative '../../garden'
+
+include Garden
+
 # This is the respository element that grabs and returns
 # a simulation configuration.  The configuration is a
 # YAML document in an S3 bucket, and the get_configuration(.)
@@ -15,6 +19,8 @@ class ConfigurationRepository
   def initialize repo_uri
     raise 'need valid config repo uri' if repo_uri == nil
     @repo_uri = repo_uri
+    @syslog = Domain::ComponentFactory::instance \
+      .create_system_log self
   end
 
   # Calling into S3 to retrieve the network context.  This
@@ -27,6 +33,7 @@ class ConfigurationRepository
   def get_configuration hostname = nil
     hostname = hostname || Socket::gethostname
     response = Util::read_object_from_s3 @repo_uri
+    @syslog.info "Configuration Returned: #{response.body}"
     YAML::load(response.body)[hostname]
   end
 
