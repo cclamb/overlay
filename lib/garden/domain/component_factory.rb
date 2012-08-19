@@ -34,7 +34,7 @@ class Garden::Domain::ComponentFactory
   # Creating and returning an instance of the class.
   # We only need to initialize the various factories once.
   # * values  Any needed initialization information.
-  def self::instance values = nil
+  def self::instance values = { :bucket_name => 'chrislambistan_log' }
     @@myself = new(values) if @@myself == nil
     @@myself
   end

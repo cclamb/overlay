@@ -11,12 +11,13 @@ class Garden::Application::NodeService < TestInterface
     ctx = params[:ctx]
     set ctx if ctx != nil
     @@syslog = Domain::ComponentFactory::instance \
-      .create_system_log self
+      .create_system_log self.to_s
   end
 
   get '/artifact/*' do
     begin
       args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 3
       results = @@node.artifact args[:username], args[:device], args[:id]
       handle_results results
     rescue Exception => err
@@ -28,6 +29,7 @@ class Garden::Application::NodeService < TestInterface
   get '/artifacts/*' do
     begin
       args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 2
       results = @@node.artifacts args[:username], args[:device]
       handle_results results
     rescue Exception => err

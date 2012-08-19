@@ -15,6 +15,7 @@ class Garden::Application::RouterService < TestInterface
   get '/artifact/*' do
     begin
       args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 3
       results = @@router.artifact args[:username], args[:device], args[:id]
       handle_results results
     rescue Exception => err

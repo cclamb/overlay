@@ -59,7 +59,7 @@ describe Node do
     repo.searched = false
     repo.return_nil = true
     n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
-    n.artifact('user', :tablet, 'some_key')
+    n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
   end
 
@@ -68,7 +68,7 @@ describe Node do
     repo.searched = false
     repo.return_nil = false
     n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
-    result = n.artifact('user', :tablet, 'some_key')
+    result = n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
     result.should eq 'some result'
   end

@@ -43,14 +43,14 @@ describe Application::RouterService do
     it 'should return 404 when content does not exist' do
       $is_searched_for = false
       @router.find? false
-      get_404 '/artifact/i-dont-exist'
+      get_404 '/artifact/foo/bar/i-dont-exist'
       $is_searched_for.should eq true
     end
 
     it 'should return content that exists' do
       $is_searched_for = false
       @router.find? true
-      get '/artifact/i-dont-exist'
+      get '/artifact/foo/bar/i-dont-exist'
       last_response.should be_ok
       $is_searched_for.should eq true
     end
@@ -58,14 +58,14 @@ describe Application::RouterService do
     it 'should return 404 on no content found' do
       $is_searched_for = false
       @router.find? false
-      get_404 '/artifacts/'
+      get_404 '/artifacts/foo/blar'
       $is_searched_for.should eq true
     end
 
     it 'should return keys to all located content' do
       $is_searched_for = false
       @router.find? true
-      get '/artifacts/'
+      get '/artifacts/boo/blar'
       last_response.should be_ok
       $is_searched_for.should eq true
     end

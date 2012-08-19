@@ -46,14 +46,14 @@ describe Application::NodeService do
     it 'should return 404 when content does not exist' do
       $is_searched_for = false
       @node.find? false
-      get_404 '/artifact/i-dont-exist'
+      get_404 '/artifact/foo/bar/i-dont-exist'
       $is_searched_for.should eq true
     end
 
     it 'should return content that does exist' do
       $is_searched_for = false
       @node.find? true
-      get '/artifact/something'
+      get '/artifact/foo/bar/something'
       last_response.should be_ok
       $is_searched_for.should eq true
     end
@@ -61,14 +61,14 @@ describe Application::NodeService do
     it 'should return 404 when not content is found on node matching query params' do
       $is_searched_for = false
       @node.find? false
-      get_404 '/artifacts/'
+      get_404 '/artifacts/boo/far'
       $is_searched_for.should eq true
     end
 
     it 'should return keys to all content that matches query params' do
       $is_searched_for = false
       @node.find? true
-      get '/artifacts/'
+      get '/artifacts/boo/far'
       last_response.should be_ok
       $is_searched_for.should eq true
     end

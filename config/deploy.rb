@@ -75,11 +75,13 @@ url = obj.url_for :read
 
 cnt = 0
 
-bucket_suffix = "#{Time.now \
-  .to_s.gsub!(':', '-') \
-  .gsub(' ', '.')}"
-bucket_name = "chrislambistan_log-#{bucket_suffix}"
-s3.buckets.create bucket_name
+# bucket_suffix = "#{Time.now \
+#   .to_s.gsub!(':', '-') \
+#   .gsub(' ', '.')}"
+# bucket_name = "chrislambistan_log-#{bucket_suffix}"
+# s3.buckets.create bucket_name
+
+bucket_name = 'chrislambistan_log'
 
 namespace :nodes do
 

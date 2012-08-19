@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'yaml'
 require 'aws-sdk'
 
@@ -11,3 +12,11 @@ secret_key = creds['amazon']['secret_key']
 AWS.config \
   :access_key_id => access_key, \
   :secret_access_key => secret_key
+
+s3 = AWS::S3.new
+s3.buckets.each do |bucket| 
+	if bucket.name =~ /chrislambistan_log-/
+		bucket.clear!
+		bucket.delete 
+	end
+end

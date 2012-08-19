@@ -15,7 +15,10 @@ class Garden::Domain::Router
   end
 
   def artifact subject, device, key
-
+    responses = @dispatcher.dispatch_artifact subject, device, key
+    bodies = []
+    responses.each { |r| bodies.push r.body }
+    bodies
   end 
 
   def artifacts subject, device
