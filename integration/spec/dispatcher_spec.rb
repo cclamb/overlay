@@ -9,10 +9,10 @@ include Garden::Domain
 pid = nil
 
 class TestService < TestInterface
-	get '/artifacts/*' do
+	get '/search/artifacts/*' do
     'retrieved artifacts'
 	end
-	get '/artifact/*' do
+	get '/search/artifact/*' do
     'retrieved an artifact'
 	end
 end
@@ -41,12 +41,14 @@ describe Dispatcher do
   it 'should dispatch to indicated hosts via HTTP on artifacts requests' do
     d = Dispatcher.new ['http://localhost'], 4567
     responses = d.dispatch_artifacts 'cclamb', 'iphone'
+    fail if responses.empty? == true or responses == nil
     responses.each { |r| r.body.should eq 'retrieved artifacts' }
   end
 
   it 'shjould dispatch to indicated hosts via HTTP on single artifact requests' do
     d = Dispatcher.new ['http://localhost'], 4567
     responses = d.dispatch_artifact 'cclamb', 'iphone', 'some_id'
+    fail if responses.empty? == true or responses == nil
     responses.each { |r| r.body.should eq 'retrieved an artifact' }
   end
 

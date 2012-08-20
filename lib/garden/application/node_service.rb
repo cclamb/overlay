@@ -38,6 +38,30 @@ class Garden::Application::NodeService < TestInterface
     end
   end
 
+  get '/search/artifact/*' do
+    begin
+      args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 3
+      results = @@node.artifact args[:username], args[:device], args[:id], :standalone
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
+  end
+
+  get '/search/artifacts/*' do
+    begin
+      args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 2
+      results = @@node.artifacts args[:username], args[:device], :standalone
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
+  end
+
   def contextify str
     arr = str.split '/'
     h = {:username => arr[0], :device => arr[1]}

@@ -54,7 +54,25 @@ describe Node do
     n.artifact('user', :tablet, '123').should eq nil
   end
 
-  it 'should search the repo with valid arguments' do
+  it 'should search for artifacts with default arguments' do
+    repo = NodeTest::Repository.new
+    repo.searched = false
+    repo.return_nil = true
+    n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
+    n.artifacts 'user', :tablet
+    repo.searched.should eq true
+  end
+
+  it 'should search for artifacts with valid arguments' do
+    repo = NodeTest::Repository.new
+    repo.searched = false
+    repo.return_nil = true
+    n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
+    n.artifacts 'user', :tablet, :standalone
+    repo.searched.should eq true
+  end
+
+  it 'should search the repo with default arguments' do
     repo = NodeTest::Repository.new
     repo.searched = false
     repo.return_nil = true
@@ -63,12 +81,31 @@ describe Node do
     repo.searched.should eq true
   end
 
-  it 'should search and process results with valid arguments' do
+  it 'should search and process results with default arguments' do
     repo = NodeTest::Repository.new
     repo.searched = false
     repo.return_nil = false
     n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
     result = n.artifact 'user', :tablet, 'some_key'
+    repo.searched.should eq true
+    result.should eq 'some result'
+  end
+
+  it 'should search the repo with valid arguments' do
+    repo = NodeTest::Repository.new
+    repo.searched = false
+    repo.return_nil = true
+    n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
+    n.artifact 'user', :tablet, 'some_key', :standalone
+    repo.searched.should eq true
+  end
+
+  it 'should search and process results with valid arguments' do
+    repo = NodeTest::Repository.new
+    repo.searched = false
+    repo.return_nil = false
+    n = Node.new :repository => repo, :umm => NodeTest::UsageManager.new
+    result = n.artifact 'user', :tablet, 'some_key', :standalone
     repo.searched.should eq true
     result.should eq 'some result'
   end

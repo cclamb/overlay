@@ -79,4 +79,24 @@ describe Application::NodeService do
 
   end
 
+  context 'with the search interface' do
+
+    it 'should return 404 when content does not exist' do
+      get_404 '/search/artifact/i-dont-exist'
+      get_404 '/search/artifact/name/device'
+      get_404 '/search/artifact/fooname/iphone/key'
+    end
+
+    it 'should return content that does exist' do
+      get '/search/artifact/sam/workstation/key_1'
+      last_response.should be_ok
+    end
+
+    it 'should return keys to all content that matches query params' do
+      get '/search/artifacts/'
+      last_response.should be_ok
+    end
+
+  end
+
 end

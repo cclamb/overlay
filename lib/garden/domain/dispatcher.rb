@@ -12,7 +12,7 @@ class Garden::Domain::Dispatcher
   def dispatch_artifacts subject, device
       responses = []
       @nodes.each do |node|
-        uri_string = "#{node}:#{@port}/artifacts/#{subject}/#{device}"
+        uri_string = "#{node}:#{@port}/search/artifacts/#{subject}/#{device}"
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri 
@@ -30,7 +30,7 @@ class Garden::Domain::Dispatcher
   def dispatch_artifact subject, device, id
       responses = []
       @nodes.each do |node|
-        uri_string = "#{node}:#{@port}/artifact/#{subject}/#{device}/#{id}"
+        uri_string = "#{node}:#{@port}/search/artifact/#{subject}/#{device}/#{id}"
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri 

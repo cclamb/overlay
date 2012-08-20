@@ -8,7 +8,7 @@ class Garden::Domain::Node
     @umm = args[:umm]
   end
 
-  def artifact subject, device, key
+  def artifact subject, device, key, is_standalone = nil
     return nil if key == nil || @repository == nil
     @repository.artifact(key.to_sym) || @repository.artifact(key)
 
@@ -23,7 +23,7 @@ class Garden::Domain::Node
     # @rectifier.assemble bundles_to_return
   end
 
-  def artifacts subject, device
+  def artifacts subject, device, is_standalone = nil
     @repository.artifacts.to_s
   end
 
