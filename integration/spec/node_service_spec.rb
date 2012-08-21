@@ -3,6 +3,7 @@ require 'rack/test'
 
 require_relative '../../lib/garden'
 require_relative '../../test/spec/application/test'
+require_relative '../../lib/garden/util/test_interface'
 
 module NodeServiceIntegrationTest
   def NodeServiceIntegrationTest::build_raw_repo_uri
@@ -15,6 +16,23 @@ module NodeServiceIntegrationTest
 end
 
 include Garden
+
+pid = nil
+
+class ParentService < TestInterface
+  get '/search/artifacts/*' do
+    'retrieve search artifacts'
+  end
+  get '/search/artifact/*' do
+    'retrieved a search artifact'
+  end
+  get '/artifacts/*' do
+    'retrieved artifacts'
+  end
+  get '/artifact/*' do
+    'retrieved an artifact'
+  end
+end
 
 describe Application::NodeService do
   include Rack::Test::Methods
@@ -38,7 +56,20 @@ describe Application::NodeService do
       :secret_access_key => secret_key
 
     factory = Domain::ComponentFactory.new :bucket_name => 'foo'
-    @node = factory.create_node NodeServiceIntegrationTest::build_raw_repo_uri
+    @node = factory.create_node 'http://localhost:6789', NodeServiceIntegrationTest::build_raw_repo_uri
+
+    Domain::ComponentFactory::instance :bucket_name => 'foo'
+    pid = fork do
+      $stdout = StringIO.new
+      $stderr = StringIO.new
+      ParentService::run!
+    end
+    sleep 1
+  end
+
+  after(:all) do
+    File.delete('system.log') if File.exists?('system.log')
+    Process::kill :KILL, pid
   end
 
   context 'with the test interface' do

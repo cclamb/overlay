@@ -100,7 +100,7 @@ describe ComponentFactory do
     end
 
     it 'should create a node with a nil repo' do
-      ComponentFactory.instance.create_node.should_not eq nil
+      ComponentFactory.instance.create_node('parent').should_not eq nil
     end
   end
 

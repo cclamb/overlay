@@ -70,8 +70,9 @@ class Garden::Domain::ComponentFactory
     Domain::Dispatcher.new children, Settings::PORT_NUMBER
   end
 
-  def create_node repo_uri = nil
+  def create_node parent, repo_uri = nil
     Domain::Node.new \
+      :dispatcher => create_dispatcher([parent]), \
       :umm => create_usage_manager, \
       :repository => create_artifact_repo(repo_uri)
   end
