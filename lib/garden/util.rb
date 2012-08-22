@@ -64,10 +64,10 @@ module Garden
     def Util::start cfg
       syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
       if cfg.is_router?
-        syslog.info 'starting router'
+        syslog.info "starting router with #{cfg.inspect}"
         Util::run_as_router cfg
       elsif cfg.is_node?
-        syslog.info 'starting node'
+        syslog.info "starting node with #{cfg.inspect}"
         Util::run_as_node cfg
       elsif cfg.is_peer_node?
         syslog.info 'starting peer node'
@@ -92,7 +92,9 @@ module Garden
 
     # Starting a node.
     def Util::run_as_node cfg
-      node = Domain::ComponentFactory::instance.create_node Util::generate_repo_uri(cfg.repository_name)
+      node = Domain::ComponentFactory::instance.create_node \
+        cfg.parent, \
+        Util::generate_repo_uri(cfg.repository_name)
       Application::NodeService::initialize \
         :node => node, \
         :ctx => { :port => 6789 }
