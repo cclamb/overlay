@@ -7,11 +7,15 @@ class Garden::Domain::Node
     @context_factory = args[:context_factory]
     @dispatcher = args[:dispatcher]
     @umm = args[:umm]
+    @syslog = Domain::ComponentFactory::instance \
+      .create_system_log self.to_s
   end
 
   def artifact subject, device, key, is_standalone = nil
+    @syslog.info "processing artifact request: #{subject} #{device} #{key}"
     return nil if key == nil || @repository == nil
     artifact = @repository.artifact(key.to_sym) || @repository.artifact(key)
+    artifact
     # if artifact == nil && is_standalone == nil
     #   artifacts = @dispatcher.dispatch_artifact subject, device, key
     #   artifact = artifacts.pop
