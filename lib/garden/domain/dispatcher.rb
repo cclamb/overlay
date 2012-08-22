@@ -16,7 +16,7 @@ class Garden::Domain::Dispatcher
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri 
-        responses.push response if response.code == '200'
+        responses.push response.body if response.code == '200'
         # if response.code == '200'
         #   keys = response.body[1..-1].chop.split ", "
         #   responses.concat keys
@@ -34,7 +34,7 @@ class Garden::Domain::Dispatcher
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri 
-        responses.push response if response.code == '200'
+        responses.push response.body if response.code == '200'
       end
       return responses   
   end

@@ -20,7 +20,7 @@ module Test
     end
     def artifact *args
       $is_searched_for = true
-      @mode ? 'artifact returned' : []
+      @mode ? 'artifact returned' : nil
     end
     def artifacts *args
       $is_searched_for = true

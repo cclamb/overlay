@@ -10,13 +10,12 @@ class Garden::Domain::Node
   end
 
   def artifact subject, device, key, is_standalone = nil
-    puts "IN NODE"
     return nil if key == nil || @repository == nil
-    puts "NODE STATE: r: #{@repository.inspect} d: #{@dispatcher.inspect}"
-    artifact = @repository.artifact(key.to_sym) || @repository.artifact(key) 
-    puts "ARTIFACT (1): #{artifact}"
-    artifact = @dispatcher.dispatch_artifact(subject, device, key) if artifact == nil && is_standalone == nil
-    puts "RETURNING ARTIFACT"
+    artifact = @repository.artifact(key.to_sym) || @repository.artifact(key)
+    if artifact == nil && is_standalone == nil
+      artifacts = @dispatcher.dispatch_artifact subject, device, key
+      artifact = artifacts.pop
+    end
     artifact
     # TODO: Uncomment when integrating UMM
     #

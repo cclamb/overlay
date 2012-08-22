@@ -21,15 +21,28 @@ pid = nil
 
 class ParentService < TestInterface
   get '/search/artifacts/*' do
+    args = params[:splat][0].split '/'
+    halt 404 if args.size < 2
+    halt 404 unless args[1] == 'frank'
     'retrieve search artifacts'
   end
   get '/search/artifact/*' do
+    args = params[:splat][0].split '/'
+    puts "args : #{args.inspect}"
+    halt 404 if args.size < 3
+    halt 404 unless args[2] == 'content'
     'retrieved a search artifact'
   end
   get '/artifacts/*' do
+    args = params[:splat][0].split '/'
+    halt 404 if args.size < 2
+    halt 404 unless args[1] == 'frank'
     'retrieved artifacts'
   end
   get '/artifact/*' do
+    args = params[:splat][0].split '/'
+    halt 404 if args.size < 3
+    halt 404 unless args[2] == 'content'
     'retrieved an artifact'
   end
 end
@@ -56,12 +69,13 @@ describe Application::NodeService do
       :secret_access_key => secret_key
 
     factory = Domain::ComponentFactory.new :bucket_name => 'foo'
-    @node = factory.create_node 'http://localhost:6789', NodeServiceIntegrationTest::build_raw_repo_uri
+    @node = factory.create_node 'http://localhost', NodeServiceIntegrationTest::build_raw_repo_uri
 
     Domain::ComponentFactory::instance :bucket_name => 'foo'
     pid = fork do
       $stdout = StringIO.new
       $stderr = StringIO.new
+      ParentService::set :port => 6789
       ParentService::run!
     end
     sleep 1
@@ -100,6 +114,11 @@ describe Application::NodeService do
 
     it 'should return content that does exist' do
       get '/artifact/sam/workstation/key_1'
+      last_response.should be_ok
+    end
+
+    it 'should dispatch if and return content from router if not locally available' do
+      get '/artifact/sam/phone/content'
       last_response.should be_ok
     end
 
