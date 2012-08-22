@@ -12,11 +12,11 @@ class Garden::Domain::Node
   def artifact subject, device, key, is_standalone = nil
     return nil if key == nil || @repository == nil
     artifact = @repository.artifact(key.to_sym) || @repository.artifact(key)
-    if artifact == nil && is_standalone == nil
-      artifacts = @dispatcher.dispatch_artifact subject, device, key
-      artifact = artifacts.pop
-    end
-    artifact
+    # if artifact == nil && is_standalone == nil
+    #   artifacts = @dispatcher.dispatch_artifact subject, device, key
+    #   artifact = artifacts.pop
+    # end
+    # artifact
     # TODO: Uncomment when integrating UMM
     #
     # ctx = @context_factory.assemble_context subject, artifact_description, device
