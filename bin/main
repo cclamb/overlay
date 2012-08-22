@@ -47,7 +47,7 @@ cfg = Domain::Configuration.new ctx
 syslog = factory.create_system_log self
 
 # Log the current context.
-syslog.info ctx
+syslog.info cfg.inspect
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
