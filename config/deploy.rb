@@ -53,6 +53,9 @@ role :nodes, '198.101.205.153', \
   'ec2-184-73-2-121.compute-1.amazonaws.com', \
   'ec2-23-22-144-216.compute-1.amazonaws.com'
 
+role :node, '198.101.205.155'
+role :router, '198.101.205.153'
+
 
 # Prime simulation configuration
 # config_file_name = 'etc/config.yaml'
@@ -103,6 +106,10 @@ namespace :nodes do
 
   task :ps, :roles => :nodes do
     run "ps -ef | grep overlay"
+  end
+
+  task :cat, :roles => :node do
+    run "cat current/system.log"
   end
 
 end
