@@ -51,7 +51,7 @@ module Garden
     # If a PID file exists, read the PID, stop the running
     # process, then delete the PID file.
     def Util::stop_running_process
-      return if !File::exists? PID_FILE_NAME
+      return unless File::exists? PID_FILE_NAME
       pid = File.read(PID_FILE_NAME).to_i
       begin
         Process::kill :INT, pid
