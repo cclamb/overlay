@@ -49,6 +49,10 @@ end
 
 describe Node do
 
+  after(:all) do
+    File.delete 'system.log' if File.exists? 'system.log'
+  end
+
   it 'should be creatable' do
     Node.new({:repository => Object.new, :umm => Object.new, :dispatcher => Object.new}).should_not eq nil
   end
