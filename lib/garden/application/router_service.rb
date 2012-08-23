@@ -13,6 +13,22 @@ class Garden::Application::RouterService < TestInterface
   end
 
   get '/artifact/*' do
+    search_for_artifact params
+  end
+
+  get '/artifacts/*' do
+    search_for_artifacts params
+  end
+
+  get '/search/artifact/*' do
+    search_for_artifact params
+  end
+
+  get '/search/artifacts/*' do
+    search_for_artifacts params
+  end
+
+  def search_for_artifact params
     begin
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
@@ -24,7 +40,7 @@ class Garden::Application::RouterService < TestInterface
     end
   end
 
-  get '/artifacts/*' do
+  def search_for_artifacts params
     begin
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
