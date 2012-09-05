@@ -37,6 +37,7 @@
   rs2:
     role: node
     context_server: http://localhost:4569
+    repository: repo_index.dat
     parent: *rs0
 
   rs3:

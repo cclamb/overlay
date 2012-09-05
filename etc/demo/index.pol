@@ -1,0 +1,3 @@
+policy(:default) {
+  rule(:mission_affiliation) { |p| p == :tropic_thunder }
+}
