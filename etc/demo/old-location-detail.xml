@@ -22,7 +22,7 @@
     }
   </policy-set>
   <data-object>
-    <text>
+    <content type="txt">
       <section policy="description">
         In 1971 a special forces A Team, John H. "Hannibal" Smith, Bosco Albert Baracus, and Templeton Peck, led a raid into North Vietnam to rob the central Bank of Hanoi, a raid that succeeded but which landed Smith's A Team in trouble when his CO, Colonel Morrison, was killed in a Red shelling. Smith, Baracus, and Peck were court-martialed in 1972 and sentenced to Leavenworth, but en route to prison escaped into the underground of LA. For the next dozen years they survived as soldiers of fortune, aiding those in trouble in the US or overseas, working with their former pilot, Hector M. Murdoch, who has been committed to a VA psycho ward and who must be broken out via confidence games hatched by Templeton Peck, and also dodging the determined pursuit of the Army, first led by the officer who was to escort them to prison, Colonel Lynch, then by the Army's best troubleshooter in Vietnam, Roderick Decker, an officer who got the job done irrespective of methods or cost and whose methods earned enmity from Hannibal Smith.
       </section>
@@ -32,6 +32,6 @@
       <section policy="location">
         The team is currently on the third floor of the chemistry building, from which they have visibility of the north and east entrances.
       </section>
-    </text>
+    </content>
   </data-object>
 </artifact>
