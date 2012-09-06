@@ -16,6 +16,7 @@
     <lat>The latitude of the location</lat>
     <lon>The longitude of the location</lon>
     <about>This is the location of the new school team</about>
+    <key>new_location_detail</key>
     <key>new_image</key>
     <key>new_face_bio</key>
     <key>new_ba_bio</key>
