@@ -93,6 +93,16 @@ describe Router do
     dispatcher.dispatched.should eq true
   end
 
-  it 'should route queries when called for a specific artifact'
-  it 'should handle data redaction based on context'
+  it 'should route queries when called for a specific artifact' do
+    dispatcher = TestDispatcher.new
+    dispatcher.dispatched = false
+    router = Router.new \
+      :repository => TestRepo.new, \
+      :dispatcher => dispatcher, \
+      :rectifier => TestRectifier.new, \
+      :umm => TestUmm.new
+    router.artifact 'foobar', :iphone, 'key'
+    dispatcher.dispatched.should eq true
+  end
+
 end

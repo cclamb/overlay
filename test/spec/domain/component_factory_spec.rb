@@ -104,4 +104,8 @@ describe ComponentFactory do
     end
   end
 
+  context 'with a context manager request' do
+    it 'should create a context manager'
+  end
+
 end

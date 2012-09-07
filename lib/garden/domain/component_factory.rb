@@ -77,6 +77,10 @@ class Garden::Domain::ComponentFactory
       :repository => create_artifact_repo(repo_uri)
   end
 
+  def create_context_manager
+    
+  end
+
   # Using a precreated route factory, create a route from
   # a yaml serialization.
   def create_route

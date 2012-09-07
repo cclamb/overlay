@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require_relative '../lib/garden'
+require_relative '../test/spec/application/test'
+require_relative '../etc/settings'
+
+include Garden
+
+node = Test::TestFactory.new.create_node
+Application::ContextManagerService::initialize \
+  :ctx => { :port => Settings::PORT_NUMBER }
+
+Application::ContextManagerService::run!

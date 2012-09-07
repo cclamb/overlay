@@ -8,6 +8,13 @@ class Garden::Application::ContextManagerService < TestInterface
 
   @@factory =nil
 
+  def self::initialize params
+    ctx = params[:ctx]
+    set ctx if ctx != nil
+    @@syslog = Domain::ComponentFactory::instance \
+      .create_system_log self.to_s
+  end
+
   def self::set_test_params params
     @@factory = params[:factory]
   end
