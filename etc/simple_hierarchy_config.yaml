@@ -48,6 +48,7 @@
   rs4:
     role: node
     context_server: http://localhost:4569
+    repository: repo_new_location.dat
     parent: *rs0
 
   rs5:
@@ -58,6 +59,7 @@
   rs6:
     role: node
     context_server: http://localhost:4569
+    repository: repo_old_location.dat
     parent: *rs0
 
   rs7:
