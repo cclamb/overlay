@@ -65,11 +65,13 @@
   rs7:
     role: node
     context_server: http://localhost:4569
+    repository: repo_secret.dat
     parent: *rs0
 
   rs8:
     role: node
     context_server: http://localhost:4569
+    repository: repo_topsecret.dat
     parent: *rs0
 
   rs9:
