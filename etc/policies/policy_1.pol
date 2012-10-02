@@ -1,0 +1,6 @@
+policy_set {
+	policy(:one) {
+		match :one
+		rule(:org) { |x| x == :org }
+	}
+}
