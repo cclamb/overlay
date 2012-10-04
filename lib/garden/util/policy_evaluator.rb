@@ -2,56 +2,36 @@
 class PolicyEvaluator
 
   attr_accessor :ctx
+  attr_accessor :active_policy
 
   def initialize name, &body
     ctx = {:name => name, :strategy => :all, :rules => []}
-    instance_exec(&body)
+    self.ctx = {}
+    instance_exec &body
   end
 
-  def policy_set
-
+  def policy_set name = nil, &body
+    instance_exec &body
   end
 
   def policy name, &body
-
+    self.active_policy = {}
+    instance_exec &body
+    self.ctx[name] = self.active_policy
   end
 
-  def include
-
+  def include name
+    rules = self.ctx[name]
+    raise 'undefined referenced policy' if rules == nil
+    self.active_policy = self.active_policy.merge rules
   end
 
-  def match
-
+  def match style
+    self.active_policy[:style] = style
   end
 
   def rule name, &body
-
+    self.active_policy[name] = body
   end
-
-  # def activity(name, &b)
-  #   activity = Activity.new(name, &b)
-  #   @activities[name] = activity
-  #   activity
-  # end
-
-  # def constraint(&b)
-  #   Constraint.new(&b)
-  # end
-
-  # def restrict(*activities, &b)
-  #   restriction = Restrict.new(activities, &b)
-  #   @restrictions.push(restriction)
-  #   restriction
-  # end
-
-  # def policy(&b)
-  #   policy = Policy.new(&b)
-  #   @policies.push(policy)
-  #   policy    
-  # end
-
-  # def context
-  #   PolicyContext.new(@activities, @restrictions, @policies)
-  # end
 
 end

@@ -43,6 +43,16 @@ module Test
     end
   end
 
+  class TestContextManager
+    @status = {}
+    def set_edge_status e, s
+      @status[k] = v
+    end
+    def remove_edge_status k
+      @status[k] = nil
+    end
+  end
+
   class TestFactory
     def create_node
       TestNode.new
@@ -50,5 +60,9 @@ module Test
     def create_router
       TestRouter.new
     end
+    def create_context_manager
+      TestContextManager.new
+    end
   end
+
 end
