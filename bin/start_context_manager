@@ -5,9 +5,7 @@ require_relative '../etc/settings'
 
 include Garden
 
-mgr = Test::TestFactory.new.create_context_manager
 Application::ContextManagerService::initialize \
-  :mgr => mgr, \
   :ctx => { :port => Settings::CONTEXT_PORT_NUMBER }
 
 Application::ContextManagerService::run!

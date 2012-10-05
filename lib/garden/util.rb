@@ -6,6 +6,7 @@ require 'uri'
 # TODO: remove this temporary component factory
 require_relative '../../test/spec/application/test'
 require_relative 'domain/component_factory'
+require_relative '../../etc/settings'
 
 module Garden
 
@@ -85,7 +86,7 @@ module Garden
       router = Domain::ComponentFactory::instance.create_router cfg.children
       Application::RouterService::initialize \
         :router => router, \
-        :ctx => { :port => 6789 }
+        :ctx => { :port => Settings::PORT_NUMBER }
 
       Application::RouterService::run!
     end
@@ -97,7 +98,7 @@ module Garden
         Util::generate_repo_uri(cfg.repository_name)
       Application::NodeService::initialize \
         :node => node, \
-        :ctx => { :port => 6789 }
+        :ctx => { :port => Settings::PORT_NUMBER }
 
       Application::NodeService::run!
     end
@@ -109,7 +110,10 @@ module Garden
 
     # Starting a context server.
     def Util::run_as_context_server
+      Application::ContextManagerService::initialize \
+        :ctx => { :port => Settings::CONTEXT_PORT_NUMBER }
 
+      Application::ContextManagerService::run!
     end
 
     def Util::read_object_from_s3 uri
