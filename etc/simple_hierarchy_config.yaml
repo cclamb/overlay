@@ -18,7 +18,6 @@
     context_server: http://localhost:4567
     role: router
     children:
-      - *rs1
       - *rs2
       - *rs3
       - *rs4
@@ -29,10 +28,7 @@
       - *rs9
 
   rs1:
-    role: node
-    context_server: http://localhost:4569
-    repository: repo_1.dat
-    parent: *rs0
+    role: context_manager
 
   rs2:
     role: node
