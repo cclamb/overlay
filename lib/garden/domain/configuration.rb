@@ -19,7 +19,7 @@ class Garden::Domain::Configuration
   end
 
   def is_context_server?
-    @ctx_map['role'] == 'context_server'
+    @ctx_map['role'] == 'context_manager'
   end
 
   def has_peers?
