@@ -32,45 +32,45 @@
 
   rs2:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     repository: repo_index.dat
     parent: *rs0
 
   rs3:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     parent: *rs0
 
   rs4:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     repository: repo_new_location.dat
     parent: *rs0
 
   rs5:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     parent: *rs0
 
   rs6:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     repository: repo_old_location.dat
     parent: *rs0
 
   rs7:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     repository: repo_secret.dat
     parent: *rs0
 
   rs8:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     repository: repo_topsecret.dat
     parent: *rs0
 
   rs9:
     role: node
-    context_server: http://localhost:4569
+    context_server: *rs1
     parent: *rs0
