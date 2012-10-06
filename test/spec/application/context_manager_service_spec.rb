@@ -11,8 +11,7 @@ describe Application::ContextManagerService do
   include Test
 
   def app
-    Application::ContextManagerService::set_test_params \
-      :factory => Test::TestFactory.new
+    Application::ContextManagerService::initialize
     Application::ContextManagerService.new
   end
 
@@ -34,10 +33,19 @@ describe Application::ContextManagerService do
 
   end
 
-  context 'with the content interface' do
-    it 'should return 404 when content does not exist' do
-      get_404 '/status/i-dont-exist'
+  context 'with the context interface' do
+
+    it 'should return 404 if no content' do
+      get_404 '/status/3to4'
     end
+
+    it 'should return a record if content exists' do
+      post '/status/1to2', :level => 'secret'
+      get '/status/1to2'
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"1to2\",\"status\":\"secret\"}"
+    end
+
   end
 
 end

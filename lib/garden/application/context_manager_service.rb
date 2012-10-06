@@ -9,7 +9,7 @@ require_relative '../util/test_interface'
 class Garden::Application::ContextManagerService < TestInterface
   enable :inline_templates
 
-  def self::initialize params
+  def self::initialize params = {}
     @@repo = {}
     ctx = params[:ctx]
     set ctx if ctx != nil
@@ -30,14 +30,14 @@ class Garden::Application::ContextManagerService < TestInterface
   end
 
   def generate_return id
-    status = @@repo[id] || 'unknown'
+    status = @@repo[id] || halt(404)
     { :edge => id, :status => status }
   end
 
   get '/status/:id' do
     id = params[:id]
     content_type 'application/json', :charset => 'utf-8'
-    JSON.generate generate_return id
+    JSON.generate generate_return(id)
   end
 
   post '/status/:id' do
