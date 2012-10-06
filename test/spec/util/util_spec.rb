@@ -142,7 +142,7 @@ describe Util do
     end
 
     it 'should start a context server' do
-      cfg = Domain::Configuration.new 'role' => 'context_server'
+      cfg = Domain::Configuration.new 'role' => 'context_manager'
       cfg.is_context_server?.should eq true
       Util::start cfg
       $is_context_server_called.should eq true

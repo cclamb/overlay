@@ -4,10 +4,9 @@ class Garden::Domain::Router
     cnt = args.keys.count do |x| \
       x == :umm \
       || x == :dispatcher \
-      || x == :rectifier \
-      || x == :parent_dispatcher
+      || x == :rectifier 
     end
-    raise 'must include a umm, rectifier, parent_dispatcher, and dispacher' unless cnt == 4
+    raise 'must include a umm, rectifier, and dispacher' unless cnt == 3
     @repository = args[:repository]
     @context_factory = args[:context_factory]
     @umm = args[:umm]
@@ -18,12 +17,12 @@ class Garden::Domain::Router
 
   def artifact subject, device, key
     results = @dispatcher.dispatch_artifact subject, device, key
-    @parent_dispatcher.dispatch_artifact subject, device, key if results.is_empty?
+    @parent_dispatcher.dispatch_artifact subject, device, key if results.empty? && @parent_dispatcher != nil
   end 
 
   def artifacts subject, device
-    @dispatcher.dispatch_artifacts subject, device
-    @parent_dispatcher.dispatch_artifacts subject, device if results.is_empty?
+    results = @dispatcher.dispatch_artifacts subject, device
+    @parent_dispatcher.dispatch_artifacts subject, device if results.empty? && @parent_dispatcher != nil
   end
 
 end
