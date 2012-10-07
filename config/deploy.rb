@@ -55,13 +55,15 @@ role :nodes, '198.101.205.153', \
   'ec2-184-73-2-121.compute-1.amazonaws.com', \
   'ec2-23-22-144-216.compute-1.amazonaws.com'
 
-role :node, '198.101.205.155'
+#role :node, '198.101.205.155'
+role :node, 'ec2-23-22-144-216.compute-1.amazonaws.com'
 role :router, '198.101.205.153'
 
 
 # Prime simulation configuration
 # config_file_name = 'etc/config.yaml'
-config_file_name = 'etc/simple_hierarchy_config.yaml'
+# config_file_name = 'etc/simple_hierarchy_config.yaml'
+config_file_name = 'etc/all_hierarchy_config.yaml'
 
 access_key = creds['amazon']['access_key']
 secret_key = creds['amazon']['secret_key']
@@ -112,6 +114,10 @@ namespace :nodes do
 
   task :cat, :roles => :node do
     run "cat current/system.log"
+  end
+
+  task :tail, :roles => :node do
+    run "tail -f current/system.log"
   end
 
 end
