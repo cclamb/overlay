@@ -83,7 +83,7 @@ module Garden
 
     # Starting a router.
     def Util::run_as_router cfg
-      router = Domain::ComponentFactory::instance.create_router cfg.children
+      router = Domain::ComponentFactory::instance.create_router cfg.children, cfg.parent
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
