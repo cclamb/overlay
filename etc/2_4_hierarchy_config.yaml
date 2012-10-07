@@ -144,6 +144,7 @@
 
   ip-10-195-205-62:
     role: node
+    repository: repo_index.dat
     context_server: *rs0
     parent: *rs0
 

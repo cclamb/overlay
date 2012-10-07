@@ -13,22 +13,6 @@ class Garden::Application::RouterService < TestInterface
   end
 
   get '/artifact/*' do
-    search_for_artifact params
-  end
-
-  get '/artifacts/*' do
-    search_for_artifacts params
-  end
-
-  get '/search/artifact/*' do
-    search_for_artifact params
-  end
-
-  get '/search/artifacts/*' do
-    search_for_artifacts params
-  end
-
-  def search_for_artifact params
     begin
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
@@ -40,11 +24,35 @@ class Garden::Application::RouterService < TestInterface
     end
   end
 
-  def search_for_artifacts params
+  get '/artifacts/*' do
     begin
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
       results = @@router.artifacts args[:username], args[:device]
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
+  end
+
+  get '/search/artifact/*' do
+    begin
+      args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 3
+      results = @@router.artifact args[:username], args[:device], args[:id], :standalone
+      handle_results results
+    rescue Exception => err
+      Util::process_error self.to_s,'error in artifact operation', err
+      halt 500
+    end
+  end
+
+  get '/search/artifacts/*' do
+    begin
+      args = contextify params[:splat][0]
+      halt 404 if args == nil || args.size < 2
+      results = @@router.artifacts args[:username], args[:device], :standalone
       handle_results results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err
