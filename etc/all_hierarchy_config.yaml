@@ -13,6 +13,16 @@
     - &rs7 http://198.101.207.34
     - &rs8 http://198.101.207.48
     - &rs9 http://198.101.207.236
+    - &ec0 http://ec2-67-202-45-247.compute-1.amazonaws.com
+    - &ec1 http://ec2-23-20-43-173.compute-1.amazonaws.com
+    - &ec2 http://ec2-50-17-85-234.compute-1.amazonaws.com
+    - &ec3 http://ec2-23-22-68-94.compute-1.amazonaws.com
+    - &ec4 http://ec2-50-17-57-243.compute-1.amazonaws.com
+    - &ec5 http://ec2-50-16-141-176.compute-1.amazonaws.com
+    - &ec6 http://ec2-184-73-138-154.compute-1.amazonaws.com
+    - &ec7 http://ec2-107-20-47-98.compute-1.amazonaws.com
+    - &ec8 http://ec2-184-73-2-121.compute-1.amazonaws.com
+    - &ec9 http://ec2-23-22-144-216.compute-1.amazonaws.com
 
   rs0:
     context_server: http://localhost:4567
@@ -26,6 +36,16 @@
       - *rs7
       - *rs8
       - *rs9
+      - *ec0
+      - *ec1
+      - *ec2
+      - *ec3
+      - *ec4
+      - *ec5
+      - *ec6
+      - *ec7
+      - *ec8
+      - *ec9
 
   rs1:
     role: context_manager
@@ -71,6 +91,56 @@
     parent: *rs0
 
   rs9:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec0:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec1:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec2:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec3:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec4:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec5:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec6:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec7:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec8:
+    role: node
+    context_server: *rs1
+    parent: *rs0
+
+  ec9:
     role: node
     context_server: *rs1
     parent: *rs0
