@@ -17,20 +17,20 @@ class Garden::Domain::Router
 
   def artifact subject, device, key
     results = @dispatcher.dispatch_artifact subject, device, key
-    if results.empty? && @parent_dispatcher != nil
-      @parent_dispatcher.dispatch_artifact subject, device, key
-    else
-      results
-    end
+    # if results.empty? && @parent_dispatcher != nil
+    #   @parent_dispatcher.dispatch_artifact subject, device, key
+    # else
+    #   results
+    # end
   end 
 
   def artifacts subject, device
     results = @dispatcher.dispatch_artifacts subject, device
-    if @parent_dispatcher != nil
-      @parent_dispatcher.dispatch_artifacts subject, device
-    else
-      results
-    end
+    # if @parent_dispatcher != nil
+    #   @parent_dispatcher.dispatch_artifacts subject, device
+    # else
+    #   results
+    # end
   end
 
 end
