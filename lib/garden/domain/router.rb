@@ -26,7 +26,7 @@ class Garden::Domain::Router
 
   def artifacts subject, device
     results = @dispatcher.dispatch_artifacts subject, device
-    if results.empty? && @parent_dispatcher != nil
+    if @parent_dispatcher != nil
       @parent_dispatcher.dispatch_artifacts subject, device
     else
       results
