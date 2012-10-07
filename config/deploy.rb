@@ -63,7 +63,8 @@ role :router, '198.101.205.153'
 # Prime simulation configuration
 # config_file_name = 'etc/config.yaml'
 # config_file_name = 'etc/simple_hierarchy_config.yaml'
-config_file_name = 'etc/all_hierarchy_config.yaml'
+#config_file_name = 'etc/all_hierarchy_config.yaml'
+config_file_name = 'etc/2_4_hierarchy_config.yaml'
 
 access_key = creds['amazon']['access_key']
 secret_key = creds['amazon']['secret_key']
