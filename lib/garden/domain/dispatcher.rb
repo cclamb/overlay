@@ -41,12 +41,12 @@ class Garden::Domain::Dispatcher
 
   private
 
-  def send_request uri
+  def send_request uri, args = nil
     response = nil
     begin
       http = Net::HTTP.new uri.host, uri.port
       request = Net::HTTP::Get.new uri.request_uri, \
-        'X-Overlay-Port' => "#{@port}", 'X-Overlay-Role' => 'router'
+        'X-Overlay-Visited-Nodes' => Socket::gethostname
       response = http.request request
     rescue RuntimeError => err
       @syslog.error "error thrown in router: #{err}"

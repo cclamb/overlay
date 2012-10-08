@@ -7,6 +7,7 @@ class Garden::Application::RouterService < TestInterface
   enable :inline_templates
 
   def self::initialize params
+    @@syslog = Domain::ComponentFactory::instance.create_system_log 'router_service'
     @@router = params[:router]
     ctx = params[:ctx]
     set ctx if ctx != nil
@@ -38,6 +39,8 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifact/*' do
     begin
+      visitied_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
       results = @@router.artifact args[:username], args[:device], args[:id], :standalone
@@ -50,6 +53,8 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifacts/*' do
     begin
+      visitied_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
       results = @@router.artifacts args[:username], args[:device], :standalone

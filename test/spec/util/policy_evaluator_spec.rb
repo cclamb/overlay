@@ -32,6 +32,7 @@ describe PolicyEvaluator do
     evaluator = PolicyEvaluator.new(:one) do
       instance_eval(File.read(base + 'etc/policies/policy_2.pol'))
     end
+    puts evaluator.ctx.to_s
     evaluator.should_not eq nil
     evaluator.ctx[:p1].should_not eq nil
     evaluator.ctx[:p1][:style].should eq :all

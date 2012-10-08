@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+require 'nokogiri'
+
+require_relative '../lib/garden'
+
+def check_set set, name
+  set.each do |v|
+    return true if v.to_s == name
+  end
+  return false
+end
+
+xml = File.read "#{File.dirname __FILE__}/../etc/demo/old-location-detail.xml"
+doc = Nokogiri::XML xml
+policy_set = doc.xpath '//artifact/policy-set'
+data_object = doc.xpath '//artifact/data-object'
+
+# puts "\n\nPS:\n"
+# puts policy_set[0].to_s
+
+# puts "\n\nPS:\n"
+# puts policy_set[0].content()
+
+# puts "\n\nDO:\n"
+# puts data_object.to_s
+
+evaluator = PolicyEvaluator.new(:one) do
+  instance_eval policy_set[0].content.to_s
+end
+
+# puts evaluator.ctx.inspect
+
+context = {
+  :sensitivity => :secret,
+  :category => :magenta
+}
+
+results = []
+comp_results = []
+
+evaluator.ctx.each do |k, v|
+  #puts "key: #{k}, value: #{v}\n"
+  context.each do |key, value|
+    rule = v[key]
+    if rule != nil
+      results.push rule.call(context[key].to_sym)
+    end
+  end
+end
+
+#puts results
+
+failed_sections = Set.new
+
+evaluator.ctx.each do |policy_name, rules|
+  rules.each do |rule_name, rule|
+    ctx_value = context[rule_name]
+    if ctx_value != nil
+      evaluation = rule.call ctx_value.to_sym
+      puts "#{policy_name}::#{rule_name} -> #{evaluation}\n"
+      failed_sections.add policy_name if evaluation == false
+    end
+  end
+end
+
+failed_sections.each { |v| puts v }
+
+# data_object.each do |element|
+#   puts element
+# end
+
+sections = data_object.xpath '//data-object/content/section'
+
+sections.each do |section|
+  policy_name = section.attr 'policy'
+  puts "PN: #{policy_name}"
+  puts check_set(failed_sections, policy_name)
+  section.remove if check_set(failed_sections, policy_name)
+end
+
+puts "\n\nDO:\n"
+puts data_object.to_s
+
+
+
+
+
+

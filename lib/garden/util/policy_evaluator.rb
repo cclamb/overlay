@@ -4,7 +4,7 @@ class PolicyEvaluator
   attr_accessor :ctx
   attr_accessor :active_policy
 
-  def initialize name, &body
+  def initialize name = 'default', &body
     ctx = {:name => name, :strategy => :all, :rules => []}
     self.ctx = {}
     instance_exec &body

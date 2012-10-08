@@ -7,17 +7,17 @@
       policy(:description) {
         include :default
         rule(:category) { |c| c == :magenta }
-        rule(:sensitivity) { |s| s == :secret}
+        rule(:sensitivity) { |s| s == :secret || s == :unclassified}
       }
       policy(:history) {
         include :default
         rule(:category) { |c| c == :magenta }
-        rule(:sensitivity) { |s| s == :top_secret }
+        rule(:sensitivity) { |s| s == :top_secret || s == :secret || s == :unclassified }
       }
       policy(:location) {
         include :default
         rule(:category) { |c| c == :vermillion }
-        rule(:sensitivity) { |s| s == :top_secret }
+        rule(:sensitivity) { |s| s == :top_secret || s == :secret || s == :unclassified }
       }
     }
   </policy-set>
@@ -26,7 +26,7 @@
       <section policy="description">
         In 1971 a special forces A Team, John H. "Hannibal" Smith, Bosco Albert Baracus, and Templeton Peck, led a raid into North Vietnam to rob the central Bank of Hanoi, a raid that succeeded but which landed Smith's A Team in trouble when his CO, Colonel Morrison, was killed in a Red shelling. Smith, Baracus, and Peck were court-martialed in 1972 and sentenced to Leavenworth, but en route to prison escaped into the underground of LA. For the next dozen years they survived as soldiers of fortune, aiding those in trouble in the US or overseas, working with their former pilot, Hector M. Murdoch, who has been committed to a VA psycho ward and who must be broken out via confidence games hatched by Templeton Peck, and also dodging the determined pursuit of the Army, first led by the officer who was to escort them to prison, Colonel Lynch, then by the Army's best troubleshooter in Vietnam, Roderick Decker, an officer who got the job done irrespective of methods or cost and whose methods earned enmity from Hannibal Smith.
       </section>
-      <section policy="history"
+      <section policy="history">
         After three years Decker was replaced by Harlan Fulbright, a General whose own lack of success earned him discharge from the Army but which also allowed him to later hire the team to help him find an Amerasian daughter he previously never knew he had. In 1986 a mysterious freelance intelligence operative, former General Hunt Stockwell, struck a deal with the government whereby he in effect kidnapped the A Team for final court martial and had them executed - a ruse for them to carry out covert missions in exchange for eventual pardon.
       </section>
       <section policy="location">
