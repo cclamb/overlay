@@ -32,7 +32,7 @@ class Garden::Domain::Dispatcher
         # end
         #@syslog.info "single response is: #{response.body}"
       end
-      #@syslog.info "responses are: #{responses}"
+      @syslog.info "responses are: #{responses}"
       return responses    
   end
 
