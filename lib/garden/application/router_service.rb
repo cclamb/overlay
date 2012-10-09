@@ -39,7 +39,7 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifact/*' do
     begin
-      visitied_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
       @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
@@ -53,7 +53,7 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifacts/*' do
     begin
-      visitied_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
       @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
