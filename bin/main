@@ -47,20 +47,20 @@ cfg = Domain::Configuration.new ctx
 syslog = factory.create_system_log self
 
 # Log the current context.
-syslog.info cfg.inspect
+# syslog.info cfg.inspect
 
 # Set to daemon mode so it will run after the capistrano task
 # completes.
 Process::daemon true, false
 
-syslog.info 'setting to daemon status...'
+# syslog.info 'setting to daemon status...'
 
 # Save the current process PID
 Util::save_pid
 
 is_pidfile = File::exists? '.overlay_pid'
-syslog.info "Does PID file exist? #{is_pidfile}"
-syslog.info cfg.inspect
+# syslog.info "Does PID file exist? #{is_pidfile}"
+# syslog.info cfg.inspect
 
 # Run the system with the selected configuration
 begin
