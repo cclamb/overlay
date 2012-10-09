@@ -55,7 +55,7 @@ class Garden::Domain::Dispatcher
     begin
       http = Net::HTTP.new uri.host, uri.port
       request = Net::HTTP::Get.new uri.request_uri, \
-        'X-Overlay-Visited-Nodes' => visted_nodes
+        'X-Overlay-Visited-Nodes' => visited_nodes
       response = http.request request
     rescue RuntimeError => err
       @syslog.error "error thrown in router: #{err}"
