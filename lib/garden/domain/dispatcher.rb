@@ -15,7 +15,7 @@ class Garden::Domain::Dispatcher
   def dispatch_artifacts subject, device, args = {}
       responses = []
       visited_nodes = args[:visited_nodes] || []
-      visited_nodes.push Socket::gethostname
+      visited_nodes.push @name
       @nodes.each do |node|
         if visited_nodes.include? @name
           @syslog.info "Skipping #{node}..."
