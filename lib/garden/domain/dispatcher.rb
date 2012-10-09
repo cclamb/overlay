@@ -13,7 +13,7 @@ class Garden::Domain::Dispatcher
 
   def dispatch_artifacts subject, device, args = {}
       responses = []
-      visited_nodes = args[:visited_nodes]
+      visited_nodes = args[:visited_nodes] || []
       visited_nodes.push Socket::gethostname
       @nodes.each do |node|
         next if visited_nodes.include? node
@@ -34,7 +34,7 @@ class Garden::Domain::Dispatcher
 
   def dispatch_artifact subject, device, id, args = {}
       responses = []
-      visited_nodes = args[:visited_nodes]
+      visited_nodes = args[:visited_nodes] || []
       visited_nodes.push Socket::gethostname
       @nodes.each do |node|
         next if visited_nodes.include? node
