@@ -11,7 +11,7 @@ describe Dispatcher do
   end
 
   it 'should be creatable' do
-    d = Dispatcher.new [], 4567
+    d = Dispatcher.new [], 4567, 'name'
   end
 
 end

@@ -5,10 +5,11 @@ include Garden
 
 class Garden::Domain::Dispatcher
 
-  def initialize nodes, port
+  def initialize nodes, port, name
     @syslog = Domain::ComponentFactory::instance.create_system_log self
     @nodes = nodes
     @port = port
+    @name = name
   end
 
   def dispatch_artifacts subject, device, args = {}
@@ -16,12 +17,12 @@ class Garden::Domain::Dispatcher
       visited_nodes = args[:visited_nodes] || []
       visited_nodes.push Socket::gethostname
       @nodes.each do |node|
-        if visited_nodes.include? node
+        if visited_nodes.include? @name
           @syslog.info "Skipping #{node}..."
           next
         end
         uri_string = "#{node}:#{@port}/search/artifacts/#{subject}/#{device}"
-        @syslog.info "submitting to node: #{uri_string}"
+        # @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'

@@ -6,6 +6,10 @@ class Garden::Domain::Configuration
     @ctx_map = ctx_map || {}
   end
 
+  def name
+    @ctx_map['name']
+  end
+
   def is_router?
     @ctx_map['role'] == 'router'
   end

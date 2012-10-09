@@ -84,7 +84,10 @@ module Garden
 
     # Starting a router.
     def Util::run_as_router cfg
-      router = Domain::ComponentFactory::instance.create_router cfg.children, cfg.parent
+      router = Domain::ComponentFactory::instance.create_router \
+        cfg.children, \
+        cfg.parent, \
+        cfg.name
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
@@ -96,7 +99,8 @@ module Garden
     def Util::run_as_node cfg
       node = Domain::ComponentFactory::instance.create_node \
         cfg.parent, \
-        Util::generate_repo_uri(cfg.repository_name)
+        Util::generate_repo_uri(cfg.repository_name), \
+        cfg.name
       Application::NodeService::initialize \
         :node => node, \
         :ctx => { :port => Settings::PORT_NUMBER }

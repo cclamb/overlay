@@ -58,22 +58,22 @@ class Garden::Domain::ComponentFactory
   end
 
   # Creating a router from a list of child nodes.
-  def create_router children, parent = nil
+  def create_router children, parent = nil, name = nil
     Domain::Router.new \
       :umm => create_usage_manager, \
-      :dispatcher => create_dispatcher(children), \
+      :dispatcher => create_dispatcher(children, name), \
       :parent_dispatcher => parent == nil ? nil : create_dispatcher([parent]), \
       :rectifier => nil
   end
 
   # Creating a dispatcher, generally for a router.
-  def create_dispatcher children
-    Domain::Dispatcher.new children, Settings::PORT_NUMBER
+  def create_dispatcher children, name
+    Domain::Dispatcher.new children, Settings::PORT_NUMBER, name
   end
 
-  def create_node parent, repo_uri = nil
+  def create_node parent, repo_uri = nil, name = nil
     Domain::Node.new \
-      :dispatcher => create_dispatcher([parent]), \
+      :dispatcher => create_dispatcher([parent], name), \
       :umm => create_usage_manager, \
       :repository => create_artifact_repo(repo_uri)
   end
