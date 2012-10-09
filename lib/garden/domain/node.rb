@@ -21,15 +21,6 @@ class Garden::Domain::Node
       artifact = artifacts.pop
     end
     artifact
-    # TODO: Uncomment when integrating UMM
-    #
-    # ctx = @context_factory.assemble_context subject, artifact_description, device
-    # bundles = @rectifier.partition artifact_description
-    # bundles_to_return = []
-    # bundles.each do |bundle|
-    #   bundles_to_return.push bundle if umm.execute? bundle.policy, ctx, :read
-    # end
-    # @rectifier.assemble bundles_to_return
   end
 
   def artifacts subject, device, is_standalone = nil

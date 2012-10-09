@@ -42,10 +42,13 @@ class Garden::Domain::Dispatcher
         #@syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
-        responses.push response.body if response.code == '200'
+        if response.code == '200'
+          decoded_body = Marshal::load(Base64::decode64 response.body)
+          responses.push decoded_body
+        end
         visited_nodes.push node
       end
-      return responses   
+      return responses.flatten
   end
 
   private
