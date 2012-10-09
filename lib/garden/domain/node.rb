@@ -20,7 +20,7 @@ class Garden::Domain::Node
       artifacts = @dispatcher.dispatch_artifact subject, device, key
       artifact = artifacts.pop
     end
-    @syslog.info "artifact: #{artifact}"
+    # @syslog.info "artifact: #{artifact}"
     artifact
   end
 
