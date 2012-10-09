@@ -27,7 +27,7 @@ class Garden::Domain::Router
   def artifacts subject, device, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifacts subject, device
     if @parent_dispatcher != nil && is_standalone == nil
-      @parent_dispatcher.dispatch_artifacts subject, device, args
+      results | @parent_dispatcher.dispatch_artifacts(subject, device, args)
     else
       results
     end
