@@ -82,7 +82,7 @@ class Garden::Application::NodeService < TestInterface
     if results == nil || results.empty?
       halt 404
     else
-      return results.to_s.gsub!(/(\[|\"|,)/, '').gsub!(/(\]|\w)/, ' ')
+      return results.to_s.gsub!(/(\[|\"|,)/, '').gsub!(/(\]|\s)/, ' ')
     end
   end
 
