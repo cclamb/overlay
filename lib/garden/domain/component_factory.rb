@@ -62,7 +62,7 @@ class Garden::Domain::ComponentFactory
     Domain::Router.new \
       :umm => create_usage_manager, \
       :dispatcher => create_dispatcher(children, name), \
-      :parent_dispatcher => parent == nil ? nil : create_dispatcher([parent]), \
+      :parent_dispatcher => parent == nil ? nil : create_dispatcher([parent], name), \
       :rectifier => nil
   end
 
