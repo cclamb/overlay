@@ -39,7 +39,7 @@ class Garden::Domain::Dispatcher
   def dispatch_artifact subject, device, id, args = {}
       responses = []
       visited_nodes = args[:visited_nodes] || []
-      visited_nodes.push Socket::gethostname
+      visited_nodes.push @name
       @nodes.each do |node|
         next if visited_nodes.include? node
         uri_string = "#{node}:#{@port}/search/artifact/#{subject}/#{device}/#{id}"
