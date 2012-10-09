@@ -32,6 +32,7 @@
 #
 #############################################################################################
   rs0:
+    name: *rs0
     role: context_manager
 
 #############################################################################################
@@ -45,6 +46,7 @@
 #
 #############################################################################################
   rs1:
+    name: *rs1
     context_server: *rs0
     role: router
     children:
@@ -53,6 +55,7 @@
 
 
   rs2:
+    name: *rs2
     context_server: *rs0
     role: router
     parent: *rs1
@@ -61,6 +64,7 @@
       - *rs4
 
   rs3:
+    name: *rs3
     context_server: *rs0
     role: router
     parent: *rs2
@@ -70,6 +74,7 @@
       - *rs9
 
   rs4:
+    name: *rs4
     context_server: *rs0
     role: router
     parent: *rs2
@@ -78,6 +83,7 @@
       - *rs6
 
   ip-10-4-178-42:
+    name: *ip-10-4-178-42
     context_server: *rs0
     role: router
     parent: *rs1
@@ -86,6 +92,7 @@
       - *ip-10-212-135-203
 
   ip-10-196-115-185:
+    name: *ip-10-196-115-185
     context_server: *rs0
     role: router
     parent: *ip-10-4-178-42
@@ -96,6 +103,7 @@
       - *ip-10-117-35-119
 
   ip-10-212-135-203:
+    name: *ip-10-212-135-203
     context_server: *rs0
     role: router
     parent: *ip-10-4-178-42
@@ -111,65 +119,77 @@
 #############################################################################################
 
   rs5:
+    name: *rs5
     role: node
     context_server: *rs0
     parent: *rs4
 
   rs6:
+    name: *rs6
     role: node
     context_server: *rs0
     repository: repo_old_location.dat
     parent: *rs4
 
   rs7:
+    name: *rs7
     role: node
     context_server: *rs0
     repository: repo_secret.dat
     parent: *rs3
 
   rs8:
+    name: *rs8
     role: node
     context_server: *rs0
     repository: repo_topsecret.dat
     parent: *rs3
 
   rs9:
+    name: *rs9
     role: node
     context_server: *rs0
     parent: *rs3
 
   ip-10-99-65-6:
+    name: *ip-10-99-65-6
     role: node
     context_server: *rs0
     parent: *ip-10-212-135-203
 
   ip-10-195-205-62:
+    name: *ip-10-195-205-62
     role: node
     repository: repo_index.dat
     context_server: *rs0
     parent: *ip-10-212-135-203
 
   ip-10-212-123-155:
+    name: *ip-10-212-123-155
     role: node
     context_server: *rs0
     parent: *ip-10-212-135-203
 
   ip-10-114-61-53:
+    name: *ip-10-114-61-53
     role: node
     context_server: *rs0
     parent: *ip-10-196-115-185
 
   ip-10-196-39-9:
+    name: *ip-10-196-39-9
     role: node
     context_server: *rs0
     parent: *ip-10-196-115-185
 
   ip-10-203-83-56:
+    name: *ip-10-203-83-56
     role: node
     context_server: *rs0
     parent: *ip-10-196-115-185
 
   ip-10-117-35-119:
+    name: *ip-10-117-35-119
     role: node
     context_server: *rs0
     parent: *ip-10-196-115-185
