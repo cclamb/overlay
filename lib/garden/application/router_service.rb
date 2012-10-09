@@ -1,4 +1,5 @@
 require 'socket'
+require 'base64'
 
 require_relative '../domain/component_factory'
 require_relative '../util/test_interface'
@@ -39,11 +40,17 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifact/*' do
     begin
-      visited_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes_m_enc = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes = Marshal.load(Base64.decode64 visited_nodes_m_enc)
       @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
-      results = @@router.artifact args[:username], args[:device], args[:id], :standalone
+      results = @@router.artifact \
+        args[:username], \
+        args[:device], \
+        args[:id], \
+        { :visited_nodes => visited_nodes }, \
+        :standalone
       handle_results results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err
@@ -53,11 +60,16 @@ class Garden::Application::RouterService < TestInterface
 
   get '/search/artifacts/*' do
     begin
-      visited_nodes = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes_m_enc = request.env['HTTP_X_OVERLAY_VISITED_NODES']
+      visited_nodes = Marshal.load(Base64.decode64 visited_nodes_m_enc)
       @@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
-      results = @@router.artifacts args[:username], args[:device], :standalone
+      results = @@router.artifacts \
+        args[:username], \
+        args[:device], \
+        { :visited_nodes => visited_nodes }, \
+        :standalone
       handle_results results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err

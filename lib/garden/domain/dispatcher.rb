@@ -1,3 +1,5 @@
+require 'base64'
+require 'socket'
 
 include Garden
 
@@ -9,13 +11,16 @@ class Garden::Domain::Dispatcher
     @port = port
   end
 
-  def dispatch_artifacts subject, device
+  def dispatch_artifacts subject, device, args = {}
       responses = []
+      visited_nodes = args[:visited_nodes]
+      visited_nodes.push Socket::gethostname
       @nodes.each do |node|
+        next if visited_nodes.include? node
         uri_string = "#{node}:#{@port}/search/artifacts/#{subject}/#{device}"
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
-        response = send_request uri 
+        response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'
         # if response.code == '200'
         #   keys = response.body[1..-1].chop.split ", "
@@ -27,13 +32,16 @@ class Garden::Domain::Dispatcher
       return responses    
   end
 
-  def dispatch_artifact subject, device, id
+  def dispatch_artifact subject, device, id, args = {}
       responses = []
+      visited_nodes = args[:visited_nodes]
+      visited_nodes.push Socket::gethostname
       @nodes.each do |node|
+        next if visited_nodes.include? node
         uri_string = "#{node}:#{@port}/search/artifact/#{subject}/#{device}/#{id}"
         @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
-        response = send_request uri 
+        response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'
       end
       return responses   
@@ -41,12 +49,13 @@ class Garden::Domain::Dispatcher
 
   private
 
-  def send_request uri, args = nil
+  def send_request uri, visited_nodes
     response = nil
+    visited_nodes = Base64.encode64(Marshal.dump visited_nodes)
     begin
       http = Net::HTTP.new uri.host, uri.port
       request = Net::HTTP::Get.new uri.request_uri, \
-        'X-Overlay-Visited-Nodes' => Socket::gethostname
+        'X-Overlay-Visited-Nodes' => visted_nodes
       response = http.request request
     rescue RuntimeError => err
       @syslog.error "error thrown in router: #{err}"

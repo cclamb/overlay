@@ -15,19 +15,19 @@ class Garden::Domain::Router
     @parent_dispatcher = args[:parent_dispatcher]
   end
 
-  def artifact subject, device, key, is_standalone = nil
+  def artifact subject, device, key, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifact subject, device, key
     if results.empty? && @parent_dispatcher != nil && is_standalone == nil
-      @parent_dispatcher.dispatch_artifact subject, device, key
+      @parent_dispatcher.dispatch_artifact subject, device, key, args
     else
       results
     end
   end 
 
-  def artifacts subject, device, is_standalone = nil
+  def artifacts subject, device, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifacts subject, device
     if @parent_dispatcher != nil && is_standalone == nil
-      @parent_dispatcher.dispatch_artifacts subject, device
+      @parent_dispatcher.dispatch_artifacts subject, device, args
     else
       results
     end
