@@ -185,6 +185,7 @@
   ip-10-203-83-56:
     name: *ip-10-203-83-56
     role: node
+    repository: repo_old_location.dat
     context_server: *rs0
     parent: *ip-10-196-115-185
 
