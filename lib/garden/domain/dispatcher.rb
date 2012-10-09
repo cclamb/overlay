@@ -26,11 +26,7 @@ class Garden::Domain::Dispatcher
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'
-        # if response.code == '200'
-        #   keys = response.body[1..-1].chop.split ", "
-        #   responses.concat keys
-        # end
-        #@syslog.info "single response is: #{response.body}"
+        visited_nodes.push node
       end
       @syslog.info "responses are: #{responses}"
       return responses    
@@ -47,6 +43,7 @@ class Garden::Domain::Dispatcher
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'
+        visited_nodes.push node
       end
       return responses   
   end
