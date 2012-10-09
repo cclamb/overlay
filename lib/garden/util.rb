@@ -66,16 +66,16 @@ module Garden
     def Util::start cfg
       syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
       if cfg.is_router?
-        syslog.info "starting router with #{cfg.inspect}"
+        #syslog.info "starting router with #{cfg.inspect}"
         Util::run_as_router cfg
       elsif cfg.is_node?
-        syslog.info "starting node with #{cfg.inspect}"
+        #syslog.info "starting node with #{cfg.inspect}"
         Util::run_as_node cfg
       elsif cfg.is_peer_node?
-        syslog.info 'starting peer node'
+        #syslog.info 'starting peer node'
         Util::run_as_peer_node
       elsif cfg.is_context_server?
-        syslog.info 'starting context server'
+        #syslog.info 'starting context server'
         Util::run_as_context_server
       else
         syslog.info 'A run type was not submitted in the context; exiting.'
