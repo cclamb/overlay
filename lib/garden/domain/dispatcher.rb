@@ -16,6 +16,7 @@ class Garden::Domain::Dispatcher
       responses = []
       visited_nodes = args[:visited_nodes] || []
       visited_nodes.push @name
+      @syslog.info "Visited Nodes: #{visited_nodes}"
       @nodes.each do |node|
         if visited_nodes.include? @name
           @syslog.info "Skipping #{node}..."
