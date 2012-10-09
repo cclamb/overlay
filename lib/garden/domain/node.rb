@@ -34,7 +34,7 @@ class Garden::Domain::Node
 
   def artifacts subject, device, is_standalone = nil
     keys = @repository.artifacts
-    keys = @dispatcher.dispatch_artifacts(subject, device) if is_standalone == nil
+    keys = keys | @dispatcher.dispatch_artifacts(subject, device) if is_standalone == nil
     keys.to_s
   end
 
