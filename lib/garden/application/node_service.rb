@@ -82,7 +82,7 @@ class Garden::Application::NodeService < TestInterface
     if results == nil || results.empty?
       halt 404
     else
-      return results
+      return Base64.encode64(Marshal.dump results)
     end
   end
 
