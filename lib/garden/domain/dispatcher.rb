@@ -41,7 +41,7 @@ class Garden::Domain::Dispatcher
         #@syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
-        @syslog.info "==> RESPONSE IS: #{response.body}" if response.code == '200'
+        @syslog.info response.body if response.code == '200'
         responses.push response.body if response.code == '200'
         visited_nodes.push node
       end
