@@ -20,7 +20,7 @@ class Garden::Domain::Node
       artifacts = @dispatcher.dispatch_artifact subject, device, key
       artifact = artifacts.pop
     end
-    artifact
+    artifact.to_s
   end
 
   def artifacts subject, device, is_standalone = nil
