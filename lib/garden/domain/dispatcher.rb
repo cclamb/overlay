@@ -1,5 +1,4 @@
 require 'base64'
-require 'socket'
 
 include Garden
 
@@ -25,15 +24,11 @@ class Garden::Domain::Dispatcher
         # @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
-        #responses.push response.body if response.code == '200'
-        if response.code == '200'
-          body = Marshal::load(Base64::decode64 response.body)
-          responses.push body
-        end
+        responses.push response.body if response.code == '200'
         visited_nodes.push node
       end
       @syslog.info "responses are: #{responses}"
-      return responses.flatten
+      return responses
   end
 
   def dispatch_artifact subject, device, id, args = {}

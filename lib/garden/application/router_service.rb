@@ -88,7 +88,7 @@ class Garden::Application::RouterService < TestInterface
     if results == nil || results.empty?
       halt 404
     else
-      return Base64.encode64(Marshal.dump results)
+      return results
     end
   end
 
