@@ -43,7 +43,7 @@ class Garden::Application::NodeService < TestInterface
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
       results = @@node.artifact args[:username], args[:device], args[:id], :standalone
-      @@syslog.info results.inspect
+      @@syslog.info "results: #{results}"
       handle_result results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err

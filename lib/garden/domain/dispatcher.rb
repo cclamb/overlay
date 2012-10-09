@@ -45,7 +45,7 @@ class Garden::Domain::Dispatcher
         responses.push response.body if response.code == '200'
         visited_nodes.push node
       end
-      @syslog.info responses
+      # @syslog.info responses
       return responses   
   end
 
