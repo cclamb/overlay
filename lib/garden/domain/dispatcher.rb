@@ -28,7 +28,7 @@ class Garden::Domain::Dispatcher
         visited_nodes.push node
       end
       @syslog.info "responses are: #{responses}"
-      return responses.gsub!(/(\[|\"|,)/, '').gsub!(/\]/, ' ')
+      return responses
   end
 
   def dispatch_artifact subject, device, id, args = {}
@@ -44,7 +44,7 @@ class Garden::Domain::Dispatcher
         responses.push response.body if response.code == '200'
         visited_nodes.push node
       end
-      return response
+      return responses   
   end
 
   private
