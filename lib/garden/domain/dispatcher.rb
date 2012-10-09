@@ -16,9 +16,12 @@ class Garden::Domain::Dispatcher
       visited_nodes = args[:visited_nodes] || []
       visited_nodes.push Socket::gethostname
       @nodes.each do |node|
-        next if visited_nodes.include? node
+        if visited_nodes.include? node
+          @syslog.info "Skipping #{node}..."
+          next
+        end
         uri_string = "#{node}:#{@port}/search/artifacts/#{subject}/#{device}"
-        # @syslog.info "submitting to node: #{uri_string}"
+        @syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
         responses.push response.body if response.code == '200'
