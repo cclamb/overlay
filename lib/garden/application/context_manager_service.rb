@@ -40,6 +40,14 @@ class Garden::Application::ContextManagerService < TestInterface
     JSON.generate generate_return(id)
   end
 
+  post '/status/all' do
+    params.each { |k,v| puts "(#{k})-->:\n #{v}\n\n" }
+    #puts "-->: \n #{params[:sensitivity]}"
+    #x = eval params
+    #puts "-->: \n #{x[:sensitivity]}"
+    'recieved'
+  end
+
   post '/status/:id' do
     new_level = params[:level]
     id = params[:id]
