@@ -74,6 +74,7 @@ class Garden::Application::NodeService < TestInterface
     if result == nil
       halt 404
     else
+      @@syslog.info "(node) returning artifact."
       return result
     end
   end

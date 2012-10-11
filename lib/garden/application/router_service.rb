@@ -86,6 +86,7 @@ class Garden::Application::RouterService < TestInterface
     if results == nil || results.empty? == true
       halt 404
     else
+      @@syslog.info "(router) returning artifact."
       return results.shift
     end
   end

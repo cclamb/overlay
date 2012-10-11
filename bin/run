@@ -13,7 +13,7 @@ Configuration = {
     :home_node => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789',
     :distant_node => 'http://198.101.209.178:6789',
   },
-  :iterations => 5
+  :iterations => 20
 }
 
 Output_Interface = ->(x){ puts x }
