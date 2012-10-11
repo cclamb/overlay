@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+require 'uri'
+require 'net/http'
+
+Configuration = {
+  :name   => '1, 2, 2 Hierarchical Configuration',
+  :id     => :h_1_2_2,
+  :artifact => 'index',
+  :user => 'cclamb',
+  :profile => 'tablet',
+  :nodes  => {
+    :top => 'http://198.101.205.155:6789',
+    :home_node => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789',
+    :distant_node => 'http://198.101.209.178:6789',
+  },
+  :iterations => 1
+}
+
+Output_Interface = ->(x){ puts x }
+
+active_configuration = Configuration
+active_output_interface = Output_Interface
+
+def standard_header_builder params
+  "Run: #{params[:name]} \nDate/Time: #{Time.now} \n--- Begin Data ---\n"
+end
+
+def standard_footer_builder
+  "--- End Data ---"
+end
+
+def standard_output_builder params
+  "#{params[:host]}: #{params[:data].to_s.gsub! /([|])/, ''}\n"
+end
+
+def build_url ctx
+  "#{ctx[:host]}/artifact/#{ctx[:user]}/#{ctx[:profile]}/#{ctx[:artifact]}"
+end
+
+def send_request uri
+	response = nil
+	begin
+	  http = Net::HTTP.new uri.host, uri.port
+	  request = Net::HTTP::Get.new uri.request_uri
+	  response = http.request request
+	rescue RuntimeError => err
+	  @syslog.error "error thrown in router: #{err}"
+	end
+end
+
+active_configuration[:nodes].each do |k,v|
+  data = []
+  active_configuration[:iterations].times do |x|
+    url = build_url :user => active_configuration[:user],
+      :host => v,
+      :profile => active_configuration[:profile],
+      :artifact => active_configuration[:artifact]
+    time_start = Time.now
+    send_request URI.parse url
+    time_stop = Time.now
+    data.push time_stop - time_start
+  end
+  output = active_output_interface.call standard_header_builder :name => active_configuration[:name]
+  output += standard_output_builder :host => v, :data => data
+  output += standard_footer_builder
+end       
+
+# response = send_request URI.parse 'http://www.chrislambistan.com'
+
+# puts build_url :user => 'cclamb',
+#   :host =>'http://198.101.205.155',
+#   :profile =>'tablet',
+#   :artifact => 'index'

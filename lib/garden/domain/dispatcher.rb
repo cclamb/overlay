@@ -1,4 +1,6 @@
 require 'base64'
+require 'uri'
+require 'net/http'
 
 include Garden
 
@@ -60,7 +62,7 @@ class Garden::Domain::Dispatcher
         'X-Overlay-Visited-Nodes' => visited_nodes
       response = http.request request
     rescue RuntimeError => err
-      @syslog.error "error thrown in router: #{err}"
+      @syslog.error "error thrown in dispatcher: #{err}"
     end
   end
 
