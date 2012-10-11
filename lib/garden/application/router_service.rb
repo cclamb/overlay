@@ -87,7 +87,7 @@ class Garden::Application::RouterService < TestInterface
     if results == nil || results.empty? == true
       halt 404
     else
-      return result.shift
+      return results.shift
     end
   end
 
