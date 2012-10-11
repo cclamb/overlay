@@ -9,11 +9,13 @@ Configuration = {
   :user => 'cclamb',
   :profile => 'tablet',
   :nodes  => {
-    :top => 'http://198.101.205.155:6789',
-    :home_node => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789',
-    :distant_node => 'http://198.101.209.178:6789',
+    :home => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789', #ip-10-195-205-62
+    :peer => 'http://ec2-50-17-85-234.compute-1.amazonaws.com:6789', #ip-10-99-65-6
+    :neighbor => 'http://ec2-107-20-47-98.compute-1.amazonaws.com:6789', # ip-10-196-39-9
+    :distant_1 => 'http://198.101.209.247:6789', # rs5
+    :distant_2 => 'http://198.101.207.48:6789' # rs8
   },
-  :iterations => 20
+  :iterations => 100
 }
 
 Output_Interface = ->(x){ puts x }
