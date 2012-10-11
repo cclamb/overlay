@@ -55,6 +55,9 @@ role :nodes, '198.101.205.153', \
   'ec2-184-73-2-121.compute-1.amazonaws.com', \
   'ec2-23-22-144-216.compute-1.amazonaws.com'
 
+role :anvils, '198.101.206.229', \
+  'ec2-50-19-74-12.compute-1.amazonaws.com'
+
 #role :node, '198.101.205.156'
 #role :node, 'ec2-23-22-144-216.compute-1.amazonaws.com'
 role :node, 'ec2-67-202-45-247.compute-1.amazonaws.com'
@@ -121,6 +124,14 @@ namespace :nodes do
 
   task :tail, :roles => :node do
     run "tail -f current/system.log"
+  end
+
+end
+
+namespace :anvils do
+
+  task :start, :roles => :anvils do
+    run "./current/bin/run > results.csv"
   end
 
 end
