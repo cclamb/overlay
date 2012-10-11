@@ -13,7 +13,7 @@ Configuration = {
     :home_node => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789',
     :distant_node => 'http://198.101.209.178:6789',
   },
-  :iterations => 1
+  :iterations => 5
 }
 
 Output_Interface = ->(x){ puts x }
@@ -30,7 +30,7 @@ def standard_footer_builder
 end
 
 def standard_output_builder params
-  "#{params[:host]}: #{params[:data].to_s.gsub! /([|])/, ''}\n"
+  "#{params[:host]} (#{params[:label]}):\n #{params[:data].to_s.gsub! /(\[|\])/, ''}\n"
 end
 
 def build_url ctx
@@ -42,7 +42,7 @@ def send_request uri
 	begin
 	  http = Net::HTTP.new uri.host, uri.port
 	  request = Net::HTTP::Get.new uri.request_uri
-	  response = http.request request
+	  http.request request
 	rescue RuntimeError => err
 	  @syslog.error "error thrown in router: #{err}"
 	end
@@ -58,11 +58,12 @@ active_configuration[:nodes].each do |k,v|
       :profile => active_configuration[:profile],
       :artifact => active_configuration[:artifact]
     time_start = Time.now
-    results = send_request URI.parse url
+    response = send_request URI.parse url
+    #puts response.body
     time_stop = Time.now
-    data.push time_stop - time_start
+    data.push (time_stop - time_start)
   end
-  active_output_interface.call standard_output_builder :host => url, :data => data
+  active_output_interface.call standard_output_builder :host => url, :data => data, :label => k
 end
 active_output_interface.call standard_footer_builder    
 

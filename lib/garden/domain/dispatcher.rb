@@ -40,14 +40,14 @@ class Garden::Domain::Dispatcher
       @nodes.each do |node|
         next if visited_nodes.include? node
         uri_string = "#{node}:#{@port}/search/artifact/#{subject}/#{device}/#{id}"
-        @syslog.info "submitting to node: #{uri_string}"
+        #@syslog.info "submitting to node: #{uri_string}"
         uri = URI.parse uri_string
         response = send_request uri, visited_nodes
-        @syslog.info "Body is: #{response.body}" if response.code == '200'
+        #@syslog.info "Body is: #{response.body}" if response.code == '200'
         responses.push response.body if response.code == '200'
         visited_nodes.push node
       end
-      @syslog.info "Responses are: #{responses}"
+      #@syslog.info "Responses are: #{responses}"
       return responses   
   end
 

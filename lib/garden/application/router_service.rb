@@ -83,7 +83,6 @@ class Garden::Application::RouterService < TestInterface
   end
 
   def handle_result results
-
     if results == nil || results.empty? == true
       halt 404
     else
