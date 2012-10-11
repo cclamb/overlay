@@ -49,8 +49,7 @@ class Garden::Application::RouterService < TestInterface
         args[:username], \
         args[:device], \
         args[:id], \
-        { :visited_nodes => visited_nodes } #, \
-        # :standalone
+        { :visited_nodes => visited_nodes }
       handle_result results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err
@@ -68,8 +67,7 @@ class Garden::Application::RouterService < TestInterface
       results = @@router.artifacts \
         args[:username], \
         args[:device], \
-        { :visited_nodes => visited_nodes } #, \
-        # :standalone
+        { :visited_nodes => visited_nodes }
       handle_results results
     rescue Exception => err
       Util::process_error self.to_s,'error in artifact operation', err
@@ -84,11 +82,12 @@ class Garden::Application::RouterService < TestInterface
     return h
   end
 
-  def handle_result result
-    if result == nil
+  def handle_result results
+
+    if results == nil || results.empty? == true
       halt 404
     else
-      return result
+      return result.shift
     end
   end
 
