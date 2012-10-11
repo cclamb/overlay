@@ -39,8 +39,8 @@ describe ComponentFactory do
     factory = ComponentFactory::instance.should_not eq nil
   end
 
-  it 'should create a usage manager' do
-    ComponentFactory::instance(:bucket_name => 'foo').create_usage_manager.should_not eq nil
+  it 'should create a rectifier' do
+    ComponentFactory::instance(:bucket_name => 'foo').create_rectifier.should_not eq nil
   end
 
   context 'with a LogFactory' do

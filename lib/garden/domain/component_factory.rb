@@ -60,10 +60,9 @@ class Garden::Domain::ComponentFactory
   # Creating a router from a list of child nodes.
   def create_router children, parent = nil, name = nil
     Domain::Router.new \
-      :umm => create_usage_manager, \
       :dispatcher => create_dispatcher(children, name), \
       :parent_dispatcher => parent == nil ? nil : create_dispatcher([parent], name), \
-      :rectifier => nil
+      :rectifier => create_rectifier
   end
 
   # Creating a dispatcher, generally for a router.
@@ -74,8 +73,8 @@ class Garden::Domain::ComponentFactory
   def create_node parent, repo_uri = nil, name = nil
     Domain::Node.new \
       :dispatcher => create_dispatcher([parent], name), \
-      :umm => create_usage_manager, \
-      :repository => create_artifact_repo(repo_uri)
+      :repository => create_artifact_repo(repo_uri), \
+      :rectifier => create_rectifier
   end
 
   def create_context_manager
@@ -89,8 +88,8 @@ class Garden::Domain::ComponentFactory
   end
 
   # Create a usage manager.
-  def create_usage_manager
-    Object.new
+  def create_rectifier
+    
   end
 
   # Creating an artifact repository.

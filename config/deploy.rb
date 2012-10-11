@@ -134,4 +134,8 @@ namespace :anvils do
     run "./current/bin/run > results.csv"
   end
 
+  task :cat, :roles => :anvils do
+    run 'cat ~/results.csv'
+  end
+
 end

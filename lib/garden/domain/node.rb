@@ -1,12 +1,9 @@
 class Garden::Domain::Node
 
   def initialize args
-    cnt = args.keys.count { |x| x == :repository || x == :umm  || x == :dispatcher}
-    raise 'must include a :repository, :dispatcher, and a :umm' unless cnt == 3
     @repository = args[:repository]
     @context_factory = args[:context_factory]
     @dispatcher = args[:dispatcher]
-    @umm = args[:umm]
     @syslog = Domain::ComponentFactory::instance \
       .create_system_log self.to_s
   end
