@@ -24,7 +24,7 @@ module Test
     end
     def artifacts *args
       $is_searched_for = true
-      @mode ? 'artifact returned' : []
+      @mode ? ['artifact returned'] : []
     end
   end
 
@@ -35,11 +35,11 @@ module Test
     end
     def artifact *args
       $is_searched_for = true
-      @mode ? 'artifact returned' : []
+      @mode ? ['artifact returned'] : []
     end
     def artifacts *args
       $is_searched_for = true
-      @mode ? 'artifact returned' : []
+      @mode ? ['artifact returned'] : []
     end
   end
 

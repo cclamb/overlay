@@ -1,6 +1,6 @@
 require_relative '../../garden'
 
-class ContentRectifier
+class Garden::Domain::ContentRectifier
 
   def initialize params
     @umm = params[:umm]
@@ -10,6 +10,7 @@ class ContentRectifier
 
   def process args
     @syslog.info "processing content: #{args[:artifact]}"
+    args[:artifact]
   end
 
 	def encrypt

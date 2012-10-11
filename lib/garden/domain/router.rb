@@ -11,10 +11,11 @@ class Garden::Domain::Router
   def artifact subject, device, key, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifact subject, device, key, args
     if results.empty? && @parent_dispatcher != nil && is_standalone == nil
-      @parent_dispatcher.dispatch_artifact subject, device, key, args
-    else
-      results
+      results = @parent_dispatcher.dispatch_artifact subject, device, key, args
     end
+    processed_results = []
+    results.each { |object| processed_results.push(@rectifier.process :artifact => object) }
+    return processed_results
   end 
 
   def artifacts subject, device, args = {}, is_standalone = nil

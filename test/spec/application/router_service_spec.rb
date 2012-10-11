@@ -50,7 +50,7 @@ describe Application::RouterService do
     it 'should return content that exists' do
       $is_searched_for = false
       @router.find? true
-      get '/artifact/foo/bar/i-dont-exist'
+      get '/artifact/foo/bar/bleah'
       last_response.should be_ok
       $is_searched_for.should eq true
     end

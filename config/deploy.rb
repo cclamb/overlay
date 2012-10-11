@@ -138,4 +138,8 @@ namespace :anvils do
     run 'cat ~/results.csv'
   end
 
+  task :clean, :roles => :anvils do
+    run "rm ~/results.csv"
+  end
+
 end

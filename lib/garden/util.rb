@@ -8,6 +8,7 @@ require_relative '../../test/spec/application/test'
 require_relative 'domain/component_factory'
 require_relative '../../etc/settings'
 require_relative 'util/policy_evaluator'
+require_relative 'util/content_rectifier'
 
 module Garden
 
