@@ -12,15 +12,15 @@ class Garden::Domain::Node
   end
 
   def artifact subject, device, key, is_standalone = nil
-    # @syslog.info "processing artifact request: #{subject} #{device} #{key} : #{@repository.inspect}"
+    @syslog.info "processing artifact request: #{subject} #{device} #{key} : #{@repository.inspect}"
     return nil if key == nil || @repository == nil
     artifact = @repository.artifact(key.to_sym) || @repository.artifact(key)
-    #@syslog.info "artifact : #{artifact.inspect}"
+    @syslog.info "artifact : #{artifact.inspect}"
     if artifact == nil && is_standalone == nil
       artifacts = @dispatcher.dispatch_artifact subject, device, key
       artifact = artifacts.pop
     end
-    # @syslog.info "artifact: #{artifact}"
+    @syslog.info "artifact: #{artifact}"
     artifact
   end
 
