@@ -48,22 +48,23 @@ def send_request uri
 	end
 end
 
+active_output_interface.call standard_header_builder :name => active_configuration[:name]
 active_configuration[:nodes].each do |k,v|
   data = []
+  url = nil
   active_configuration[:iterations].times do |x|
     url = build_url :user => active_configuration[:user],
       :host => v,
       :profile => active_configuration[:profile],
       :artifact => active_configuration[:artifact]
     time_start = Time.now
-    send_request URI.parse url
+    results = send_request URI.parse url
     time_stop = Time.now
     data.push time_stop - time_start
   end
-  output = active_output_interface.call standard_header_builder :name => active_configuration[:name]
-  output += standard_output_builder :host => v, :data => data
-  output += standard_footer_builder
-end       
+  active_output_interface.call standard_output_builder :host => url, :data => data
+end
+active_output_interface.call standard_footer_builder    
 
 # response = send_request URI.parse 'http://www.chrislambistan.com'
 
