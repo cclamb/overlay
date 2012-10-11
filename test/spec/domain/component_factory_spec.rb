@@ -90,17 +90,17 @@ describe ComponentFactory do
 
   context 'with a router creation request' do
     it 'should create a router' do
-      ComponentFactory.instance.create_router([]).should_not eq nil
+      ComponentFactory.instance.create_router({}).should_not eq nil
     end
   end
 
   context 'with a node creation request' do
     it 'should create a node' do
-      ComponentFactory.instance.create_node(build_raw_repo_uri).should_not eq nil
+      ComponentFactory.instance.create_node(:repo_uri => build_raw_repo_uri).should_not eq nil
     end
 
     it 'should create a node with a nil repo' do
-      ComponentFactory.instance.create_node('parent').should_not eq nil
+      ComponentFactory.instance.create_node(:parent => 'parent').should_not eq nil
     end
   end
 

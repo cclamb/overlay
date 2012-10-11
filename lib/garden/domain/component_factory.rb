@@ -58,11 +58,11 @@ class Garden::Domain::ComponentFactory
   end
 
   # Creating a router from a list of child nodes.
-  def create_router children, parent = nil, name = nil
+  def create_router args # children, parent = nil, name = nil
     Domain::Router.new \
-      :dispatcher => create_dispatcher(children, name),
-      :parent_dispatcher => parent == nil ? nil : create_dispatcher([parent], name),
-      :rectifier => create_rectifier
+      :dispatcher => create_dispatcher(args[:children], args[:name]),
+      :parent_dispatcher => args[:parent] == nil ? nil : create_dispatcher([args[:parent]], args[:name]),
+      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy])
   end
 
   # Creating a dispatcher, generally for a router.
@@ -70,11 +70,11 @@ class Garden::Domain::ComponentFactory
     Domain::Dispatcher.new children, Settings::PORT_NUMBER, name
   end
 
-  def create_node parent, repo_uri = nil, name = nil
+  def create_node args #parent, repo_uri = nil, name = nil
     Domain::Node.new \
-      :dispatcher => create_dispatcher([parent], name),
-      :repository => create_artifact_repo(repo_uri),
-      :rectifier => create_rectifier
+      :dispatcher => create_dispatcher([args[:parent]], args[:name]),
+      :repository => create_artifact_repo(args[:repo_uri]),
+      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy])
   end
 
   # Using a precreated route factory, create a route from
@@ -84,10 +84,11 @@ class Garden::Domain::ComponentFactory
   end
 
   # Create a usage manager.
-  def create_rectifier
+  def create_rectifier args = { :confidentiality_strategy => :redact }
     Domain::ContentRectifier.new \
       :umm => Domain::UsageManagementMechanism.new,
-      :context_manager => Domain::ContextManager.new
+      :context_manager => Domain::ContextManager.new,
+      :confidentiality_strategy => args[:confidentiality_strategy]
   end
 
   # Creating an artifact repository.
