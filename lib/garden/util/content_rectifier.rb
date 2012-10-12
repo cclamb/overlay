@@ -28,7 +28,7 @@ class Garden::Util::ContentRectifier
       #@syslog.info "policy: #{policy_name} \n context: #{args[:context]}"
       if @strategy == :redact
         section.remove unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
-      if @strategy == :reroute
+      elsif @strategy == :reroute
         unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
 
           options = {
@@ -52,6 +52,7 @@ class Garden::Util::ContentRectifier
           mail.deliver!
 
           section.remove
+
         end
       end
     end
