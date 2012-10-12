@@ -19,7 +19,7 @@ class Garden::Domain::Node
       artifact = artifacts.pop
     end
     #@syslog.info "artifact: #{artifact}"
-    @rectifier.process :artifact => artifact, :context => @context_manager.context
+    @rectifier.process :artifact => artifact, :context => @context_manager.context[:link]
   end
 
   def artifacts subject, device, is_standalone = nil
