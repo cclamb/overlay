@@ -63,7 +63,8 @@
       </index>
     </content>
   </data-object>
-</artifact><artifact>
+</artifact><?xml version="1.0"?>
+<artifact>
   <policy-set>
     policy(:default) {
       rule(:mission_affiliation) { |ma| ma == :tropic_thunder }
@@ -128,7 +129,9 @@
       </index>
     </content>
   </data-object>
-</artifact><artifact>
+</artifact>
+<?xml version="1.0"?>
+<artifact>
   <policy-set>
     policy(:default) {
       rule(:mission_affiliation) { |ma| ma == :tropic_thunder }

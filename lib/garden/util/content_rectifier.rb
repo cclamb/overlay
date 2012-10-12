@@ -22,6 +22,7 @@ class Garden::Util::ContentRectifier
 
     sections.each do |section|
       policy_name = section.attr 'policy'
+      @syslog.info "policy: #{policy_name} \n context: #{args[:context]}"
       section.remove unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
     end
     doc.to_s
