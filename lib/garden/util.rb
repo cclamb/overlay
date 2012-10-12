@@ -88,7 +88,8 @@ module Garden
         :children => cfg.children,
         :parent => cfg.parent,
         :name => cfg.name,
-        :managed => cfg.managed?
+        :managed => cfg.managed?,
+        :confidentiality_strategy => cfg.confidentiality_strategy
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
@@ -102,7 +103,8 @@ module Garden
         :parent => cfg.parent,
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),
         :name => cfg.name,
-        :managed => cfg.managed?
+        :managed => cfg.managed?,
+        :confidentiality_strategy => cfg.confidentiality_strategy
       Application::NodeService::initialize \
         :node => node, 
         :ctx => { :port => Settings::PORT_NUMBER }

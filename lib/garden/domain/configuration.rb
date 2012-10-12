@@ -34,8 +34,16 @@ class Garden::Domain::Configuration
     @ctx_map['router'] != nil
   end
 
+  def has_confidentiality_strategy?
+    @ctx_map['confidentiality_strategy'] != nil
+  end
+
   def managed?
     @ctx_map['managed'] != nil && (@ctx_map['managed'] == true || @ctx_map['managed'] == 'true')
+  end
+
+  def confidentiality_strategy
+    @ctx_map['confidentiality_strategy'] != nil ? @ctx_map['confidentiality_strategy'].to_sym : nil
   end
 
   def peers
