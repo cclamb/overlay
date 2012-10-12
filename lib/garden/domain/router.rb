@@ -2,7 +2,7 @@ class Garden::Domain::Router
 
   def initialize args
     @repository = args[:repository]
-    @context_factory = args[:context_factory]
+    @context_manager = args[:context_manager]
     @dispatcher = args[:dispatcher]
     @rectifier = args[:rectifier]
     @parent_dispatcher = args[:parent_dispatcher]
@@ -14,7 +14,7 @@ class Garden::Domain::Router
       results = @parent_dispatcher.dispatch_artifact subject, device, key, args
     end
     processed_results = []
-    results.each { |object| processed_results.push(@rectifier.process :artifact => object) }
+    results.each { |object| processed_results.push(@rectifier.process :artifact => object, :context => @context_manager.context) }
     return processed_results
   end 
 

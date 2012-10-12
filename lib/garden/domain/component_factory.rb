@@ -61,6 +61,7 @@ class Garden::Domain::ComponentFactory
   def create_router args # children, parent = nil, name = nil
     Domain::Router.new \
       :dispatcher => create_dispatcher(args[:children], args[:name]),
+      :context_manager => Domain::ContextManager.new,
       :parent_dispatcher => args[:parent] == nil ? nil : create_dispatcher([args[:parent]], args[:name]),
       :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
         :managed => args[:managed])
@@ -75,6 +76,7 @@ class Garden::Domain::ComponentFactory
     Domain::Node.new \
       :dispatcher => create_dispatcher([args[:parent]], args[:name]),
       :repository => create_artifact_repo(args[:repo_uri]),
+      :context_manager => Domain::ContextManager.new,
       :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
         :managed => args[:managed])
   end
@@ -90,7 +92,6 @@ class Garden::Domain::ComponentFactory
     if args[:managed] == true
       Util::ContentRectifier.new \
         :umm => Domain::UsageManagementMechanism.new,
-        :context_manager => Domain::ContextManager.new,
         :confidentiality_strategy => args[:confidentiality_strategy]
     else
       Util::NilContentRectifier.new

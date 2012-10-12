@@ -4,6 +4,7 @@ class Garden::Domain::Node
     @repository = args[:repository]
     @rectifier = args[:rectifier]
     @dispatcher = args[:dispatcher]
+    @context_manager = args[:context_manager]
     @syslog = Domain::ComponentFactory::instance \
       .create_system_log self.to_s
   end
@@ -18,7 +19,7 @@ class Garden::Domain::Node
       artifact = artifacts.pop
     end
     #@syslog.info "artifact: #{artifact}"
-    @rectifier.process :artifact => artifact
+    @rectifier.process :artifact => artifact, :context => @context_manager.context
   end
 
   def artifacts subject, device, is_standalone = nil

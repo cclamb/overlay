@@ -43,6 +43,15 @@ module NodeTest
     end
   end
 
+  class ContextManager
+    def context
+      {
+        :link => {},
+        :user => {}
+      }
+    end
+  end
+
 end
 
 
@@ -60,7 +69,8 @@ describe Node do
     n = Node.new \
       :dispatcher => NodeTest::Dispatcher.new,
       :repository => NodeTest::Repository.new,
-      :rectifier => NodeTest::ContentRectifier.new
+      :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifact('user', :tablet, nil).should eq nil
   end
 
@@ -68,7 +78,8 @@ describe Node do
     n = Node.new \
       :dispatcher => NodeTest::Dispatcher.new,
       :repository => nil, 
-      :rectifier => NodeTest::ContentRectifier.new
+      :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifact('user', :tablet, '123').should eq nil
   end
 
@@ -81,7 +92,8 @@ describe Node do
     n = Node.new \
       :dispatcher => dispatcher, \
       :repository => repo, \
-      :rectifier => NodeTest::ContentRectifier.new
+      :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifacts 'user', :tablet
     repo.searched.should eq true
     dispatcher.executed.should eq true
@@ -93,7 +105,8 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifacts 'user', :tablet, :standalone
     repo.searched.should eq true
     dispatcher.executed.should eq false
@@ -105,7 +118,8 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
     dispatcher.executed.should eq true
@@ -117,7 +131,8 @@ describe Node do
     repo.return_nil = false
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     result = n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
     result.should eq 'some result'
@@ -130,7 +145,8 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     n.artifact 'user', :tablet, 'some_key', :standalone
     repo.searched.should eq true
     dispatcher.executed.should eq false
@@ -142,7 +158,8 @@ describe Node do
     repo.return_nil = false
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new,
+      :context_manager => NodeTest::ContextManager.new
     result = n.artifact 'user', :tablet, 'some_key', :standalone
     repo.searched.should eq true
     result.should eq 'some result'
