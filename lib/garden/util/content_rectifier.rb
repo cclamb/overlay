@@ -24,7 +24,8 @@ class Garden::Util::ContentRectifier
       policy_name = section.attr 'policy'
       section.remove unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
     end
-    doc.to_s
+    #doc.to_s
+    args[:artifact]
   end
 
 	def encrypt
