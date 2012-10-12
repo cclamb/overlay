@@ -127,16 +127,16 @@ module Garden
     # open.  If document is nil, it will return nil.  This returns
     # a hash with the policy keyed by the :policy tag and the
     # artifact by the :artifact tag.
-    def Util::parse_response xml
-      return nil if xml == nil
-      doc = Nokogiri::XML xml
-      policy_set = doc.xpath '//artifact/policy-set'
-      data_object = doc.xpath '//artifact/data-object'
+    # def Util::parse_response xml
+    #   return nil if xml == nil
+    #   doc = Nokogiri::XML xml
+    #   policy_set = doc.xpath '//artifact/policy-set'
+    #   data_object = doc.xpath '//artifact/data-object'
 
-      # short circuit if we don't have a policy.
-      return { :policy => nil, :artifact => xml }  if policy_set.empty?
-      { :policy => policy_set.to_s, :artifact => data_object.to_s }
-    end
+    #   # short circuit if we don't have a policy.
+    #   return { :policy => nil, :artifact => xml }  if policy_set.empty?
+    #   { :policy => policy_set.to_s, :artifact => data_object.to_s }
+    # end
 
     def Util::read_object_from_s3 uri
       http = Net::HTTP.new uri.host, uri.port

@@ -6,13 +6,18 @@ class Garden::Domain::UsageManagementMechanism
     @syslog = Domain::ComponentFactory::instance.create_system_log self
   end
 
-  def execute? policy, ctx, activity
-    @syslog.info "Retrieved policy: #{policy}"
-    evaluator = Util::PolicyEvaluator.new(:one) do
-      instance_eval(policy)
+  def execute? rules, ctx = {}, activity = :transmit
+
+    failed_sections = Set.new
+
+    rules.each do |rule_name, rule|
+      ctx_value = ctx[rule_name]
+      if ctx_value != nil
+        evaluation = rule.call ctx_value.to_sym
+        failed_sections.add rule_name if evaluation == false
+      end
     end
-    if activity == :transmit
-    end
-    true
+
+    failed_sections.empty? ? true : false
   end
 end
