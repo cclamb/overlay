@@ -35,7 +35,7 @@ class Garden::Domain::Configuration
   end
 
   def managed?
-    @ctx_map['managed'] != nil && @ctx_map['managed'] == true
+    @ctx_map['managed'] != nil && (@ctx_map['managed'] == true || @ctx_map['managed'] == 'true')
   end
 
   def peers
