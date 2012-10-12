@@ -25,13 +25,6 @@ module NodeTest
 
   end
 
-  class UsageManager
-    attr_accessor :executed
-    def execute? policy, ctx, activity
-      self.executed = true
-    end
-  end
-
   class Dispatcher
     attr_accessor :executed
     def dispatch_artifacts *args 
@@ -41,6 +34,12 @@ module NodeTest
     def dispatch_artifact *args
       self.executed = true
       ['1','2','3']
+    end
+  end
+
+  class ContentRectifier
+    def process args
+      args[:artifact]
     end
   end
 
@@ -54,22 +53,22 @@ describe Node do
   end
 
   it 'should be creatable' do
-    Node.new({:repository => Object.new, :umm => Object.new, :dispatcher => Object.new}).should_not eq nil
+    Node.new({:repository => Object.new, :rectifier => Object.new, :dispatcher => Object.new}).should_not eq nil
   end
 
   it 'should return nil with nil submission' do
     n = Node.new \
-      :dispatcher => NodeTest::Dispatcher.new, \
-      :repository => NodeTest::Repository.new, \
-      :umm => NodeTest::UsageManager.new
+      :dispatcher => NodeTest::Dispatcher.new,
+      :repository => NodeTest::Repository.new,
+      :rectifier => NodeTest::ContentRectifier.new
     n.artifact('user', :tablet, nil).should eq nil
   end
 
   it 'should return nil with a nil repo' do
     n = Node.new \
-      :dispatcher => NodeTest::Dispatcher.new, \
-      :repository => nil, \
-      :umm => NodeTest::UsageManager.new
+      :dispatcher => NodeTest::Dispatcher.new,
+      :repository => nil, 
+      :rectifier => NodeTest::ContentRectifier.new
     n.artifact('user', :tablet, '123').should eq nil
   end
 
@@ -82,7 +81,7 @@ describe Node do
     n = Node.new \
       :dispatcher => dispatcher, \
       :repository => repo, \
-      :umm => NodeTest::UsageManager.new
+      :rectifier => NodeTest::ContentRectifier.new
     n.artifacts 'user', :tablet
     repo.searched.should eq true
     dispatcher.executed.should eq true
@@ -94,7 +93,7 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :umm => NodeTest::UsageManager.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
     n.artifacts 'user', :tablet, :standalone
     repo.searched.should eq true
     dispatcher.executed.should eq false
@@ -106,7 +105,7 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :umm => NodeTest::UsageManager.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
     n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
     dispatcher.executed.should eq true
@@ -118,7 +117,7 @@ describe Node do
     repo.return_nil = false
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :umm => NodeTest::UsageManager.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
     result = n.artifact 'user', :tablet, 'some_key'
     repo.searched.should eq true
     result.should eq 'some result'
@@ -131,7 +130,7 @@ describe Node do
     repo.return_nil = true
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :umm => NodeTest::UsageManager.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
     n.artifact 'user', :tablet, 'some_key', :standalone
     repo.searched.should eq true
     dispatcher.executed.should eq false
@@ -143,7 +142,7 @@ describe Node do
     repo.return_nil = false
     dispatcher = NodeTest::Dispatcher.new
     dispatcher.executed = false
-    n = Node.new :repository => repo, :dispatcher => dispatcher, :umm => NodeTest::UsageManager.new
+    n = Node.new :repository => repo, :dispatcher => dispatcher, :rectifier => NodeTest::ContentRectifier.new
     result = n.artifact 'user', :tablet, 'some_key', :standalone
     repo.searched.should eq true
     result.should eq 'some result'

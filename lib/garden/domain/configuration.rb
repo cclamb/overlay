@@ -34,6 +34,10 @@ class Garden::Domain::Configuration
     @ctx_map['router'] != nil
   end
 
+  def managed?
+    @ctx_map['managed'] != nil && @ctx_map['managed'] == true
+  end
+
   def peers
     @ctx_map['peers']
   end

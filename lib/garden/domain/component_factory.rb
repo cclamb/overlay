@@ -62,7 +62,8 @@ class Garden::Domain::ComponentFactory
     Domain::Router.new \
       :dispatcher => create_dispatcher(args[:children], args[:name]),
       :parent_dispatcher => args[:parent] == nil ? nil : create_dispatcher([args[:parent]], args[:name]),
-      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy])
+      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
+        :managed => args[:managed])
   end
 
   # Creating a dispatcher, generally for a router.
@@ -74,7 +75,8 @@ class Garden::Domain::ComponentFactory
     Domain::Node.new \
       :dispatcher => create_dispatcher([args[:parent]], args[:name]),
       :repository => create_artifact_repo(args[:repo_uri]),
-      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy])
+      :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
+        :managed => args[:managed])
   end
 
   # Using a precreated route factory, create a route from
@@ -84,11 +86,15 @@ class Garden::Domain::ComponentFactory
   end
 
   # Create a usage manager.
-  def create_rectifier args = { :confidentiality_strategy => :redact }
-    Domain::ContentRectifier.new \
-      :umm => Domain::UsageManagementMechanism.new,
-      :context_manager => Domain::ContextManager.new,
-      :confidentiality_strategy => args[:confidentiality_strategy]
+  def create_rectifier args = { :confidentiality_strategy => :redact, :managed => false }
+    if args[:managed] == true
+      Domain::ContentRectifier.new \
+        :umm => Domain::UsageManagementMechanism.new,
+        :context_manager => Domain::ContextManager.new,
+        :confidentiality_strategy => args[:confidentiality_strategy]
+    else
+      Domain::NilContentRectifier.new
+    end
   end
 
   # Creating an artifact repository.

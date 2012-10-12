@@ -10,10 +10,11 @@ describe Configuration do
 
     before(:all) do
       @cfg = Configuration.new \
-        'role' => 'router', \
-        'context_server' => 'http://some_url', \
-        'children' => ['1', '2', '3'], \
-        'parent' => 'some other router'
+        'role' => 'router',
+        'context_server' => 'http://some_url',
+        'children' => ['1', '2', '3'],
+        'parent' => 'some other router',
+        'managed' => true
     end
 
     it 'should indicate it is a router' do
@@ -29,24 +30,33 @@ describe Configuration do
       @cfg.children[1].should eq '2'
     end
 
+    it 'should indicate that it is managed' do
+      @cfg.managed?.should eq true
+    end
+
   end
 
   context 'with a node configuration' do
 
     before(:all) do
       @cfg = Configuration.new \
-        'role' => 'node', \
-        'parent' => 'parent URL', \
-        'context_server' => 'ctx server URL', \
-        'repository' => 'file.dat'
+        'role' => 'node',
+        'parent' => 'parent URL',
+        'context_server' => 'ctx server URL',
+        'repository' => 'file.dat',
+        'managed' => false
       @cfg_no_repo = Configuration.new \
-        'role' => 'node', \
-        'parent' => 'parent URL', \
+        'role' => 'node',
+        'parent' => 'parent URL',
         'context_server' => 'ctx server URL'
     end
 
     it 'should indicate it is a node' do
       @cfg.is_node?.should eq true
+    end
+
+    it 'should indicate it is not managed' do
+      @cfg.managed?.should eq false
     end
 
     it 'should have parent' do

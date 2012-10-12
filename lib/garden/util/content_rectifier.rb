@@ -6,10 +6,14 @@ class Garden::Domain::ContentRectifier
     @umm = params[:umm]
     @context_mgr = params[:context_manager]
     @syslog = Domain::ComponentFactory::instance.create_system_log self
+    @strategy = params[:confidentiality_strategy] || :redact
   end
 
   def process args
     @syslog.info "processing content: #{args[:artifact]}"
+    components = Util::parse_response args[:artifact]
+    return components[:artifact] if components[:policy] == nil
+    #TODO: you *must* reform the results into a valid document to be passed on!
     args[:artifact]
   end
 
@@ -23,5 +27,11 @@ class Garden::Domain::ContentRectifier
 
   def reroute
 
+  end
+end
+
+class Garden::Domain::NilContentRectifier
+  def process args
+    args[:artifact]
   end
 end

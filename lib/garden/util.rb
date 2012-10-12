@@ -88,7 +88,8 @@ module Garden
       router = Domain::ComponentFactory::instance.create_router \
         :children => cfg.children,
         :parent => cfg.parent,
-        :name => cfg.name
+        :name => cfg.name,
+        :managed => cfg.managed?
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
@@ -101,7 +102,8 @@ module Garden
       node = Domain::ComponentFactory::instance.create_node \
         :parent => cfg.parent,
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),
-        :name => cfg.name
+        :name => cfg.name,
+        :managed => cfg.managed?
       Application::NodeService::initialize \
         :node => node, 
         :ctx => { :port => Settings::PORT_NUMBER }
