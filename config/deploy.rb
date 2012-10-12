@@ -126,6 +126,9 @@ namespace :nodes do
     run "tail -f current/system.log"
   end
 
+  task :mail, :roles => :nodes do
+    run "~/current/bin/scratch-mail"
+  end
 end
 
 namespace :anvils do
