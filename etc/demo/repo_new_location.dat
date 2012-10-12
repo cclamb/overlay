@@ -1,4 +1,4 @@
-{:new_location_detailI"<artifact>
+{:new_location_detailI"k<artifact>
   <policy-set>
     policy_set {
       policy(:default) {
@@ -7,17 +7,17 @@
       policy(:description) {
         include :default
         rule(:category) { |c| c == :magenta }
-        rule(:sensitivity) { |s| s == :secret}
+        rule(:sensitivity) { |s| s == :secret || s == :unclassified }
       }
       policy(:history) {
         include :default
         rule(:category) { |c| c == :magenta }
-        rule(:sensitivity) { |s| s == :top_secret }
+        rule(:sensitivity) { |s| s == :top_secret || s == :secret || s == :unclassified }
       }
       policy(:location) {
         include :default
         rule(:category) { |c| c == :vermillion }
-        rule(:sensitivity) { |s| s == :top_secret }
+        rule(:sensitivity) { |s| s == :top_secret || s == :secret || s == :unclassified }
       }
     }
   </policy-set>
