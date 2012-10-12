@@ -1,0 +1,6 @@
+ INFO  [fawkes] #<Garden::Domain::UsageManagementMechanism:0x89815f4> : Retrieved policy: policy_set {
+	policy(:default) {
+		rule(:mission_affiliation) { |ma| ma == :tropic_thunder}
+	}
+}
+

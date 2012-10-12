@@ -88,12 +88,12 @@ class Garden::Domain::ComponentFactory
   # Create a usage manager.
   def create_rectifier args = { :confidentiality_strategy => :redact, :managed => false }
     if args[:managed] == true
-      Domain::ContentRectifier.new \
+      Util::ContentRectifier.new \
         :umm => Domain::UsageManagementMechanism.new,
         :context_manager => Domain::ContextManager.new,
         :confidentiality_strategy => args[:confidentiality_strategy]
     else
-      Domain::NilContentRectifier.new
+      Util::NilContentRectifier.new
     end
   end
 

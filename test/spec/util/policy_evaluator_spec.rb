@@ -1,7 +1,9 @@
 require 'rspec'
-require_relative '../../../lib/garden/util/policy_evaluator'
+require_relative '../../../lib/garden/util'
 
-describe PolicyEvaluator do
+include Garden
+
+describe Util::PolicyEvaluator do
 
   policy_1_suffix = 'etc/policies/policy_1.pol'
   policy_1 = nil
@@ -22,14 +24,14 @@ describe PolicyEvaluator do
   end
 
 	it 'should handle a simple policy' do
-    evaluator = PolicyEvaluator.new(:one) do
+    evaluator = Util::PolicyEvaluator.new(:one) do
       instance_eval(File.read(base + 'etc/policies/policy_1.pol'))
     end
     evaluator.should_not eq nil
 	end
 
   it 'should handle a full policy' do
-    evaluator = PolicyEvaluator.new(:one) do
+    evaluator = Util::PolicyEvaluator.new(:one) do
       instance_eval(File.read(base + 'etc/policies/policy_2.pol'))
     end
     evaluator.should_not eq nil

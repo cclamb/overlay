@@ -1,5 +1,5 @@
 
-class PolicyEvaluator
+class Garden::Util::PolicyEvaluator
 
   attr_accessor :ctx
   attr_accessor :active_policy

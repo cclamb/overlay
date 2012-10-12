@@ -8,7 +8,11 @@ class Garden::Domain::UsageManagementMechanism
 
   def execute? policy, ctx, activity
     @syslog.info "Retrieved policy: #{policy}"
+    evaluator = Util::PolicyEvaluator.new(:one) do
+      instance_eval(policy)
+    end
     if activity == :transmit
     end
+    true
   end
 end

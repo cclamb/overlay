@@ -41,6 +41,7 @@ describe ComponentFactory do
 
   it 'should create a rectifier' do
     ComponentFactory::instance(:bucket_name => 'foo').create_rectifier.should_not eq nil
+    ComponentFactory::instance(:bucket_name => 'foo').create_rectifier(:managed => true).should_not eq nil
   end
 
   context 'with a LogFactory' do

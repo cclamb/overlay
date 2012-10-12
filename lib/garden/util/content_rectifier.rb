@@ -1,6 +1,6 @@
 require_relative '../../garden'
 
-class Garden::Domain::ContentRectifier
+class Garden::Util::ContentRectifier
 
   def initialize params
     @umm = params[:umm]
@@ -30,7 +30,7 @@ class Garden::Domain::ContentRectifier
   end
 end
 
-class Garden::Domain::NilContentRectifier
+class Garden::Util::NilContentRectifier
   def process args
     args[:artifact]
   end
