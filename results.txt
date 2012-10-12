@@ -1,0 +1,199 @@
+<artifact>
+  <policy-set>
+    policy(:default) {
+      rule(:mission_affiliation) { |ma| ma == :tropic_thunder }
+    }
+  </policy-set>
+  <data-object>
+    <content type="xml" policy="default">
+      <index>
+        <location>
+          <name>Old School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the old school team</about>
+          <key>old_location_detail</key>
+          <key>old_image</key>
+          <key>old_face_bio</key>
+          <key>old_ba_bio</key>
+          <key>old_hannibal_bio</key>
+          <key>old_murdoch_bio</key>
+        </location>
+        <location>
+          <name>New School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the new school team</about>
+          <key>new_location_detail</key>
+          <key>new_image</key>
+          <key>new_face_bio</key>
+          <key>new_ba_bio</key>
+          <key>new_hannibal_bio</key>
+          <key>new_murdoch_bio</key>
+        </location>
+        <location>
+          <name>Suspected Heileman Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>The suspected location of Greg Heileman</about>
+          <key>greg_image</key>
+          <key>greg_bio</key>
+        </location>
+        <location>
+          <name>Secured Permimeter</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Secured Perimeter around suspected location of G. Heileman</about>
+          <key>secured_perimeter</key>
+        </location>
+        <location>
+          <name>Old School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of Old School team</about>
+          <key>old_school_field</key>
+        </location>
+        <location>
+          <name>New School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of New School team</about>
+          <key>new_school_field</key>
+        </location>
+      </index>
+    </content>
+  </data-object>
+</artifact><?xml version="1.0"?>
+<artifact>
+  <policy-set>
+    policy(:default) {
+      rule(:mission_affiliation) { |ma| ma == :tropic_thunder }
+    }
+  </policy-set>
+  <data-object>
+    <content type="xml" policy="default">
+      <index>
+        <location>
+          <name>Old School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the old school team</about>
+          <key>old_location_detail</key>
+          <key>old_image</key>
+          <key>old_face_bio</key>
+          <key>old_ba_bio</key>
+          <key>old_hannibal_bio</key>
+          <key>old_murdoch_bio</key>
+        </location>
+        <location>
+          <name>New School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the new school team</about>
+          <key>new_location_detail</key>
+          <key>new_image</key>
+          <key>new_face_bio</key>
+          <key>new_ba_bio</key>
+          <key>new_hannibal_bio</key>
+          <key>new_murdoch_bio</key>
+        </location>
+        <location>
+          <name>Suspected Heileman Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>The suspected location of Greg Heileman</about>
+          <key>greg_image</key>
+          <key>greg_bio</key>
+        </location>
+        <location>
+          <name>Secured Permimeter</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Secured Perimeter around suspected location of G. Heileman</about>
+          <key>secured_perimeter</key>
+        </location>
+        <location>
+          <name>Old School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of Old School team</about>
+          <key>old_school_field</key>
+        </location>
+        <location>
+          <name>New School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of New School team</about>
+          <key>new_school_field</key>
+        </location>
+      </index>
+    </content>
+  </data-object>
+</artifact>
+<?xml version="1.0"?>
+<artifact>
+  <policy-set>
+    policy(:default) {
+      rule(:mission_affiliation) { |ma| ma == :tropic_thunder }
+    }
+  </policy-set>
+  <data-object>
+    <content type="xml" policy="default">
+      <index>
+        <location>
+          <name>Old School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the old school team</about>
+          <key>old_location_detail</key>
+          <key>old_image</key>
+          <key>old_face_bio</key>
+          <key>old_ba_bio</key>
+          <key>old_hannibal_bio</key>
+          <key>old_murdoch_bio</key>
+        </location>
+        <location>
+          <name>New School Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>This is the location of the new school team</about>
+          <key>new_location_detail</key>
+          <key>new_image</key>
+          <key>new_face_bio</key>
+          <key>new_ba_bio</key>
+          <key>new_hannibal_bio</key>
+          <key>new_murdoch_bio</key>
+        </location>
+        <location>
+          <name>Suspected Heileman Location</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>The suspected location of Greg Heileman</about>
+          <key>greg_image</key>
+          <key>greg_bio</key>
+        </location>
+        <location>
+          <name>Secured Permimeter</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Secured Perimeter around suspected location of G. Heileman</about>
+          <key>secured_perimeter</key>
+        </location>
+        <location>
+          <name>Old School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of Old School team</about>
+          <key>old_school_field</key>
+        </location>
+        <location>
+          <name>New School Field</name>
+          <lat>The latitude of the location</lat>
+          <lon>The longitude of the location</lon>
+          <about>Field of view of New School team</about>
+          <key>new_school_field</key>
+        </location>
+      </index>
+    </content>
+  </data-object>
+</artifact>

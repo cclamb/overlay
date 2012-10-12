@@ -11,7 +11,7 @@ class Garden::Util::ContentRectifier
   def process args
     doc = Nokogiri::XML args[:artifact]
     policy_set = doc.xpath '//artifact/policy-set'
-
+    syslog.info "policy set: #{policy_set.to_s}"
     return args[:artifact] if policy_set == nil
 
     sections = doc.xpath '//artifact/data-object/content/section'
@@ -20,6 +20,7 @@ class Garden::Util::ContentRectifier
       instance_eval(policy_set[0].content.to_s)
     end
 
+    syslog.info "evaluator: #{evaluator.ctx.inspect}"
     sections.each do |section|
       policy_name = section.attr 'policy'
       @syslog.info "policy: #{policy_name} \n context: #{args[:context]}"

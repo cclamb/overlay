@@ -92,7 +92,7 @@ module Garden
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
-      syslog.info "router: #{router.inspect}"
+
       Application::RouterService::run!
     end
 
