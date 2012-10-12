@@ -43,7 +43,7 @@ end
 
 class Garden::Util::NilContentRectifier
   def process args
-    Domain::ComponentFactory::instance.create_system_log(self).info '...in NilContentRectifier...'
+    # Domain::ComponentFactory::instance.create_system_log(self).info '...in NilContentRectifier...'
     args[:artifact]
   end
 end

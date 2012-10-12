@@ -29,6 +29,7 @@ class Garden::Domain::ComponentFactory
   def initialize values
     @log_factory = LogFactory.new values[:bucket_name]
     @node_record_factory = NodeRecordFactory.new
+    @syslog = Domain::ComponentFactory::instance.create_system_log self
   end
 
   # Creating and returning an instance of the class.
@@ -89,6 +90,7 @@ class Garden::Domain::ComponentFactory
 
   # Create a usage manager.
   def create_rectifier args = { :confidentiality_strategy => :redact, :managed => false }
+    @syslog.info ":managed is #{args[:managed]}"
     if args[:managed] == true
       Util::ContentRectifier.new \
         :umm => Domain::UsageManagementMechanism.new,
