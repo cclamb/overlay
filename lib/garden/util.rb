@@ -84,7 +84,6 @@ module Garden
     # Starting a router.
     def Util::run_as_router cfg
       syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
-      syslog.info "cfg.managed?: #{cfg.managed?}"
       router = Domain::ComponentFactory::instance.create_router \
         :children => cfg.children,
         :parent => cfg.parent,
@@ -93,7 +92,7 @@ module Garden
       Application::RouterService::initialize \
         :router => router, \
         :ctx => { :port => Settings::PORT_NUMBER }
-
+      syslog.info "router: #{router.inspect}"
       Application::RouterService::run!
     end
 
