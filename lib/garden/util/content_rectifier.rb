@@ -20,7 +20,7 @@ class Garden::Util::ContentRectifier
       instance_eval(policy_set[0].content.to_s)
     end
 
-    syslog.info "evaluator: #{evaluator.ctx.inspect}"
+    @syslog.info "evaluator: #{evaluator.ctx.inspect}"
     sections.each do |section|
       policy_name = section.attr 'policy'
       @syslog.info "policy: #{policy_name} \n context: #{args[:context]}"
