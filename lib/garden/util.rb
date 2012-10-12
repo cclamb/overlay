@@ -83,6 +83,8 @@ module Garden
 
     # Starting a router.
     def Util::run_as_router cfg
+      syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
+      syslog.info "cfg.managed?: #{cfg.managed?}"
       router = Domain::ComponentFactory::instance.create_router \
         :children => cfg.children,
         :parent => cfg.parent,
@@ -97,8 +99,6 @@ module Garden
 
     # Starting a node.
     def Util::run_as_node cfg
-      syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
-      syslog.info "cfg.managed?: #{cfg.managed?}"
       node = Domain::ComponentFactory::instance.create_node \
         :parent => cfg.parent,
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),

@@ -88,7 +88,7 @@ class Garden::Domain::ComponentFactory
   end
 
   # Create a usage manager.
-  def create_rectifier args = { :confidentiality_strategy => :redact, :managed => false }
+  def create_rectifier args = { :confidentiality_strategy => :redact}
     if args[:managed] == true
       Util::ContentRectifier.new \
         :umm => Domain::UsageManagementMechanism.new,
