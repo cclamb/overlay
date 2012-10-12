@@ -97,7 +97,8 @@ module Garden
 
     # Starting a node.
     def Util::run_as_node cfg
-      @syslog.info "cfg.managed? #{cfg.managed?}"
+      syslog = Domain::ComponentFactory::instance.create_system_log 'Util::start'
+      syslog.info "cfg.managed?: #{cfg.managed?}"
       node = Domain::ComponentFactory::instance.create_node \
         :parent => cfg.parent,
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),
