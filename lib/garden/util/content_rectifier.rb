@@ -71,6 +71,24 @@ class Garden::Util::ContentRectifier
           section.remove
 
         end
+      elsif @strategy == :encrypt
+
+        if section['type'] == 'encrypted'
+          # dissassemble
+          edata64 = section.content
+          edata = Base64.decode64 edata64
+          content = AESCrypt.decrypt edata, key, iv, type
+          section.remove_attribute 'status'
+          section.content = content
+        end
+
+        unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
+          content = section.content
+          edata = AESCrypt.encrypt content, key, iv, type
+          edata64 = Base64.encode64 edata
+          section['status'] = 'encrypt'
+          section.content = edata64
+        end 
       end
     end
     doc.to_s

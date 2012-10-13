@@ -5,7 +5,9 @@ require 'base64'
 
 # To get a list of the types of encryption that OpenSSL uses (and what the string 
 # would be that you pass in to my functions as cipher_type), open a command
-# prompt, type openssl, then help, and the cipher types are listed under cipher-commands. 
+# prompt, type openssl, then help, and the cipher types are listed under cipher-commands.
+#
+# - Brent Sowers
 module AESCrypt
   # Decrypts a block of data (encrypted_data) given an encryption key
   # and an initialization vector (iv).  Keys, iv's, and the data 

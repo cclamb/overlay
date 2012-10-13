@@ -4,6 +4,53 @@ require 'nokogiri'
 
 require_relative '../lib/garden'
 
+
+require 'openssl'
+require 'base64'
+
+# To get a list of the types of encryption that OpenSSL uses (and what the string 
+# would be that you pass in to my functions as cipher_type), open a command
+# prompt, type openssl, then help, and the cipher types are listed under cipher-commands. 
+module AESCrypt
+  # Decrypts a block of data (encrypted_data) given an encryption key
+  # and an initialization vector (iv).  Keys, iv's, and the data 
+  # returned are all binary strings.  Cipher_type should be
+  # "AES-256-CBC", "AES-256-ECB", or any of the cipher types
+  # supported by OpenSSL.  Pass nil for the iv if the encryption type
+  # doesn't use iv's (like ECB).
+  #:return: => String
+  #:arg: encrypted_data => String 
+  #:arg: key => String
+  #:arg: iv => String
+  #:arg: cipher_type => String
+  def AESCrypt.decrypt(encrypted_data, key, iv, cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes.decrypt
+    aes.key = key
+    aes.iv = iv if iv != nil
+    aes.update(encrypted_data) + aes.final  
+  end
+  
+  # Encrypts a block of data given an encryption key and an 
+  # initialization vector (iv).  Keys, iv's, and the data returned 
+  # are all binary strings.  Cipher_type should be "AES-256-CBC",
+  # "AES-256-ECB", or any of the cipher types supported by OpenSSL.  
+  # Pass nil for the iv if the encryption type doesn't use iv's (like
+  # ECB).
+  #:return: => String
+  #:arg: data => String 
+  #:arg: key => String
+  #:arg: iv => String
+  #:arg: cipher_type => String  
+  def AESCrypt.encrypt(data, key, iv, cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes.encrypt
+    aes.key = key
+    aes.iv = iv if iv != nil
+    aes.update(data) + aes.final      
+  end
+end
+
 def check_set set, name
   set.each do |v|
     return true if v.to_s == name
@@ -25,7 +72,7 @@ data_object = doc.xpath '//artifact/data-object'
 # puts "\n\nDO:\n"
 # puts data_object.to_s
 
-evaluator = PolicyEvaluator.new(:one) do
+evaluator = Util::PolicyEvaluator.new(:one) do
   instance_eval policy_set[0].content.to_s
 end
 
@@ -71,7 +118,6 @@ failed_sections.each { |v| puts v }
 # end
 
 sections = data_object.xpath '//data-object/content/section'
-
 sections.each do |section|
   policy_name = section.attr 'policy'
   puts "PN: #{policy_name}"
@@ -79,10 +125,35 @@ sections.each do |section|
   section.remove if check_set(failed_sections, policy_name)
 end
 
+key = 'This is going to be my 256-bit key.'
+iv = 'This is goig to be my 256-bit initialization vector.'
+type = 'AES-256-CBC'
+
+sections = data_object.xpath '//data-object/content/section'
+sections.each do |section|
+  content = section.content
+  edata = AESCrypt.encrypt content, key, iv, type
+  edata64 = Base64.encode64 edata
+  section['status'] = 'encrypt'
+  section.content = edata64
+end
+
 puts "\n\nDO:\n"
 puts data_object.to_s
 
+sections = data_object.xpath '//data-object/content/section'
+sections.each do |section|
+  if section['status'] == 'encrypt'
+    edata64 = section.content
+    edata = Base64.decode64 edata64
+    content = AESCrypt.decrypt edata, key, iv, type
+    section.remove_attribute 'status'
+    section.content = content
+  end
+end
 
+puts "\n\nDO:\n"
+puts data_object.to_s
 
 
 
