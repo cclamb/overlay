@@ -1,5 +1,7 @@
 require 'mail'
 require 'socket'
+require 'openssl'
+require 'base64'
 
 require_relative '../../garden'
 
@@ -82,14 +84,14 @@ class Garden::Util::ContentRectifier
           # dissassemble
           edata64 = section.content
           edata = Base64.decode64 edata64
-          content = AESCrypt.decrypt edata, key, iv, type
+          content = decrypt edata, key, iv, type
           section.remove_attribute 'status'
           section.content = content
         end
 
         unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
           content = section.content
-          edata = AESCrypt.encrypt content, key, iv, type
+          edata = encrypt content, key, iv, type
           edata64 = Base64.encode64 edata
           section['status'] = 'encrypt'
           section.content = edata64
@@ -99,17 +101,23 @@ class Garden::Util::ContentRectifier
     doc.to_s
   end
 
-	def encrypt
-
+  def decrypt encrypted_data, key, iv, cipher_type
+    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes.decrypt
+    aes.key = key
+    aes.iv = iv if iv != nil
+    aes.update(encrypted_data) + aes.final  
+  end
+  
+  #:arg: cipher_type => String  
+  def encrypt data, key, iv, cipher_type
+    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes.encrypt
+    aes.key = key
+    aes.iv = iv if iv != nil
+    aes.update(data) + aes.final      
   end
 
-  def redact
-
-  end
-
-  def reroute
-
-  end
 end
 
 class Garden::Util::NilContentRectifier
