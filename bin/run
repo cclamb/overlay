@@ -15,7 +15,7 @@ Configuration = {
     :distant_1 => 'http://198.101.209.247:6789', # rs5
     :distant_2 => 'http://198.101.207.48:6789' # rs8
   },
-  :iterations => 1
+  :iterations => 50
 }
 
 Output_Interface = ->(x){ puts x }
@@ -68,10 +68,3 @@ active_configuration[:nodes].each do |k,v|
   active_output_interface.call standard_output_builder :host => url, :data => data, :label => k
 end
 active_output_interface.call standard_footer_builder    
-
-# response = send_request URI.parse 'http://www.chrislambistan.com'
-
-# puts build_url :user => 'cclamb',
-#   :host =>'http://198.101.205.155',
-#   :profile =>'tablet',
-#   :artifact => 'index'
