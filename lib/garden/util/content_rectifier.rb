@@ -52,7 +52,7 @@ class Garden::Util::ContentRectifier
 
             mail.deliver!
           rescue RuntimeError => err
-            @syslog.error "error thrown in rectifier: #{err}"
+            @syslog.info "error thrown in rectifier: #{err}"
           end
 
           section.remove
