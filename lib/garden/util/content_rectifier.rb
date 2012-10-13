@@ -49,10 +49,10 @@ class Garden::Util::ContentRectifier
             body     section.to_s
           end
 
-          @syslog.info "beginning mail delivery..."
-          
           begin
+            @syslog.info '***> beginning mail delivery... <***'
             mail.deliver!
+            @syslog.info '***> mail delivery complete! <***'
           rescue RuntimeError => err
             @syslog.info "error thrown in rectifier: #{err}"
           end
