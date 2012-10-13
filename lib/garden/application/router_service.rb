@@ -8,7 +8,7 @@ class Garden::Application::RouterService < TestInterface
   enable :inline_templates
 
   def self::initialize params
-    @@syslog = Domain::ComponentFactory::instance.create_system_log 'router_service'
+    @@syslog = Domain::ComponentFactory::instance.create_system_log self
     @@router = params[:router]
     ctx = params[:ctx]
     set ctx if ctx != nil

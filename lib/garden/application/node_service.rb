@@ -11,7 +11,7 @@ class Garden::Application::NodeService < TestInterface
     ctx = params[:ctx]
     set ctx if ctx != nil
     @@syslog = Domain::ComponentFactory::instance \
-      .create_system_log self.to_s
+      .create_system_log self
   end
 
   get '/artifact/*' do
