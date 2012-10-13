@@ -71,7 +71,12 @@ class Garden::Util::ContentRectifier
           section.remove
 
         end
+
       elsif @strategy == :encrypt
+
+        key = 'This is going to be my 256-bit key.'
+        iv = 'This is goig to be my 256-bit initialization vector.'
+        type = 'AES-256-CBC'
 
         if section['type'] == 'encrypted'
           # dissassemble

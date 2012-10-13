@@ -50,7 +50,7 @@
     context_server: *rs0
     role: router
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *rs2
       - *ip-10-4-178-42
@@ -62,7 +62,7 @@
     role: router
     parent: *rs1
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *rs3
       - *rs4
@@ -73,7 +73,7 @@
     role: router
     parent: *rs2
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *rs7
       - *rs8
@@ -85,7 +85,7 @@
     role: router
     parent: *rs2
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *rs5
       - *rs6
@@ -96,7 +96,7 @@
     role: router
     parent: *rs1
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *ip-10-196-115-185
       - *ip-10-212-135-203
@@ -107,7 +107,7 @@
     role: router
     parent: *ip-10-4-178-42
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *ip-10-114-61-53
       - *ip-10-196-39-9
@@ -120,7 +120,7 @@
     role: router
     parent: *ip-10-4-178-42
     managed: true
-    confidentiality_strategy: reroute
+    confidentiality_strategy: encrypt
     children:
       - *ip-10-99-65-6
       - *ip-10-195-205-62
