@@ -49,12 +49,16 @@ class Garden::Util::ContentRectifier
             body     section.to_s
           end
 
-          begin
-            @syslog.info '***> beginning mail delivery... <***'
-            mail.deliver!
-            @syslog.info '***> mail delivery complete! <***'
-          rescue RuntimeError => err
-            @syslog.info "error thrown in rectifier: #{err}"
+          Thread.new do
+
+            begin
+              @syslog.info '***> beginning mail delivery... <***'
+              mail.deliver!
+              @syslog.info '***> mail delivery complete! <***'
+            rescue RuntimeError => err
+              @syslog.info "error thrown in rectifier: #{err}"
+            end
+
           end
 
           section.remove
