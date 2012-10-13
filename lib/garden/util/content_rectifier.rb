@@ -1,4 +1,5 @@
 require 'mail'
+require 'socket'
 
 require_relative '../../garden'
 
@@ -45,17 +46,23 @@ class Garden::Util::ContentRectifier
           mail = Mail.new do
             from     'cclamb@ece.unm.edu'
             to       'chrislambistan@gmail.com'
-            subject  'Rerouted Content'
+            subject  "Rerouted Content from #{Socket::gethostname}"
             body     section.to_s
           end
 
           Thread.new do
 
+            count = 0
             begin
               @syslog.info '***> beginning mail delivery... <***'
               mail.deliver!
               @syslog.info '***> mail delivery complete! <***'
             rescue RuntimeError => err
+              count += 1
+              if count < 5
+                @syslog.info "retrying email send; attempt #{count}"
+                retry
+              end
               @syslog.error "error thrown in rectifier: #{err}"
             end
 
