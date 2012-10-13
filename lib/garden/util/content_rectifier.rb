@@ -31,30 +31,30 @@ class Garden::Util::ContentRectifier
       elsif @strategy == :reroute
         unless @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit 
 
-          options = {
-            :address              => 'smtp.gmail.com',
-            :user_name            => 'chrislambistan',
-            :password             => 'ab212719',
-            :enable_starttls_auto => true
-          }
+          # options = {
+          #   :address              => 'smtp.gmail.com',
+          #   :user_name            => 'chrislambistan',
+          #   :password             => 'ab212719',
+          #   :enable_starttls_auto => true
+          # }
 
-          Mail.defaults do
-            delivery_method :smtp, options
-          end
+          # Mail.defaults do
+          #   delivery_method :smtp, options
+          # end
 
-          mail = Mail.new do
-            from     'cclamb@ece.unm.edu'
-            to       'chrislambistan@gmail.com'
-            subject  'Rerouted Content'
-            body     section.to_s
-          end
+          # mail = Mail.new do
+          #   from     'cclamb@ece.unm.edu'
+          #   to       'chrislambistan@gmail.com'
+          #   subject  'Rerouted Content'
+          #   body     section.to_s
+          # end
 
-          @syslog.info "beginning mail delivery..."
-          begin
-            mail.deliver!
-          rescue RuntimeError => err
-            @syslog.info "error thrown in rectifier: #{err}"
-          end
+          # @syslog.info "beginning mail delivery..."
+          # begin
+          #   mail.deliver!
+          # rescue RuntimeError => err
+          #   @syslog.info "error thrown in rectifier: #{err}"
+          # end
 
           section.remove
 
