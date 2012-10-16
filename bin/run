@@ -44,7 +44,7 @@ Single_Configuration = {
   :nodes  => {
     :home => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789' #ip-10-195-205-62
   },
-  :iterations => 500
+  :iterations => 1000
 }
 
 Output_Interface = ->(x){ puts x }
