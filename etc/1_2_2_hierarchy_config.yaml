@@ -177,7 +177,7 @@
     repository: repo_index.dat
     context_server: *rs0
     managed: true
-    confidentiality_strategy: encrypt
+    confidentiality_strategy: redact
     parent: *ip-10-212-135-203
 
   ip-10-212-123-155:
