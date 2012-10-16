@@ -53,7 +53,7 @@ active_configuration = Single_Configuration
 active_output_interface = Output_Interface
 
 def standard_header_builder params
-  "Run: #{params[:name]} \nDate/Time: #{Time.now} \n--- Begin Data ---\n"
+  "Run: #{params[:name]} \nDate/Time: #{Time.now} \nTotal Time of Execution #{params[:total_time]}--- Begin Data ---\n"
 end
 
 def standard_footer_builder
@@ -83,6 +83,7 @@ active_output_interface.call standard_header_builder :name => active_configurati
 active_configuration[:nodes].each do |k,v|
   data = []
   url = nil
+  total_time_start = Time.now
   active_configuration[:iterations].times do |x|
     url = build_url :user => active_configuration[:user],
       :host => v,
@@ -94,6 +95,10 @@ active_configuration[:nodes].each do |k,v|
     time_stop = Time.now
     data.push (time_stop - time_start)
   end
-  active_output_interface.call standard_output_builder :host => url, :data => data, :label => k
+  total_time_stop = Time.now
+  active_output_interface.call standard_output_builder :host => url, 
+    :data => data, 
+    :label => k,
+    :total_time => total_time_stop - total_time_start
 end
 active_output_interface.call standard_footer_builder    
