@@ -53,7 +53,7 @@ active_configuration = Single_Configuration
 active_output_interface = Output_Interface
 
 def standard_header_builder params
-  "Run: #{params[:name]} \nDate/Time: #{Time.now} \nTotal Time of Execution #{params[:total_time]}--- Begin Data ---\n"
+  "Run: #{params[:name]} \nDate/Time: #{Time.now} \nTotal Time of Execution: #{params[:total_time]} \n--- Begin Data ---\n"
 end
 
 def standard_footer_builder
