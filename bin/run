@@ -99,6 +99,6 @@ active_configuration[:nodes].each do |k,v|
   active_output_interface.call standard_output_builder :host => url, 
     :data => data, 
     :label => k,
-    :total_time => total_time_stop - total_time_start
+    :total_time => (total_time_stop - total_time_start)
 end
 active_output_interface.call standard_footer_builder    
