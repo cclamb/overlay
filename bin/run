@@ -35,9 +35,21 @@ NH_Configuration = {
   :iterations => 50
 }
 
+Single_Configuration = {
+  :name   => 'Single Configuration',
+  :id     => :h_1_2_2,
+  :artifact => 'index',
+  :user => 'cclamb',
+  :profile => 'tablet',
+  :nodes  => {
+    :home => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789' #ip-10-195-205-62
+  },
+  :iterations => 50
+}
+
 Output_Interface = ->(x){ puts x }
 
-active_configuration = NH_Configuration
+active_configuration = Single_Configuration
 active_output_interface = Output_Interface
 
 def standard_header_builder params
