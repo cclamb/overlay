@@ -19,16 +19,16 @@ Configuration = {
 }
 
 NH_Configuration = {
-  :name   => '1, 2, 2 Hierarchical Configuration',
+  :name   => '1, 2, 2 Non-Hierarchical Configuration',
   :id     => :h_1_2_2,
   :artifact => 'index',
   :user => 'cclamb',
   :profile => 'tablet',
   :nodes  => {
-    #:home => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789', #ip-10-195-205-62
-    #:neighbor_1 => 'http://ec2-23-22-68-94.compute-1.amazonaws.com:6789', # ip-10-212-135-203
-    #:neighbor_2 => 'http://ec2-67-202-45-247.compute-1.amazonaws.com:6789', # ip-10-4-178-42
-    #:neighbor_3 => 'http://198.101.205.155:6789', # rs1
+    :home => 'http://ec2-50-17-57-243.compute-1.amazonaws.com:6789', #ip-10-195-205-62
+    :neighbor_1 => 'http://ec2-23-22-68-94.compute-1.amazonaws.com:6789', # ip-10-212-135-203
+    :neighbor_2 => 'http://ec2-67-202-45-247.compute-1.amazonaws.com:6789', # ip-10-4-178-42
+    :neighbor_3 => 'http://198.101.205.155:6789', # rs1
     :neighbor_4 => 'http://198.101.205.156:6789', # rs2
     :neighbor_5 => 'http://198.101.203.202:6789' # rs3
   },
