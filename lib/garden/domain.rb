@@ -1,8 +1,12 @@
+# The namespace definition for the domain namespace.
+# We ensure that Garden is defined prior to including
+# any of the domain classes.
 module Garden 
   module Application
   end
 end
 
+# Domain layer class definitions.
 require_relative 'domain/component_factory'
 require_relative 'domain/data_repository'
 require_relative 'domain/node'

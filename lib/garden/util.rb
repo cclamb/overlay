@@ -1,4 +1,6 @@
-
+# Utility functions and classes used in the system.  Many
+# of the utility functions are maintained in a Garden::Util
+# module.
 require 'logging'
 require 'socket'
 require 'uri'
@@ -125,22 +127,9 @@ module Garden
       Application::ContextManagerService::run!
     end
 
-    # Parsing an XML document into a policy and an artifact.  If
-    # a policy doesn't exist, will return just the artifact, failing
-    # open.  If document is nil, it will return nil.  This returns
-    # a hash with the policy keyed by the :policy tag and the
-    # artifact by the :artifact tag.
-    # def Util::parse_response xml
-    #   return nil if xml == nil
-    #   doc = Nokogiri::XML xml
-    #   policy_set = doc.xpath '//artifact/policy-set'
-    #   data_object = doc.xpath '//artifact/data-object'
-
-    #   # short circuit if we don't have a policy.
-    #   return { :policy => nil, :artifact => xml }  if policy_set.empty?
-    #   { :policy => policy_set.to_s, :artifact => data_object.to_s }
-    # end
-
+    # Reading and returning an object from an S3 bucket.
+    # This uses SSL for encryption, but does not verify
+    # the endpoints.
     def Util::read_object_from_s3 uri
       http = Net::HTTP.new uri.host, uri.port
       http.use_ssl = true
@@ -149,6 +138,8 @@ module Garden
       response = http.request request
     end
 
+    # Retreiving a repository from S3.
+    # * The repository name
     def Util::generate_repo_uri repo_name
       return nil if repo_name == nil
       s3 = AWS::S3.new
@@ -158,6 +149,10 @@ module Garden
       url == nil ? url : URI::parse(url.to_s)
     end
 
+    # Process an error from a network component.
+    # * The object reporting the error
+    # * The error message
+    # * The exception
     def Util::process_error reporter, msg, err
       syslog = Domain::ComponentFactory::instance.create_system_log reporter.to_s
       syslog.error 'Node has crashed!'
@@ -171,5 +166,9 @@ module Garden
 
 end
 
+# Thes are utility classes.  They need to be included
+# at the end of the file, after the module, as they
+# include themselves within the Util module as a
+# namespace.
 require_relative 'util/policy_evaluator'
 require_relative 'util/content_rectifier'

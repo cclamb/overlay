@@ -1,3 +1,5 @@
+# Contains the definitions to extend logging capabilities
+# to support sending log information to S3.
 require 'logging'
 require 'aws-sdk'
 require 'socket'
