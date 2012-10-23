@@ -101,17 +101,36 @@ class Garden::Util::ContentRectifier
     doc.to_s
   end
 
+  # Decrypts a block of data (encrypted_data) given an encryption key
+  # and an initialization vector (iv).  Keys, iv's, and the data 
+  # returned are all binary strings.  Cipher_type should be
+  # "AES-256-CBC", "AES-256-ECB", or any of the cipher types
+  # supported by OpenSSL.  Pass nil for the iv if the encryption type
+  # doesn't use iv's (like ECB).  Returns a string.
+  # * encrypted_data String 
+  # * key String
+  # * iv String
+  # * cipher_type String  
   def decrypt encrypted_data, key, iv, cipher_type
-    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new cipher_type
     aes.decrypt
     aes.key = key
     aes.iv = iv if iv != nil
     aes.update(encrypted_data) + aes.final  
   end
   
-  #:arg: cipher_type => String  
+  # Encrypts a block of data given an encryption key and an 
+  # initialization vector (iv).  Keys, iv's, and the data returned 
+  # are all binary strings.  Cipher_type should be "AES-256-CBC",
+  # "AES-256-ECB", or any of the cipher types supported by OpenSSL.  
+  # Pass nil for the iv if the encryption type doesn't use iv's (like
+  # ECB).  Returns a string.
+  # * data String 
+  # * key String
+  # * iv String
+  # * cipher_type String  
   def encrypt data, key, iv, cipher_type
-    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new cipher_type
     aes.encrypt
     aes.key = key
     aes.iv = iv if iv != nil

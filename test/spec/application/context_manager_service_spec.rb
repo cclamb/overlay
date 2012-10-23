@@ -35,15 +35,17 @@ describe Application::ContextManagerService do
 
   context 'with the context interface' do
 
+    edge_to_query = 'foo.bar.com:1234_192.34.56.78:2345'
+
     it 'should return 404 if no content' do
       get_404 '/status/3to4'
     end
 
     it 'should return a record if content exists' do
-      post '/status/1to2', :level => 'secret'
-      get '/status/1to2'
+      post "/status/#{edge_to_query}", :level => 'secret'
+      get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"1to2\",\"status\":\"secret\"}"
+      last_response.body.should eq "{\"edge\":\"#{edge_to_query}\",\"status\":\"secret\"}"
     end
 
   end

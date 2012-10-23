@@ -1,3 +1,4 @@
+#--
 # Copyright (c) 2012 Christopher C. Lamb
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +13,7 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+#++
 # This is a facade of various classes that need to be 
 # included  to run the simulation.  This references
 # the three application areas, the application layer,
