@@ -11,7 +11,8 @@ describe Application::ContextManagerService do
   include Test
 
   def app
-    Application::ContextManagerService::initialize
+    filename = "#{File.dirname __FILE__}/../../../etc/1_2_2_initial_context.rb"
+    Application::ContextManagerService::initialize :initial_context_file => filename
     Application::ContextManagerService.new
   end
 
@@ -35,16 +36,23 @@ describe Application::ContextManagerService do
 
   context 'with the context interface' do
 
-    edge_to_query = 'foo.bar.com:1234_192.34.56.78:2345'
+    edge_to_query = '198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com'
 
     it 'should return 404 if no content' do
       get_404 '/status/3to4'
     end
 
-    it 'should return a record if content exists' do
+    it 'should return correct content from the initial context loaded' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"magenta\"]}}"
+    end
+
+    xit 'should return a record if content exists' do
       post "/status/#{edge_to_query}", :level => 'secret'
       get "/status/#{edge_to_query}"
       last_response.should be_ok
+      puts "LAST RESPONSE: #{last_response.body}"
       last_response.body.should eq "{\"edge\":\"#{edge_to_query}\",\"status\":\"secret\"}"
     end
 
