@@ -1,5 +1,6 @@
 require 'rspec'
 require 'rack/test'
+require 'base64'
 
 require_relative '../../../lib/garden/application'
 require_relative 'test'
@@ -48,12 +49,14 @@ describe Application::ContextManagerService do
       last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"magenta\"]}}"
     end
 
-    xit 'should return a record if content exists' do
-      post "/status/#{edge_to_query}", :level => 'secret'
-      get "/status/#{edge_to_query}"
-      last_response.should be_ok
-      puts "LAST RESPONSE: #{last_response.body}"
-      last_response.body.should eq "{\"edge\":\"#{edge_to_query}\",\"status\":\"secret\"}"
+    it 'should return a record if content exists' do
+      status = {:sensitivity => :secret, :category => [:vermillion]}
+      puts Base64::encode64 Marshal::dump(status)
+      post "/status/#{edge_to_query}", :level => Base64::encode64(Marshal::dump status)
+      # get "/status/#{edge_to_query}"
+      # last_response.should be_ok
+      # puts "LAST RESPONSE: #{last_response.body}"
+      # last_response.body.should eq "{\"edge\":\"#{edge_to_query}\",\"status\":\"secret\"}"
     end
 
   end
