@@ -37,12 +37,12 @@ class Garden::Application::ContextManagerService < TestInterface
       .create_system_log self.to_s
   end
 
-  def validate_level level
-    level != nil \
-      && ( level == :secret \
-        || level == :top_secret \
-        || level == :unclassified )
-  end
+  # def validate_level level
+  #   level != nil \
+  #     && ( level == :secret \
+  #       || level == :top_secret \
+  #       || level == :unclassified )
+  # end
 
   def generate_return id
     status = @@repo[id] || halt(404)
@@ -64,12 +64,22 @@ class Garden::Application::ContextManagerService < TestInterface
   end
 
   post '/status/:id' do
-    new_level = params[:level]
+    new_level = params[:value]
     id = params[:id]
+
     return if new_level == nil
-    new_level = new_level.to_sym
-    return unless validate_level new_level
-    @@repo[id] = new_level.to_sym
+
+    h = instance_eval new_level
+    h.each do |k,v|
+      v = @@repo[id] || {}
+      v[k] = v
+      @@repo[id] = v
+    end
+    puts @@repo[id]
+    return @@repo[id]
+    #new_level = new_level.to_sym
+    #return unless validate_level new_level
+    #@@repo[id] = new_level.to_sym
   end
 
 end

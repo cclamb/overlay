@@ -50,9 +50,7 @@ describe Application::ContextManagerService do
     end
 
     it 'should return a record if content exists' do
-      status = {:sensitivity => :secret, :category => [:vermillion]}
-      puts Base64::encode64 Marshal::dump(status)
-      post "/status/#{edge_to_query}", :level => Base64::encode64(Marshal::dump status)
+      post "/status/#{edge_to_query}", :sensitivity => :unclassified
       # get "/status/#{edge_to_query}"
       # last_response.should be_ok
       # puts "LAST RESPONSE: #{last_response.body}"
