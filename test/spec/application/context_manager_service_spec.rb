@@ -49,12 +49,26 @@ describe Application::ContextManagerService do
       last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"magenta\"]}}"
     end
 
-    it 'should return a record if content exists' do
-      post "/status/#{edge_to_query}", :sensitivity => :unclassified
-      # get "/status/#{edge_to_query}"
-      # last_response.should be_ok
-      # puts "LAST RESPONSE: #{last_response.body}"
-      # last_response.body.should eq "{\"edge\":\"#{edge_to_query}\",\"status\":\"secret\"}"
+    it 'should support posted alterations' do
+      post "/status/#{edge_to_query}", :value => {:sensitivity => :unclassified}
+      last_response.should be_ok
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"]}}"
+    end
+
+    it 'should support posted arrays' do
+      post "/status/#{edge_to_query}", :value => {:category => [:large_pants]}
+      last_response.should be_ok
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"large_pants\"]}}"
+    end
+
+    it 'should return everything' do
+      get "/status/all"
+      last_response.should be_ok
+      puts last_response.body
     end
 
   end

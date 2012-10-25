@@ -37,16 +37,13 @@ class Garden::Application::ContextManagerService < TestInterface
       .create_system_log self.to_s
   end
 
-  # def validate_level level
-  #   level != nil \
-  #     && ( level == :secret \
-  #       || level == :top_secret \
-  #       || level == :unclassified )
-  # end
-
   def generate_return id
     status = @@repo[id] || halt(404)
     { :edge => id, :status => status }
+  end
+
+  get '/status/all' do
+    @@repo
   end
 
   get '/status/:id' do
@@ -55,31 +52,29 @@ class Garden::Application::ContextManagerService < TestInterface
     JSON.generate generate_return(id)
   end
 
-  post '/status/all' do
-    params.each { |k,v| puts "(#{k})-->:\n #{v}\n\n" }
-    #puts "-->: \n #{params[:sensitivity]}"
-    #x = eval params
-    #puts "-->: \n #{x[:sensitivity]}"
-    'recieved'
-  end
-
   post '/status/:id' do
     new_level = params[:value]
     id = params[:id]
-
+params.each { |k,v| puts "#{k} : #{v}"}
+puts "#{id} : #{params[:value]}"
     return if new_level == nil
 
-    h = instance_eval new_level
-    h.each do |k,v|
-      v = @@repo[id] || {}
-      v[k] = v
-      @@repo[id] = v
+    new_level = new_level.kind_of?(String) ? instance_eval(new_level) : new_level
+
+    new_level.each do |k,v|
+      bag = @@repo[id] || {}
+
+      if v.kind_of? Array
+        new_v = []
+        v.each { |v| new_v.push v.to_sym }
+        bag[k.to_sym] = new_v
+      else
+        bag[k.to_sym] = v.to_sym
+      end
+      @@repo[id] = bag
     end
-    puts @@repo[id]
-    return @@repo[id]
-    #new_level = new_level.to_sym
-    #return unless validate_level new_level
-    #@@repo[id] = new_level.to_sym
+
+    @@repo[id]
   end
 
 end
