@@ -6,6 +6,7 @@ require_relative '../etc/settings'
 include Garden
 
 Application::ContextManagerService::initialize \
+  :initial_context_file => "#{File.dirname __FILE__}/../etc/1_2_2_initial_context.rb",
   :ctx => { :port => Settings::CONTEXT_PORT_NUMBER }
 
 Application::ContextManagerService::run!
