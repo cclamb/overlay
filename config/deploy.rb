@@ -29,7 +29,7 @@ ssh_options[:keys] = ['etc/pod.pem']
 set :application, 'ruby-scratch'
 set :repository,  'https://github.com/cclamb/overlay.git'
 
-set :branch, 'master'
+set :branch, 'final'
 
 creds_file_name = 'etc/creds.yaml'
 
