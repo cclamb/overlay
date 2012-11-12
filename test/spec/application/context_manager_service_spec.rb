@@ -86,7 +86,7 @@ describe Application::ContextManagerService do
     it 'should return everything' do
       get "/status/all"
       last_response.should be_ok
-      puts last_response.body
+      last_response.should_not eq nil
     end
 
   end

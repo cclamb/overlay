@@ -139,7 +139,9 @@ module Garden
 
     # Starting a context server.
     def Util::run_as_context_server
+      filename = "#{File.dirname __FILE__}/../../etc/1_2_2_initial_context.rb"
       Application::ContextManagerService::initialize \
+        :initial_context_file => filename,
         :ctx => { :port => Settings::CONTEXT_PORT_NUMBER }
 
       Application::ContextManagerService::run!

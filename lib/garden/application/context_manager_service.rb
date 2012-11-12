@@ -57,8 +57,8 @@ class Garden::Application::ContextManagerService < TestInterface
   post '/status/:id' do
     new_level = params[:value]
     id = params[:id]
-params.each { |k,v| puts "#{k} : #{v}"}
-puts "#{id} : #{params[:value]}"
+# params.each { |k,v| puts "#{k} : #{v}"}
+# puts "#{id} : #{params[:value]}"
     return if new_level == nil
 
     new_level = new_level.kind_of?(String) ? instance_eval(new_level) : new_level
