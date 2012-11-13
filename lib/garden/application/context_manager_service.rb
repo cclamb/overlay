@@ -45,7 +45,7 @@ class Garden::Application::ContextManagerService < TestInterface
   end
 
   get '/status/all' do
-    @@repo
+    JSON.generate @@repo
   end
 
   get '/status/:id' do
