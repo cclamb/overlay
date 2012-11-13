@@ -81,12 +81,30 @@ describe Application::ContextManagerService do
       get "/status/#{edge_to_query}"
       last_response.should be_ok
       last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"large_pants\"]}}"
+      response = JSON::load last_response.body
+      response['status']['sensitivity'].should eq 'top_secret'
+      response['status']['category'][0].should eq 'large_pants'
     end
 
     it 'should return everything' do
       get "/status/all"
       last_response.should be_ok
       last_response.should_not eq nil
+      response = JSON::load last_response.body
+      response['198.101.205.156_198.101.203.202']['sensitivity'].should eq 'top_secret'
+      response['198.101.209.178_198.101.202.188']['category'][0].should eq 'magenta'
+    end
+
+    it 'should support adding arbitrary attributes' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq nil
+      post "/status/#{edge_to_query}", :value => {:fooattr => :barvalue}
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq 'barvalue'
     end
 
   end
