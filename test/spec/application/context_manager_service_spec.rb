@@ -56,6 +56,7 @@ describe Application::ContextManagerService do
   context 'with the context interface' do
 
     edge_to_query = '198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com'
+    transpose_edge = 'ec2-67-202-45-247.compute-1.amazonaws.com_198.101.205.155'
 
     it 'should return 404 if no content' do
       get_404 '/status/3to4'
@@ -105,6 +106,17 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       response = JSON::load last_response.body
       response['status']['fooattr'].should eq 'barvalue'
+    end
+
+    it 'should handle transposition' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      first_response_json = JSON::load last_response.body
+      get "/status/#{transpose_edge}"
+      last_response.should be_ok
+      last_response_json = JSON::load last_response.body
+      first_response_json['status']['sensitivity'].should eq last_response_json['status']['sensitivity']
+      first_response_json['status']['category'].should eq last_response_json['status']['category']
     end
 
   end

@@ -39,8 +39,14 @@ class Garden::Application::ContextManagerService < TestInterface
       .create_system_log self.to_s
   end
 
+  def transpose name
+    elements = name.split '_'
+    "#{elements[1]}_#{elements[0]}"
+  end
+
   def generate_return id
-    status = @@repo[id] || halt(404)
+    status  = @@repo[id] || @@repo[transpose(id)] || halt(404)
+    #status = @@repo[id] || halt(404)
     { :edge => id, :status => status }
   end
 
