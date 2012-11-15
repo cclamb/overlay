@@ -2,6 +2,7 @@
 
 require 'socket'
 require 'resolv'
+require 'net/http'
 
 def my_first_private_ipv4
   Socket::ip_address_list.detect{|intf| intf.ipv4_private?}
