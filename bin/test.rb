@@ -10,6 +10,17 @@ def my_first_public_ipv4
   Socket::ip_address_list.detect{|intf| intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?}
 end
 
+def build_name
+	#priv_addr = my_first_private_ipv4
+  pub_addr  = my_first_public_ipv4
+
+  if pub_addr == nil
+    Socket::gethostname
+  else
+    pub_addr.ip_address
+  end
+end
+
 priv = my_first_private_ipv4
 private_addr = priv ? priv.ip_address : 'none'
 pub  = my_first_public_ipv4
@@ -17,6 +28,10 @@ public_addr = pub ? pub.ip_address : 'none'
 
 puts "Private: #{private_addr}\n"
 puts "Public: #{public_addr}\n"
+
+puts "Built name: #{build_name}"
+
+
 
 #require 'resolv'
 # ip_addr = '198.101.205.153'
