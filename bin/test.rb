@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'socket'
+require 'resolv'
 
 def my_first_private_ipv4
   Socket::ip_address_list.detect{|intf| intf.ipv4_private?}
@@ -15,7 +16,9 @@ def build_name
   pub_addr  = my_first_public_ipv4
 
   if pub_addr == nil
-    Socket::gethostname
+    #Socket::gethostname
+    az_public_ip = Net::HTTP.get_response(URI::parse('http://instance-data.ec2.internal/latest/meta-data/public-ipv4')).body
+    Resolv.new.getname az_public_ip
   else
     pub_addr.ip_address
   end
