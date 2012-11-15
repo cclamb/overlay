@@ -13,11 +13,8 @@ def my_first_public_ipv4
 end
 
 def build_name
-	#priv_addr = my_first_private_ipv4
   pub_addr  = my_first_public_ipv4
-
   if pub_addr == nil
-    #Socket::gethostname
     az_public_ip = Net::HTTP.get_response(URI::parse('http://instance-data.ec2.internal/latest/meta-data/public-ipv4')).body
     Resolv.new.getname az_public_ip
   else
