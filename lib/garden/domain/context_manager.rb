@@ -18,7 +18,8 @@
 #++
 class Garden::Domain::ContextManager
 
-	def context
+	def context link_name
+    return nil if link_name == nil
     { 
       :link => {
         :sensitivity => :secret,

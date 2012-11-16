@@ -187,27 +187,4 @@ describe Util do
 
   end
 
-  # context 'with a policy protected data object' do
-
-  #   it 'should parse the document and return the document in the return hash if it has no policy set' do
-  #     xml = File.read "#{File.dirname __FILE__}/../../../etc/demo/old-location-detail.xml"
-  #     doc = Nokogiri::XML xml
-  #     data_object = doc.xpath '//artifact/data-object'
-  #     descriptor = Util::parse_response data_object.to_s
-  #     descriptor[:policy].should eq nil
-  #     descriptor[:artifact].should eq data_object.to_s
-  #   end
-
-  #   it 'should return the aritfact and policy if well formed' do
-  #     xml = File.read "#{File.dirname __FILE__}/../../../etc/demo/old-location-detail.xml"
-  #     descriptor = Util::parse_response xml
-  #     doc = Nokogiri::XML xml
-  #     data_object = doc.xpath '//artifact/data-object'
-  #     policy_set = doc.xpath '//artifact/policy-set'
-  #     descriptor[:policy].should eq policy_set.to_s
-  #     descriptor[:artifact].should eq data_object.to_s
-  #   end
-
-  # end
-
 end

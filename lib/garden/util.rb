@@ -22,6 +22,8 @@
 require 'logging'
 require 'socket'
 require 'uri'
+require 'resolv'
+require 'net/http'
 
 # TODO: remove this temporary component factory
 require_relative '../../test/spec/application/test'
@@ -182,11 +184,18 @@ module Garden
       end
     end
 
-    def Util::build_name
-      pub_addr  = \\
-        Socket::ip_address_list.detect do |intf| 
-          intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
-        end
+    # Building a system name from the system IP address.  This is 
+    # highly coupled ot rackspace and az infrastructure.  AZ does 
+    # not maintain public addresses on nodes, RS does, and we use
+    # that as a differentiator.  AZ also does not maintain external 
+    # hostname information on nodes, but rather uses an external 
+    # naming service to return this kind of information.  As this 
+    # is coupled to those two environments, it will not scale to 
+    # other systems without changes.
+    def Util::build_local_name
+      pub_addr = Socket::ip_address_list.detect do |intf| 
+        intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
+      end
 
       if pub_addr == nil
         az_public_ip = Net::HTTP.get_response(URI::parse('http://instance-data.ec2.internal/latest/meta-data/public-ipv4')).body
@@ -196,13 +205,33 @@ module Garden
       end
     end
 
-    def Util::build_remote_hostname ip_addr
+    # Building a remote hostname for a system issuing a request.
+    # This is vital to building a correct link name.  Here, we
+    # again differentiate between RS and AZ nodes when naming. 
+    # RS nodes use IP address information for naming, while
+    # AZ nodes are able to use external hostnames.
+    # * The IP address of the requesting node, pulled from the HTTP request.
+    def Util::build_remote_name ip_addr
+      ip_addr if ip_addr == nil
       name = Resolv.new.getname ip_addr
       name =~ /amazon/ ? name : ip_addr
     end
 
+    # The format for building specific link names.
+    # * The left hand side of the name.
+    # * The right hand side of the name.
     def Util::build_link_name lhs, rhs
       "#{lhs}_#{rhs}"
+    end
+
+    # This function combines the previous three for ease of access.
+    # This makes access easier, and allows us to catch exceptions
+    # more easily if not operating in RS or AZ environments.
+    # * The remote IP address from a request.
+    def Util::assemble_link_name ip_addr
+      local_name = Util::build_local_name
+      remote_name = Util::build_remote_name ip_addr
+      Util::build_link_name local_name, remote_name
     end
 
   end

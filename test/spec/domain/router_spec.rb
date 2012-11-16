@@ -107,7 +107,7 @@ describe Router do
       :dispatcher => dispatcher, \
       :rectifier => TestRectifier.new, \
       :umm => TestUmm.new
-    router.artifacts 'foobar', :iphone
+    router.artifacts 'foobar', :iphone, '1.2.3.4'
     dispatcher.dispatched.should eq true
   end
 
@@ -119,7 +119,7 @@ describe Router do
       :dispatcher => dispatcher, \
       :rectifier => TestRectifier.new, \
       :umm => TestUmm.new
-    router.artifact 'foobar', :iphone, 'key'
+    router.artifact 'foobar', :iphone, 'key', '1.2.3.4'
     dispatcher.dispatched.should eq true
   end
 

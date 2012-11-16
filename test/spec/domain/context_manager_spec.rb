@@ -23,7 +23,13 @@ require_relative '../../../lib/garden/domain'
 include Garden::Domain
 
 describe ContextManager do
+
   it 'should return a context when requested' do
-  	ContextManager.new.context[:link].should_not eq nil
+  	ContextManager.new.context('foo')[:link].should_not eq nil
   end
+
+  it 'should return nil if link name is nil' do
+  	ContextManager.new.context(nil).should eq nil
+  end
+  
 end
