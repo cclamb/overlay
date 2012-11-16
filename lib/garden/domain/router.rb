@@ -32,7 +32,10 @@ class Garden::Domain::Router
       results = @parent_dispatcher.dispatch_artifact subject, device, key, args
     end
     processed_results = []
-    results.each { |object| processed_results.push(@rectifier.process :artifact => object, :context => @context_manager.context[:link]) }
+    results.each do |object| 
+      processed_results.push \\
+        @rectifier.process(:artifact => object, :context => @context_manager.context[:link])
+    end
     return processed_results
   end 
 

@@ -182,6 +182,29 @@ module Garden
       end
     end
 
+    def Util::build_name
+      pub_addr  = \\
+        Socket::ip_address_list.detect do |intf| 
+          intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
+        end
+
+      if pub_addr == nil
+        az_public_ip = Net::HTTP.get_response(URI::parse('http://instance-data.ec2.internal/latest/meta-data/public-ipv4')).body
+        Resolv.new.getname az_public_ip
+      else
+        pub_addr.ip_address
+      end
+    end
+
+    def Util::build_remote_hostname ip_addr
+      name = Resolv.new.getname ip_addr
+      name =~ /amazon/ ? name : ip_addr
+    end
+
+    def Util::build_link_name lhs, rhs
+      "#{lhs}_#{rhs}"
+    end
+
   end
 
 end

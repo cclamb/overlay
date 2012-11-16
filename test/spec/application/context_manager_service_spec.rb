@@ -108,7 +108,7 @@ describe Application::ContextManagerService do
       response['status']['fooattr'].should eq 'barvalue'
     end
 
-    it 'should handle transposition' do
+    it 'should handle name transposition' do
       get "/status/#{edge_to_query}"
       last_response.should be_ok
       first_response_json = JSON::load last_response.body
