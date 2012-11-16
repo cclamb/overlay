@@ -111,6 +111,7 @@ module Garden
         :parent => cfg.parent,
         :name => cfg.name,
         :managed => cfg.managed?,
+        :context_server_url => cfg.context_server,
         :confidentiality_strategy => cfg.confidentiality_strategy
       Application::RouterService::initialize \
         :router => router, \
@@ -126,17 +127,13 @@ module Garden
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),
         :name => cfg.name,
         :managed => cfg.managed?,
+        :context_server_url => cfg.context_server,
         :confidentiality_strategy => cfg.confidentiality_strategy
       Application::NodeService::initialize \
         :node => node, 
         :ctx => { :port => Settings::PORT_NUMBER }
 
       Application::NodeService::run!
-    end
-
-    # Starting a peer node.
-    def Util::run_as_peer_node
-
     end
 
     # Starting a context server.

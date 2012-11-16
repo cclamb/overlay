@@ -65,7 +65,7 @@ describe Application::ContextManagerService do
     it 'should return correct content from the initial context loaded' do
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"magenta\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
     end
 
     it 'should support posted alterations' do
@@ -73,7 +73,7 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
     end
 
     it 'should support posted arrays' do
@@ -81,9 +81,9 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"large_pants\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"large_pants\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
       response = JSON::load last_response.body
-      response['status']['sensitivity'].should eq 'top_secret'
+      response['status']['sensitivity'].should eq 'secret'
       response['status']['category'][0].should eq 'large_pants'
     end
 
@@ -92,7 +92,7 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       last_response.should_not eq nil
       response = JSON::load last_response.body
-      response['198.101.205.156_198.101.203.202']['sensitivity'].should eq 'top_secret'
+      response['198.101.205.156_198.101.203.202']['sensitivity'].should eq 'secret'
       response['198.101.209.178_198.101.202.188']['category'][0].should eq 'magenta'
     end
 

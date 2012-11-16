@@ -62,7 +62,7 @@ module NodeTest
   end
 
   class ContextManager
-    def context
+    def context ip_addr
       {
         :link => {},
         :user => {}

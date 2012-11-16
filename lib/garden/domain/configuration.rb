@@ -85,7 +85,7 @@ class Garden::Domain::Configuration
   end
 
   def context_server
-    @ctx_map['context_manager']
+    @ctx_map['context_server']
   end
 
   def has_repository?
