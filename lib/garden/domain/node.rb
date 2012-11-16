@@ -37,7 +37,15 @@ class Garden::Domain::Node
       artifact = artifacts.pop
     end
     #@syslog.info "artifact: #{artifact}"
-    @rectifier.process :artifact => artifact, :context => @context_manager.context[:link]
+    link_name = begin
+        Util::assemble_link_name remote_ip_addr
+      rescue Exception => e
+        nil
+      end
+
+    global_ctx = @context_manager.context(link_name)
+    link_ctx = global_ctx ? global_ctx[:link] : nil
+    @rectifier.process :artifact => artifact, :context => link_ctx
   end
 
   def artifacts subject, device, is_standalone = nil
