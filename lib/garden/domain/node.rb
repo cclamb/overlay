@@ -1,3 +1,21 @@
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
 class Garden::Domain::Node
 
   def initialize args
@@ -19,7 +37,15 @@ class Garden::Domain::Node
       artifact = artifacts.pop
     end
     #@syslog.info "artifact: #{artifact}"
-    @rectifier.process :artifact => artifact, :context => @context_manager.context[:link]
+    link_name = begin
+        Util::assemble_link_name remote_ip_addr
+      rescue Exception => e
+        nil
+      end
+
+    global_ctx = @context_manager.context(link_name)
+    link_ctx = global_ctx ? global_ctx[:link] : nil
+    @rectifier.process :artifact => artifact, :context => link_ctx
   end
 
   def artifacts subject, device, is_standalone = nil

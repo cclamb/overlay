@@ -1,3 +1,21 @@
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
 require 'socket'
 require 'base64'
 
@@ -42,13 +60,13 @@ class Garden::Application::RouterService < TestInterface
     begin
       visited_nodes_m_enc = request.env['HTTP_X_OVERLAY_VISITED_NODES']
       visited_nodes = Marshal.load(Base64.decode64 visited_nodes_m_enc)
-      #@@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 3
       results = @@router.artifact \
-        args[:username], \
-        args[:device], \
-        args[:id], \
+        args[:username],
+        args[:device],
+        args[:id],
+        request.env['REMOTE_ADDR'],
         { :visited_nodes => visited_nodes }
       handle_result results
     rescue Exception => err
@@ -61,12 +79,12 @@ class Garden::Application::RouterService < TestInterface
     begin
       visited_nodes_m_enc = request.env['HTTP_X_OVERLAY_VISITED_NODES']
       visited_nodes = Marshal.load(Base64.decode64 visited_nodes_m_enc)
-      #@@syslog.info "==> Nodes visited include #{visited_nodes}"
       args = contextify params[:splat][0]
       halt 404 if args == nil || args.size < 2
       results = @@router.artifacts \
-        args[:username], \
-        args[:device], \
+        args[:username],
+        args[:device],
+        request.env['REMOTE_ADDR'],
         { :visited_nodes => visited_nodes }
       handle_results results
     rescue Exception => err

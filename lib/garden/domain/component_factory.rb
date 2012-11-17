@@ -1,3 +1,21 @@
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
 require_relative 'factories'
 require_relative 'usage_manager'
 require_relative '../../../etc/settings'
@@ -61,7 +79,7 @@ class Garden::Domain::ComponentFactory
   def create_router args # children, parent = nil, name = nil
     Domain::Router.new \
       :dispatcher => create_dispatcher(args[:children], args[:name]),
-      :context_manager => Domain::ContextManager.new,
+      :context_manager => Domain::ContextManager.new(args[:context_server_url]),
       :parent_dispatcher => args[:parent] == nil ? nil : create_dispatcher([args[:parent]], args[:name]),
       :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
         :managed => args[:managed])
@@ -72,19 +90,14 @@ class Garden::Domain::ComponentFactory
     Domain::Dispatcher.new children, Settings::PORT_NUMBER, name
   end
 
-  def create_node args #parent, repo_uri = nil, name = nil
+  # Creating a node.
+  def create_node args
     Domain::Node.new \
       :dispatcher => create_dispatcher([args[:parent]], args[:name]),
       :repository => create_artifact_repo(args[:repo_uri]),
-      :context_manager => Domain::ContextManager.new,
+      :context_manager => Domain::ContextManager.new(args[:context_server_url]),
       :rectifier => create_rectifier(:confidentiality_strategy => args[:confidentiality_strategy], \
         :managed => args[:managed])
-  end
-
-  # Using a precreated route factory, create a route from
-  # a yaml serialization.
-  def create_route
-
   end
 
   # Create a usage manager.
@@ -105,14 +118,5 @@ class Garden::Domain::ComponentFactory
     raw_repo = Marshal::load response.body
     ArtifactRepository::new raw_repo
   end
-
-  # def get_uri_for_repo repo_uri
-  #   return nil if repo_name == nil
-  #   # s3 = AWS::S3.new
-  #   # url = s3.buckets[:chrislambistan_repos] \
-  #   #   .objects[repo_name] \
-  #   #   .url_for :read
-  #   url == nil ? url : URI::parse(url.to_s)
-  # end
 
 end

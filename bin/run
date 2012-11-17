@@ -49,7 +49,7 @@ Single_Configuration = {
 
 Output_Interface = ->(x){ puts x }
 
-active_configuration = Single_Configuration
+active_configuration = Configuration
 active_output_interface = Output_Interface
 
 def standard_header_builder params
@@ -92,7 +92,6 @@ active_configuration[:nodes].each do |k,v|
       :artifact => active_configuration[:artifact]
     time_start = Time.now
     response = send_request URI.parse url
-    #puts response.body
     time_stop = Time.now
     data.push (time_stop - time_start)
   end

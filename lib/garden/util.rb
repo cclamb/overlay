@@ -1,7 +1,29 @@
-
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
+# Utility functions and classes used in the system.  Many
+# of the utility functions are maintained in a Garden::Util
+# module.
 require 'logging'
 require 'socket'
 require 'uri'
+require 'resolv'
+require 'net/http'
 
 # TODO: remove this temporary component factory
 require_relative '../../test/spec/application/test'
@@ -89,6 +111,7 @@ module Garden
         :parent => cfg.parent,
         :name => cfg.name,
         :managed => cfg.managed?,
+        :context_server_url => cfg.context_server,
         :confidentiality_strategy => cfg.confidentiality_strategy
       Application::RouterService::initialize \
         :router => router, \
@@ -104,6 +127,7 @@ module Garden
         :repo_uri => Util::generate_repo_uri(cfg.repository_name),
         :name => cfg.name,
         :managed => cfg.managed?,
+        :context_server_url => cfg.context_server,
         :confidentiality_strategy => cfg.confidentiality_strategy
       Application::NodeService::initialize \
         :node => node, 
@@ -112,35 +136,19 @@ module Garden
       Application::NodeService::run!
     end
 
-    # Starting a peer node.
-    def Util::run_as_peer_node
-
-    end
-
     # Starting a context server.
     def Util::run_as_context_server
+      filename = "#{File.dirname __FILE__}/../../etc/1_2_2_initial_context.rb"
       Application::ContextManagerService::initialize \
+        :initial_context_file => filename,
         :ctx => { :port => Settings::CONTEXT_PORT_NUMBER }
 
       Application::ContextManagerService::run!
     end
 
-    # Parsing an XML document into a policy and an artifact.  If
-    # a policy doesn't exist, will return just the artifact, failing
-    # open.  If document is nil, it will return nil.  This returns
-    # a hash with the policy keyed by the :policy tag and the
-    # artifact by the :artifact tag.
-    # def Util::parse_response xml
-    #   return nil if xml == nil
-    #   doc = Nokogiri::XML xml
-    #   policy_set = doc.xpath '//artifact/policy-set'
-    #   data_object = doc.xpath '//artifact/data-object'
-
-    #   # short circuit if we don't have a policy.
-    #   return { :policy => nil, :artifact => xml }  if policy_set.empty?
-    #   { :policy => policy_set.to_s, :artifact => data_object.to_s }
-    # end
-
+    # Reading and returning an object from an S3 bucket.
+    # This uses SSL for encryption, but does not verify
+    # the endpoints.
     def Util::read_object_from_s3 uri
       http = Net::HTTP.new uri.host, uri.port
       http.use_ssl = true
@@ -149,6 +157,8 @@ module Garden
       response = http.request request
     end
 
+    # Retreiving a repository from S3.
+    # * The repository name
     def Util::generate_repo_uri repo_name
       return nil if repo_name == nil
       s3 = AWS::S3.new
@@ -158,6 +168,10 @@ module Garden
       url == nil ? url : URI::parse(url.to_s)
     end
 
+    # Process an error from a network component.
+    # * The object reporting the error
+    # * The error message
+    # * The exception
     def Util::process_error reporter, msg, err
       syslog = Domain::ComponentFactory::instance.create_system_log reporter.to_s
       syslog.error 'Node has crashed!'
@@ -167,9 +181,63 @@ module Garden
       end
     end
 
+    # Building a system name from the system IP address.  This is 
+    # highly coupled ot rackspace and az infrastructure.  AZ does 
+    # not maintain public addresses on nodes, RS does, and we use
+    # that as a differentiator.  AZ also does not maintain external 
+    # hostname information on nodes, but rather uses an external 
+    # naming service to return this kind of information.  As this 
+    # is coupled to those two environments, it will not scale to 
+    # other systems without changes.
+    def Util::build_local_name
+      pub_addr = Socket::ip_address_list.detect do |intf| 
+        intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
+      end
+
+      if pub_addr == nil
+        az_public_ip = Net::HTTP.get_response(URI::parse('http://instance-data.ec2.internal/latest/meta-data/public-ipv4')).body
+        Resolv.new.getname az_public_ip
+      else
+        pub_addr.ip_address
+      end
+    end
+
+    # Building a remote hostname for a system issuing a request.
+    # This is vital to building a correct link name.  Here, we
+    # again differentiate between RS and AZ nodes when naming. 
+    # RS nodes use IP address information for naming, while
+    # AZ nodes are able to use external hostnames.
+    # * The IP address of the requesting node, pulled from the HTTP request.
+    def Util::build_remote_name ip_addr
+      ip_addr if ip_addr == nil
+      name = Resolv.new.getname ip_addr
+      name =~ /amazon/ ? name : ip_addr
+    end
+
+    # The format for building specific link names.
+    # * The left hand side of the name.
+    # * The right hand side of the name.
+    def Util::build_link_name lhs, rhs
+      "#{lhs}_#{rhs}"
+    end
+
+    # This function combines the previous three for ease of access.
+    # This makes access easier, and allows us to catch exceptions
+    # more easily if not operating in RS or AZ environments.
+    # * The remote IP address from a request.
+    def Util::assemble_link_name ip_addr
+      local_name = Util::build_local_name
+      remote_name = Util::build_remote_name ip_addr
+      Util::build_link_name local_name, remote_name
+    end
+
   end
 
 end
 
+# Thes are utility classes.  They need to be included
+# at the end of the file, after the module, as they
+# include themselves within the Util module as a
+# namespace.
 require_relative 'util/policy_evaluator'
 require_relative 'util/content_rectifier'

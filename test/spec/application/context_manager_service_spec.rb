@@ -1,5 +1,24 @@
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
 require 'rspec'
 require 'rack/test'
+require 'base64'
 
 require_relative '../../../lib/garden/application'
 require_relative 'test'
@@ -11,7 +30,8 @@ describe Application::ContextManagerService do
   include Test
 
   def app
-    Application::ContextManagerService::initialize
+    filename = "#{File.dirname __FILE__}/../../../etc/1_2_2_initial_context.rb"
+    Application::ContextManagerService::initialize :initial_context_file => filename
     Application::ContextManagerService.new
   end
 
@@ -35,15 +55,68 @@ describe Application::ContextManagerService do
 
   context 'with the context interface' do
 
+    edge_to_query = '198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com'
+    transpose_edge = 'ec2-67-202-45-247.compute-1.amazonaws.com_198.101.205.155'
+
     it 'should return 404 if no content' do
       get_404 '/status/3to4'
     end
 
-    it 'should return a record if content exists' do
-      post '/status/1to2', :level => 'secret'
-      get '/status/1to2'
+    it 'should return correct content from the initial context loaded' do
+      get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"1to2\",\"status\":\"secret\"}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
+    end
+
+    it 'should support posted alterations' do
+      post "/status/#{edge_to_query}", :value => {:sensitivity => :unclassified}
+      last_response.should be_ok
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
+    end
+
+    it 'should support posted arrays' do
+      post "/status/#{edge_to_query}", :value => {:category => [:large_pants]}
+      last_response.should be_ok
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"large_pants\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
+      response = JSON::load last_response.body
+      response['status']['sensitivity'].should eq 'secret'
+      response['status']['category'][0].should eq 'large_pants'
+    end
+
+    it 'should return everything' do
+      get "/status/all"
+      last_response.should be_ok
+      last_response.should_not eq nil
+      response = JSON::load last_response.body
+      response['198.101.205.156_198.101.203.202']['sensitivity'].should eq 'secret'
+      response['198.101.209.178_198.101.202.188']['category'][0].should eq 'magenta'
+    end
+
+    it 'should support adding arbitrary attributes' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq nil
+      post "/status/#{edge_to_query}", :value => {:fooattr => :barvalue}
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq 'barvalue'
+    end
+
+    it 'should handle name transposition' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      first_response_json = JSON::load last_response.body
+      get "/status/#{transpose_edge}"
+      last_response.should be_ok
+      last_response_json = JSON::load last_response.body
+      first_response_json['status']['sensitivity'].should eq last_response_json['status']['sensitivity']
+      first_response_json['status']['category'].should eq last_response_json['status']['category']
     end
 
   end
