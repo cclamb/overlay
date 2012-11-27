@@ -1,0 +1,17 @@
+<artifact>
+	<policy-set>
+	</policy-set>
+
+	<data-object>
+		<section policy="unclassified">
+			<content type="txt">
+				The currenet number of infectec citizens is estimated around 150 million. The infected area stretches from Baltimore and reaches as far as Maine. 
+			</content>
+
+			<content type="circle" description="Infected Area">
+				<center>39.327551,-76.620782</center>
+				<radius>1000000</radius>
+			</content>
+		</section>
+	</data-object>
+</artifact>

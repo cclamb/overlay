@@ -1,0 +1,17 @@
+{:future_infected_areaI"ó <artifact>
+	<policy-set>
+	</policy-set>
+
+	<data-object>
+		<section policy="unclassified">
+			<content type="txt">
+				The estimated projection for infected citizens 3 months from now is 350 million. The infected area stretches from Baltimore and reaches as far as Nicaragua.
+			</content>
+
+			<content type="circle" description="Infected area in 3 months">
+				<center>39.327551,-76.620782</center>
+				<radius>3000000</radius>
+			</content>
+		</section>
+	</data-object>
+</artifact>:ET

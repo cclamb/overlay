@@ -16,16 +16,32 @@
 # above. Any reproduction of technical data, computer software, or portions 
 # thereof marked with this legend must also reproduce the markings.
 #++
+require 'net/http'
+require 'uri'
+
 require_relative '../../../etc/settings'
 
 class Garden::Domain::ContextManager
 
   def initialize server_url
-    @base_url = "#{server_url}:#{Settings::CONTEXT_PORT_NUMBER}"
+    base_url = "#{server_url}:#{Settings::CONTEXT_PORT_NUMBER}"
+    @status_api = {
+      :status => ->(id){
+        uri = URI::parse "#{base_url}/status/#{id}"
+        response = Net::HTTP.get_response uri
+        response.code == '200' ? JSON::load(response.body) : nil
+      },
+      :all    => ->(){
+        uri = URI::parse "#{base_url}/all"
+        response = Net::HTTP.get_response uri
+        response.code == '200' ? JSON::load(response.body) : nil
+      }
+    }
   end
 
 	def context link_name
     return nil if link_name == nil
+    @status_api[:status].call link_name
     { 
       :link => {
         :sensitivity => :secret,
