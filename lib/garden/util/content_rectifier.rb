@@ -35,7 +35,7 @@ class Garden::Util::ContentRectifier
     doc = Nokogiri::XML args[:artifact]
     policy_set = doc.xpath '//artifact/policy-set'
     #@syslog.info "policy set: #{policy_set.to_s}"
-    return args[:artifact] if policy_set == nil
+    return args[:artifact] if policy_set == nil || args[:context] == nil
 
     sections = doc.xpath '//artifact/data-object/content/section'
 

@@ -56,6 +56,7 @@ describe Application::ContextManagerService do
   context 'with the context interface' do
 
     edge_to_query = '198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com'
+    transpose_edge = 'ec2-67-202-45-247.compute-1.amazonaws.com_198.101.205.155'
 
     it 'should return 404 if no content' do
       get_404 '/status/3to4'
@@ -64,7 +65,7 @@ describe Application::ContextManagerService do
     it 'should return correct content from the initial context loaded' do
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"magenta\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
     end
 
     it 'should support posted alterations' do
@@ -72,7 +73,7 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"unclassified\",\"category\":[\"magenta\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
     end
 
     it 'should support posted arrays' do
@@ -80,13 +81,42 @@ describe Application::ContextManagerService do
       last_response.should be_ok
       get "/status/#{edge_to_query}"
       last_response.should be_ok
-      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"top_secret\",\"category\":[\"large_pants\"]}}"
+      last_response.body.should eq "{\"edge\":\"198.101.205.155_ec2-67-202-45-247.compute-1.amazonaws.com\",\"status\":{\"sensitivity\":\"secret\",\"category\":[\"large_pants\"],\"organization\":\"eurasia\",\"mission_affiliation\":\"flying_shrub\"}}"
+      response = JSON::load last_response.body
+      response['status']['sensitivity'].should eq 'secret'
+      response['status']['category'][0].should eq 'large_pants'
     end
 
     it 'should return everything' do
       get "/status/all"
       last_response.should be_ok
-      puts last_response.body
+      last_response.should_not eq nil
+      response = JSON::load last_response.body
+      response['198.101.205.156_198.101.203.202']['sensitivity'].should eq 'secret'
+      response['198.101.209.178_198.101.202.188']['category'][0].should eq 'magenta'
+    end
+
+    it 'should support adding arbitrary attributes' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq nil
+      post "/status/#{edge_to_query}", :value => {:fooattr => :barvalue}
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      response = JSON::load last_response.body
+      response['status']['fooattr'].should eq 'barvalue'
+    end
+
+    it 'should handle name transposition' do
+      get "/status/#{edge_to_query}"
+      last_response.should be_ok
+      first_response_json = JSON::load last_response.body
+      get "/status/#{transpose_edge}"
+      last_response.should be_ok
+      last_response_json = JSON::load last_response.body
+      first_response_json['status']['sensitivity'].should eq last_response_json['status']['sensitivity']
+      first_response_json['status']['category'].should eq last_response_json['status']['category']
     end
 
   end

@@ -29,7 +29,7 @@ ssh_options[:keys] = ['etc/pod.pem']
 set :application, 'ruby-scratch'
 set :repository,  'https://github.com/cclamb/overlay.git'
 
-set :branch, 'umm'
+set :branch, 'final'
 
 creds_file_name = 'etc/creds.yaml'
 
@@ -81,7 +81,7 @@ role :anvils, 'ec2-50-17-57-243.compute-1.amazonaws.com'
 
 #role :node, '198.101.205.156'
 #role :node, 'ec2-23-22-144-216.compute-1.amazonaws.com'
-role :node, 'ec2-67-202-45-247.compute-1.amazonaws.com'
+role :node, '198.101.205.153'
 role :router, '198.101.205.153'
 
 

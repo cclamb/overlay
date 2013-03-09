@@ -39,13 +39,19 @@ class Garden::Application::ContextManagerService < TestInterface
       .create_system_log self.to_s
   end
 
+  def transpose name
+    elements = name.split '_'
+    "#{elements[1]}_#{elements[0]}"
+  end
+
   def generate_return id
-    status = @@repo[id] || halt(404)
+    status  = @@repo[id] || @@repo[transpose(id)] || halt(404)
+    #status = @@repo[id] || halt(404)
     { :edge => id, :status => status }
   end
 
   get '/status/all' do
-    @@repo
+    JSON.generate @@repo
   end
 
   get '/status/:id' do
@@ -57,8 +63,8 @@ class Garden::Application::ContextManagerService < TestInterface
   post '/status/:id' do
     new_level = params[:value]
     id = params[:id]
-params.each { |k,v| puts "#{k} : #{v}"}
-puts "#{id} : #{params[:value]}"
+# params.each { |k,v| puts "#{k} : #{v}"}
+# puts "#{id} : #{params[:value]}"
     return if new_level == nil
 
     new_level = new_level.kind_of?(String) ? instance_eval(new_level) : new_level

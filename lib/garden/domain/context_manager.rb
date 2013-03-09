@@ -16,9 +16,16 @@
 # above. Any reproduction of technical data, computer software, or portions 
 # thereof marked with this legend must also reproduce the markings.
 #++
+require_relative '../../../etc/settings'
+
 class Garden::Domain::ContextManager
 
-	def context
+  def initialize server_url
+    @base_url = "#{server_url}:#{Settings::CONTEXT_PORT_NUMBER}"
+  end
+
+	def context link_name
+    return nil if link_name == nil
     { 
       :link => {
         :sensitivity => :secret,

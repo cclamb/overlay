@@ -17,13 +17,52 @@
 # thereof marked with this legend must also reproduce the markings.
 #++
 require 'rspec'
+require 'sinatra/base'
+require 'json'
 
 require_relative '../../../lib/garden/domain'
+require_relative '../../../etc/settings'
 
 include Garden::Domain
 
-describe ContextManager do
-  it 'should return a context when requested' do
-  	ContextManager.new.context[:link].should_not eq nil
+class TestContextService < Sinatra::Base
+
+  get '/status/:edge' do
+    JSON::generate \
+      :edge   => params[:edge],
+      :status => {
+        :sensitivity          => :secret,
+        :category             => [:magenta],
+        :mission_affiliation  => :flying_shrub,
+        :organization         => :eurasia
+      } 
   end
+
+end
+
+describe ContextManager do
+
+  pid = nil
+
+	before :all do
+    pid = fork do
+      $stdout = StringIO.new
+      $stderr = StringIO.new
+      TestContextService::set :port => Settings::CONTEXT_PORT_NUMBER
+      TestContextService::run!
+    end
+	end
+
+  it 'should return a context when requested' do
+  	ContextManager.new('http://url.com').context('foo')[:link].should_not eq nil
+  end
+
+  it 'should return nil if link name is nil' do
+  	ContextManager.new('http://url.com').context(nil).should eq nil
+  end
+
+  after(:all) do
+    Process::kill :INT, pid
+  end
+  
 end

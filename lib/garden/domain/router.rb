@@ -16,6 +16,8 @@
 # above. Any reproduction of technical data, computer software, or portions 
 # thereof marked with this legend must also reproduce the markings.
 #++
+require_relative '../util'
+
 class Garden::Domain::Router
 
   def initialize args
@@ -26,17 +28,30 @@ class Garden::Domain::Router
     @parent_dispatcher = args[:parent_dispatcher]
   end
 
-  def artifact subject, device, key, args = {}, is_standalone = nil
+  def artifact subject, device, key, remote_ip_addr, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifact subject, device, key, args
     if results.empty? && @parent_dispatcher != nil && is_standalone == nil
       results = @parent_dispatcher.dispatch_artifact subject, device, key, args
     end
     processed_results = []
-    results.each { |object| processed_results.push(@rectifier.process :artifact => object, :context => @context_manager.context[:link]) }
+    results.each do |object|
+      link_name = begin
+        Util::assemble_link_name remote_ip_addr
+      rescue Exception => e
+        nil
+      end
+
+      global_ctx = @context_manager.context(link_name)
+      link_ctx = global_ctx ? global_ctx[:link] : nil
+      rectified_object = @rectifier.process \
+          :artifact => object, 
+          :context => link_ctx
+      processed_results.push rectified_object
+    end
     return processed_results
   end 
 
-  def artifacts subject, device, args = {}, is_standalone = nil
+  def artifacts subject, device, remote_ip_addr, args = {}, is_standalone = nil
     results = @dispatcher.dispatch_artifacts subject, device, args
     if @parent_dispatcher != nil && is_standalone == nil
       results | @parent_dispatcher.dispatch_artifacts(subject, device, args)

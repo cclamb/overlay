@@ -85,6 +85,10 @@ describe Configuration do
       @cfg.children.should eq nil
     end
 
+    it 'should have a context server' do
+      @cfg.context_server.should eq 'ctx server URL'
+    end
+
     it 'should have a repository and should indicate so' do
       @cfg.has_repository?.should eq true
       @cfg.repository_name.should eq 'file.dat'
