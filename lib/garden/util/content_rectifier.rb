@@ -1,3 +1,21 @@
+#--
+# Copyright (c) 2012 Christopher C. Lamb
+#
+# SBIR DATA RIGHTS
+# Contract No. FA8750-11-C-0195
+# Contractor: AHS Engineering Services (under subcontract to Modus Operandi, Inc.)
+# Address: 5909 Canyon Creek Drive NE, Albuquerque, NM 87111
+# Expiration Date: 05/03/2018
+# 
+# The Government’s rights to use, modify, reproduce, release, perform, display, 
+# or disclose technical data or computer software marked with this legend are 
+# restricted during the period shown as provided in paragraph (b) (4) 
+# of the Rights in Noncommercial Technical Data and Computer Software-Small 
+# Business Innovative Research (SBIR) Program clause contained in the above 
+# identified contract. No restrictions apply after the expiration date shown 
+# above. Any reproduction of technical data, computer software, or portions 
+# thereof marked with this legend must also reproduce the markings.
+#++
 require 'mail'
 require 'socket'
 require 'openssl'
@@ -101,17 +119,36 @@ class Garden::Util::ContentRectifier
     doc.to_s
   end
 
+  # Decrypts a block of data (encrypted_data) given an encryption key
+  # and an initialization vector (iv).  Keys, iv's, and the data 
+  # returned are all binary strings.  Cipher_type should be
+  # "AES-256-CBC", "AES-256-ECB", or any of the cipher types
+  # supported by OpenSSL.  Pass nil for the iv if the encryption type
+  # doesn't use iv's (like ECB).  Returns a string.
+  # * encrypted_data String 
+  # * key String
+  # * iv String
+  # * cipher_type String  
   def decrypt encrypted_data, key, iv, cipher_type
-    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new cipher_type
     aes.decrypt
     aes.key = key
     aes.iv = iv if iv != nil
     aes.update(encrypted_data) + aes.final  
   end
   
-  #:arg: cipher_type => String  
+  # Encrypts a block of data given an encryption key and an 
+  # initialization vector (iv).  Keys, iv's, and the data returned 
+  # are all binary strings.  Cipher_type should be "AES-256-CBC",
+  # "AES-256-ECB", or any of the cipher types supported by OpenSSL.  
+  # Pass nil for the iv if the encryption type doesn't use iv's (like
+  # ECB).  Returns a string.
+  # * data String 
+  # * key String
+  # * iv String
+  # * cipher_type String  
   def encrypt data, key, iv, cipher_type
-    aes = OpenSSL::Cipher::Cipher.new(cipher_type)
+    aes = OpenSSL::Cipher::Cipher.new cipher_type
     aes.encrypt
     aes.key = key
     aes.iv = iv if iv != nil
