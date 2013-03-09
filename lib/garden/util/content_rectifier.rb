@@ -99,16 +99,17 @@ class Garden::Util::ContentRectifier
 
         is_clear = @umm.execute? evaluator.ctx[policy_name.to_sym], args[:context], :transmit
         is_enciphered = section['status'] == 'encrypt'
-        secure_line = is_enciphered && is_clear
 
-        if secure_line 
+        if is_enciphered 
           # decrypt; first remove base64 encoding, then decipher.
           edata64 = section.content
           edata = Base64.decode64 edata64
           content = decrypt edata, key, iv, type
           section.remove_attribute 'status'
           section.content = content
-        else
+        end
+        
+        unless is_clear
           # encrypt; encipher, then apply base64 encoding.
           content = section.content
           edata = encrypt content, key, iv, type
