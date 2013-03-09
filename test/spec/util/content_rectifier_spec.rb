@@ -48,7 +48,7 @@ describe Util::ContentRectifier do
 
         cr = Util::ContentRectifier.new \
           :umm => Domain::UsageManagementMechanism.new,
-          :confidentality_strategy => :redact
+          :confidentiality_strategy => :redact
         xml = cr.process :artifact => new_detail, :context => context
 
         doc = Nokogiri::XML xml
@@ -69,7 +69,7 @@ describe Util::ContentRectifier do
 
         cr = Util::ContentRectifier.new \
           :umm => Domain::UsageManagementMechanism.new,
-          :confidentality_strategy => :redact
+          :confidentiality_strategy => :redact
         xml = cr.process :artifact => new_detail, :context => context
         
         doc = Nokogiri::XML xml
@@ -82,8 +82,114 @@ describe Util::ContentRectifier do
 
     end
     context 'with an encryption strategy' do
-      it 'should ecrypt indicated content (secret)'
-      it 'should ecrypt indicated content (magenta)'
+
+      it 'should ecrypt indicated content (secret)' do
+        context = {
+          :sensitivity => :secret,
+          :category => :magenta,
+          :organization => :eurasia,
+          :mission_affiliation => :tropic_thunder
+        }
+
+        cr = Util::ContentRectifier.new \
+          :umm => Domain::UsageManagementMechanism.new,
+          :confidentiality_strategy => :encrypt
+        xml = cr.process :artifact => new_detail, :context => context
+
+        doc = Nokogiri::XML xml
+        sections = doc.xpath '//artifact/data-object/content/section'
+        sections.each do |section|
+          policy_name = section.attr 'policy'
+          if policy_name == 'history' || policy_name == 'location'
+            fail unless section.attr('status') == 'encrypt'
+          end
+        end
+      end
+
+      it 'should ecrypt indicated content (magenta)' do
+        context = {
+          :sensitivity => :top_secret,
+          :category => :magenta,
+          :organization => :eurasia,
+          :mission_affiliation => :tropic_thunder
+        }
+
+        cr = Util::ContentRectifier.new \
+          :umm => Domain::UsageManagementMechanism.new,
+          :confidentiality_strategy => :encrypt
+        xml = cr.process :artifact => new_detail, :context => context
+
+        doc = Nokogiri::XML xml
+        sections = doc.xpath '//artifact/data-object/content/section'
+        sections.each do |section|
+          policy_name = section.attr 'policy'
+          if policy_name == 'location'
+            fail unless section.attr('status') == 'encrypt'
+          end
+        end
+      end
+
+      it 'should decrypt content if called with appropriate context with ciphered content' do
+        context = {
+          :sensitivity => :secret,
+          :category => :magenta,
+          :organization => :eurasia,
+          :mission_affiliation => :tropic_thunder
+        }
+
+        # Encrypting the content.
+        cr = Util::ContentRectifier.new \
+          :umm => Domain::UsageManagementMechanism.new,
+          :confidentiality_strategy => :encrypt
+        first_xml = cr.process :artifact => new_detail, :context => context
+
+        # Validating enciphering.
+        doc = Nokogiri::XML first_xml
+        sections = doc.xpath '//artifact/data-object/content/section'
+        sections.each do |section|
+          policy_name = section.attr 'policy'
+          if policy_name == 'history'
+            fail unless section.attr('status') == 'encrypt'
+          end
+        end
+
+        # Changing the context and attempt to decipher
+        context[:sensitivity] = :top_secret
+        cr = Util::ContentRectifier.new \
+          :umm => Domain::UsageManagementMechanism.new,
+          :confidentiality_strategy => :encrypt
+        second_xml = cr.process :artifact => first_xml, :context => context
+
+        # Validating denciphering.
+        doc = Nokogiri::XML second_xml
+        sections = doc.xpath '//artifact/data-object/content/section'
+        sections.each do |section|
+          policy_name = section.attr 'policy'
+          if policy_name == 'history'
+            fail unless section.attr('status') == nil
+          end
+        end
+
+        # If the context does not change, the ciphering should
+        # not change either.  Let's test that.
+        context[:sensitivity] = :secret
+        cr = Util::ContentRectifier.new \
+          :umm => Domain::UsageManagementMechanism.new,
+          :confidentiality_strategy => :encrypt
+        third_xml = cr.process :artifact => first_xml, :context => context
+
+        # Validating denciphering.
+        doc = Nokogiri::XML third_xml
+        sections = doc.xpath '//artifact/data-object/content/section'
+        sections.each do |section|
+          policy_name = section.attr 'policy'
+          if policy_name == 'history'
+            fail unless section.attr('status') == 'encrypt'
+          end
+        end
+
+      end
+
     end
     context 'with an out-of-band-strategy' do
       it 'should reroute indicated content (secret)'

@@ -18,6 +18,7 @@
 #++
 source :rubygems
 
+gem 'capistrano'
 gem 'railsless-deploy', :require => nil
 gem 'logging'
 gem 'gli'
